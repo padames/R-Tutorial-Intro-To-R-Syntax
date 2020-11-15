@@ -64,27 +64,26 @@ These two aspects can give the student a quick sense of usability for the R lang
 
 # Language Syntax
 
-Programing languages model information using data structures. At its core, R represents everything  either as an  object or a function. There are two immediate consequences from this: there no absolute need to use for loops ---although they exist--- because functions are designed to work very effectively on vectorized data structures, and scalars only exist as unidimensional data structures of length 1 [@WickhamHadley2015AR, p. 13].
+Programing languages model information using data structures. At its core, R represents everything  either as an  object or a function. There are two immediate consequences from this: there no absolute need to use for loops ---although they exist--- because functions are designed to work very effectively on vectorized data structures, and scalars only exist as unidimensional data structures of length 1 [@IhakaGentleman96].
 
 We will emphasize these two points to set the stage for elegant and fast R code. R was a functional language long before this became a buzz word in Computer Science.
 
 ## Data structures
 
-R can be used to model information depending on the data type as  homogeneous or heterogeneous and also depending on the dimension as uni-dimensional, bi-dimensional, or n-dimensional.
+R uses the data structures illustrated in the table below from [@WickhamHadley2015AR, p.13].
+Vectors, matrices, adn arrays can store values of the same data type, whether they are are numeric, integer, logical, or character. 
+In contrast, lists and data frames can store mixed data types.
+For 3d and higher dimensionality the native data structure is an object of class _array_.
 
-The following table from [@WickhamHadley2015AR, p.13].
-The data structures in the column under \textit{Homogeneous} can only store values of the same data type. 
-Valid data types are numeric (known in other languages as double), integer, logical, and character.
-
-```{r data structures, echo=FALSE}
+```{r data structures, echo=FALSE, results='asis'}
 Homogeneous <- c("Atomic vector", "Matrix", "Array")
 Heterogeneous <- c("List", "Data frame", "")
-d <- data.frame(Homogeneous, Heterogeneous, 
-                row.names = c("1d", "2d", "nd"), 
-                stringsAsFactors = FALSE)
-kable(d)
+
+kable( data.frame(Homogeneous, Heterogeneous, 
+                 row.names = c("1d", "2d", "nd"), 
+                 stringsAsFactors = FALSE))#,
+       # caption = 'Native data structures in R according to the data type they can store and the number of dimensions they use.')
 ```
-The data structures of the second column can have mixed data types.
 
 Because every data in R is an object, all of these structures have attributes like name, dimension, and a \texttt{class}. 
 They can also receive and carry user-defined attributes.
@@ -92,10 +91,10 @@ They can also receive and carry user-defined attributes.
 
 ## Data types
 
-\texttt{numeric} represents double precision real numbers.
-\texttt{integer} model integer numbers.
-\texttt{logical} can be TRUE, T, 1 or FALSE, F, 0.
-\texttt{character} models aa text character in an encoding.
+ - *numeric:* double precision floating point real numbers.
+ - *integer:* model integer numbers.
+ - *logical:* can be TRUE, T, 1 or FALSE, F, 0.
+ - *character:* models aa text character in an encoding.
 
 ## Built in functions
 
