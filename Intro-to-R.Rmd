@@ -1,0 +1,113 @@
+---
+title: "Introduction to R"
+author: "P. Adames"
+date: "11/14/2020"
+bibliography: bib.bib
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 4
+    highlight: tango
+  urlcolor: blue
+  linkcolor: red
+  citecolor: purple
+  citation_package: natbib
+  latex_engine: lualatex
+  includes:
+    in_header: preamble.tex
+fontsize: 11
+geometry: margin=1in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r loading packages, echo=FALSE}
+# from https://www.r-bloggers.com/2015/11/creating-nice-tables-using-r-markdown/
+
+# List of packages required for this analysis
+pkg <- c("dplyr", "knitr", "devtools", "DT", "xtable")
+# Check if packages are not installed and assign the
+# names of the packages not installed to the variable new.pkg
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+# If there are any packages in the list that aren't installed,
+# install them
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+# Load the packages into R
+library(dplyr)
+library(knitr)
+library(DT)
+library(xtable)
+```
+
+## Introduction to R
+
+The introduction to R document in the official repository of packages for the R language has 105 pages and 14 sections (<https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf>). It covers data structures, reading and writing (I/O) to files, probability distributions, statistical models, conditional statements and other forms of controlling the execution of a program,  user functions, graphics, extension via packages, and commands to interact with the host operating system.
+
+Undoubably too much for a 45 minute session. Therefore the focus will be on two aspects:
+
+ - language specific syntax
+ - basic I/O and interoperability with the operating system
+
+These two aspects can give the student a quick sense of usability for the R langauage. This approrach leaves an essential strengtgh of R for later, its nature as a statistical computing and graphics language.
+
+
+## Language Syntax
+
+Programing languages model information using data structures. At its core, R represents everything  either as an  object or a function. There are two immediate consequences from this: there no absolute need to use for loops ---although they exist--- because functions are designed to work very effectively on vectorized data structures, and scalars only exist as unidimensional data structures of length 1.
+
+We will emphasize these two points to set the stage for elegant and fast R code. R was a functional language long before this became a buzz word in Computer Science.
+
+### Data structures
+
+R can be used to model information depending on the data type as  homogeneous or heterogeneous and also depending on the dimension as uni-dimensional, bi-dimensional, or n-dimensional.
+
+The following table from [@WickhamHadley2015AR].
+
+```{r data structures, echo=FALSE}
+Homogeneous <- c("Atomic vector", "Matrix", "Array")
+Heterogeneous <- c("List", "Data frame", "")
+d <- data.frame(Homogeneous, Heterogeneous, 
+                row.names = c("1d", "2d", "nd"), 
+                stringsAsFactors = FALSE)
+kable(d)
+```
+
+### Data types
+
+
+### Built in functions
+
+The magic of the generic dispatch mechanism of S3 R objects.
+
+
+#### Iteration over data structures
+
+
+#### I/O
+
+
+#### Interoperatibility with the host operating system
+
+
+### User-functions
+
+
+### Execution control
+
+
+## References
+
+
+
+
+
+
+
