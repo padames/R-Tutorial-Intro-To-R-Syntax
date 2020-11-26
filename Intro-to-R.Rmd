@@ -3,6 +3,11 @@ title: "Introduction to R"
 author: "P. Adames"
 date: "11/14/2020"
 bibliography: bib.bib
+header-includes: 
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{floatrow}
+  - \floatsetup[table]{capposition=top}
 output: 
   pdf_document:
     number_sections: true
@@ -75,8 +80,11 @@ R can be used to model information depending on the data type as  homogeneous or
 The following table from [@WickhamHadley2015AR, p.13].
 The data structures in the column under \textit{Homogeneous} can only store values of the same data type. 
 Valid data types are numeric (known in other languages as double), integer, logical, and character.
+The data structures of the column under \textit{Heterogeneous} can have mixed data types.
+
 
 ```{r data structures, echo=FALSE}
+# Preset some options for printing your xtables
 Homogeneous <- c("Atomic vector", "Matrix", "Array")
 Heterogeneous <- c("List", "Data frame", "")
 d <- data.frame(Homogeneous, Heterogeneous, 
@@ -84,7 +92,8 @@ d <- data.frame(Homogeneous, Heterogeneous,
                 stringsAsFactors = FALSE)
 kable(d)
 ```
-The data structures of the second column can have mixed data types.
+
+Table: A classification of data structures in R according to [@WickhamHadley2015AR].
 
 Because every data in R is an object, all of these structures have attributes like name, dimension, and a \texttt{class}. 
 They can also receive and carry user-defined attributes.
