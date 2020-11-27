@@ -68,19 +68,19 @@ Students are usually expected to learn how to use these specialized tools outsid
 
 The introduction to R document in the official repository of packages for the R language has 105 pages and 14 sections (<https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf>). It covers data structures, reading and writing (I/O) to files, probability distributions, statistical models, conditional statements and other forms of controlling the execution of a program,  user functions, graphics, extension via packages, and commands to interact with the host operating system.
 
-Undoubably too much for a 45 minute session. Therefore the focus will be on two aspects:
+Undoubtedly too much for a 45-minute session. Therefore the focus will be on two aspects:
 
- - language specific syntax
+ - language-specific syntax
  - basic I/O and interoperability with the operating system
 
-These two aspects can give the student a quick sense of usability for the R langauage. This approrach leaves an essential strengtgh of R for later, its nature as a statistical computing and graphics language.
+These two aspects can give the student a quick sense of usability for the R language. This approach leaves an essential strength of R for later, its nature as a statistical computing and graphics language.
 
 
 # Language Syntax
 
-This section introduces the basic structural components used to write an R script. Because this is an introductory tutorial, the semantics and the tools will not be emphasized.
+This section introduces the structural components used to write an R script. Because this is an introductory tutorial, semantics and tools will not be emphasized.
 
-At its core, R represents everything  as an object. Even functions and operators are special objects. Programing languages model information using data structures. Let's have a look at the objects available in R to model  information.
+At its core, R represents everything as an object. Even functions and operators are an especial type of it in R. Programming languages model information by using objects called data structures. Let's go over the data structures, data types, and functions available in R to model information.
 
 ## Data structures
 
