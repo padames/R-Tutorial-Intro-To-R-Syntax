@@ -39,6 +39,6 @@ vignettes/*.pdf
 .Renviron
 
 # RMarkdown
-.log
+*.log
 
 
