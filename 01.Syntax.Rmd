@@ -1,0 +1,228 @@
+---
+title: "R Syntax"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R as a calculator
+
+R has a console to interact with it. Let's use it as a calculator to add two numbers. 
+
+Run the line of code to add two plus two:
+
+```{r two-plus-two, exercise=TRUE}
+2 + 2
+```
+
+Note the output, there is a [1] and the result of the calculation. We will address in full the meaning of the first.
+
+### Mathematical operators in R
+
+Please try following operations.
+
+```{r operators-1, exercise=TRUE}
+450 - 100
+3 * 10
+35 / 7
+5^2
+```
+
+Each result appears on its own line after running the code. This is the same behaviour you would see on a command line if you entererd the four lines of code.
+
+### Operator precedence
+
+Some operators have higher priority when it comes to evaluating the values passed to them. Compare the following two lines:
+
+```{r op-precendence, exercise=TRUE}
+1 + 5 * 5
+(1 + 5) * 5
+```
+
+Multiplication takes precendence over addition when the first line is evaluated. The use of parenthesis force the addition to be carried out before the final multiplication by `5` in the second line.
+
+From the R help here is a list of all the unary and binary operators and their precedence from highest to lowest from top to bottom and from left to right within groups:
+
+```{r op-precedence-2, results='asis'}
+library(knitr)
+kable(data.frame(operator_groups = c(":: :::",
+                               "$ @",
+                               "[ [[",
+                               "^",
+                               "- +",
+                               ":",
+                               "%any%",
+                               "* /",
+                               "+ -",
+                               "< > <= >= == !=",
+                               "!",
+                               "& &&",
+                               "| ||",
+                               "~",
+                               "-> ->>",
+                               "<- <<-",
+                               "=",
+                               "?"),
+description = c("access variables in a namespace",
+                "component / slot extraction",
+                "indexing",
+                "exponentiation (right to left)",
+                "unary minus and plus",
+                "sequence operator",
+                "special operators (including %% and %/%)",
+                "multiply, divide",
+                "(binary) add, subtract",
+                "ordering and comparison",
+                "negation",
+                "and",
+                "or",
+                "as in formulae",
+                "rightwards assignment",
+                "assignment (right to left)",
+                "assignment (right to left)",
+                "help (unary and binary)")))
+```
+
+
+### Storing values in variables
+
+Let's store results in variables so we can keep them around and do operations with them.
+
+```{r storing-values, exercise=TRUE}
+a <- 10
+aa <- 100
+```
+
+The _<-_ indicates assignment of the value on the right to the variable on the left. We are storing the value 10 in the variable `a`.
+
+### Built-in functions
+
+R offers some expressions that take arguments given by the user and return computed values when executed. Let's look at the result of executing the following lines:
+
+```{r executing-function, exercise=TRUE}
+e <- exp(1)
+e
+```
+
+The value stored in the variable `e` gets printed as `2.718282` when we run the second line with the expression `e`, as expected. Try running the line 1 by itself by deleting the second line and re-running the code. There should not be any output. The value of the function `exp` with the argument `1` was computed and stored in the variable called `e`. The assignment operation leaves no trace on the output whenit gets executed.
+
+### Other operators
+
+To compute logarithms, R offers the following predefined functions:
+
+```
+     log(x, base = exp(1))
+     logb(x, base = exp(1))
+     log10(x)
+     log2(x)
+     
+     log1p(x)
+```
+
+Experiment now to compute logarithms in base 10 and for natural logarithms (base _e_). Try to answer the following: 
+
+ - What is the logarithm of 10 in base 10?
+ - What is the natural logarithm of _e_?
+ - What is the logarithm of 512 in base 2?
+ 
+Try using the two variables already predefined in the first two lines. Add as many lines of code as you need to experiment.
+
+```{r other-operators, exercise=TRUE}
+a <- 10
+e <- exp(1)
+```
+
+
+## Quiz 1
+
+
+```
+a <- 1 + log10(10)
+```
+
+
+```{r quiz-1-a, echo=FALSE, cache=FALSE}
+quiz(
+  question("What is the result of executing the line above on the R console?",
+    answer("2"),
+    answer("error, 'log10' of 10 is undefined"),
+    answer("nothing", correct = TRUE),
+    answer("the value of 'a' gets printed"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("What is the result of 10 - 6 / 2",
+    answer("2", message = "division has precedence over subtraction"),
+    answer("7", correct = TRUE, message = "division has higher precedence than subtraction"),
+    answer("8", message = "Good try, redo the calculation"),
+    answer("14/2", correct = TRUE),
+  allow_retry = TRUE,
+  random_answer_order = TRUE    
+  ))
+```
+
+```
+a <- 5
+b <- a * (34 - 22) / 1 + 1
+```
+
+```{r quiz-1-c, echo=FALSE, cache=FALSE}
+quiz(
+  question("What is the value of b afteer executing the R code above?",
+  answer("12"),
+  answer("30"),
+  answer("61", correct = TRUE),
+  answer("149"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE,
+  try_again = "Check the operator precedence table and try again."
+))
+```
+
+
+
+<!-- Every computing language uses a model to represent information in memory. R is no exception.  -->
+
+<!-- Everything in R is an object with a default constructor. -->
+<!-- There are two types of data structures according to what they data types they can store: homogeneous and heterogeneous. They can also be categorized according to the dimensions they can store: 1d, 2d or nd. -->
+
+<!-- *The first homogeneous 1d structure is an atomic vector.* -->
+
+<!-- ### Exercise with Code -->
+
+<!-- *Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.* -->
+
+<!-- Now write a function that adds any two numbers and then call it: -->
+
+<!-- ```{r add-function, exercise=TRUE, exercise.lines = 5} -->
+<!-- add <- function() { -->
+
+<!-- } -->
+<!-- ``` -->
+
+## Topic 2
+
+### Exercise with Hint
+
+*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+
+Modify the following code to limit the number of rows printed to 5:
+
+```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
+mtcars
+```
+
+```{r print-limit-hint}
+head(mtcars)
+```
+
+### Quiz
+
+*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+
+
+
