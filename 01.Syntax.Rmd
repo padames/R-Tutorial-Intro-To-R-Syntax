@@ -19,11 +19,11 @@ Run the line of code to add two plus two:
 2 + 2
 ```
 
-Note the output, there is a [1] and the result of the calculation. We will address in full the meaning of the first.
+Note the output, there is a [1] and the result of the calculation. We will address the meaning of the number between square brackets shortly. For now pretend it tells you the position of the single answer provided: a `[1]` indicates that the number `4` is the first value in the answer.
 
 ### Mathematical operators in R
 
-Please try following operations.
+Please try running the following lines of code representing mathematical  operations.
 
 ```{r operators-1, exercise=TRUE}
 450 - 100
@@ -36,7 +36,7 @@ Each result appears on its own line after running the code. This is the same beh
 
 ### Operator precedence
 
-Some operators have higher priority when it comes to evaluating the values passed to them. Compare the following two lines:
+Operators that act on a single value are _unary_ while those that receive two arguments are _binary_. The execution order of an expression containing several operators follows the rules of operator precedence that give more or less priority to some operators over others. Compare the following two lines:
 
 ```{r op-precendence, exercise=TRUE}
 1 + 5 * 5
