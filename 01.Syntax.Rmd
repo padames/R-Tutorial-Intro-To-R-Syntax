@@ -116,14 +116,20 @@ The _<-_ binary operator indicates assignment. The value on the right is assigne
 
 ### Built-in functions
 
-R offers some expressions that take arguments given by the user and return computed values when executed. Let's look at the result of running the following lines:
+R offers predefined functions that may take arguments and return computed values when executed. These functions may be part of expressions intended to store in variables the result of evaluating the functions with specific arguments. Let's look at the result of running the following lines:
 
-```{r executing-function, exercise=TRUE}
+```{r executing-function, exercise.lines=2, exercise=TRUE}
 e <- exp(1)
 e
 ```
 
-The value stored in the variable `e` gets printed as `2.718282` when we run the second line with the expression `e`, as expected. Try running the line 1 by itself by deleting the second line and re-running the code. There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable called `e`. The assignment operation leaves no trace on the output.
+The value stored in the variable `e` gets printed as `2.718282` when we run the second line with the expression `e`, as expected. Try running the line 1 by itself.
+
+```{r executing-function-oneline, exercise.lines=1, exercise=TRUE}
+e <- exp(1)
+```
+
+There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable called `e`. The assignment operation leaves no trace on the output. Another way of saying this is _the assignment operator produces no side efects in the console_. Its only effect is to create a name-value pair in the global environment, so the value can be recalled later by its assigned name.
 
 ### Other built-in functions
 
@@ -151,7 +157,25 @@ a <- 10
 e = exp(1)
 ```
 
-The operators `<-` and `=` act identically in stand alone expressions like the ones displayed above because they both affect the global environment by creating new name-value pairs. However when used to assign a value to a named parameter to a function, as in the `log(x, base = exp(1))` example above, `=` does not affect the global environment but it limits its action to the local variable for the scope of the function, in the example: it evaluates the function `exp` with argument `1` and it assigns its result to the local variable `base`. `log(x, base <- exp(1))` would do the same with he side effect of creating a variable `base` in the global environment, however the value is given to `base` by position because `<-` does not match function parameters by name. Thus if we wrote `log(base <- exp(1), x)` the value of evaluating `exp(1)` would be given to `x` by position, and the value of evaluating `x` from the global environment would be assigned to `base` by position, not really the desired intention. So to avoid ambiguities, use `<-` for stand-alone expressions and `=` for function named parameter assignment. 
+The operators `<-` and `=` behave identically in stand alone expressions like the ones displayed above. They both affect the global environment by creating new name-value pairs for each variable _a_ and _e_.
+
+So, you might ask: why are there two aperators to do the same in R?
+Read on for the answer.
+
+### Function arguments: positional and named 
+
+Built-in and user functions may have none, one or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`.
+
+The first argument is a positional one, taking position number one. The second argument is named and receives a value via the `=` operator if the function `log` requires it in its body while executing the function.
+
+If the function is called without a second argument, and `base` is used for computation inside the function, the assignment operator will use the value resulting from evaluating the experession `exp(1)` and give it to `base`, in this regard this is a default value for `base`. If a named argument is given instead as in `log(10, base = 10)`, the value of `base` will be `10`. The important thing is that `log(base = 10, 10)` works just as well because the first argument is named and the second is the first positional argument. A named argument does not count take a position in this respect. 
+
+Another important difference is that the `=` operator for a named function argument does not affect the global environment where the function is created. `=` limits its action to the local scope of the function, in the example: it creates a name-value pair visible only within the function `log`. 
+On the other hand, the expression `log(x, base <- exp(1))` would assign the local variable `base` with the result of evaluating `exp(1)` after creating a name-value pair in the global environment: that implies that there will be a global variable `base` with the value of evaluating `exp(1)` outside of the function `log` that will outlive the lifespan of `log` long after it returns with the result of the calculation. In a very concrete way this is a side effect in the global environment that `=` does not present. 
+
+In this last case the value is given to `base` by position because `<-` does not match function parameters by name. Thus if we wrote `log(base <- exp(1), x)` the value of evaluating `exp(1)` would be given to `x` by position, and the value of evaluating `x` from the global environment would be assigned to `base` by position, not really the desired intention.
+
+In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. Here is an exercise to solifiy these concepts.
 
 ```{r named-param, exercise = TRUE}
 three <- log(1000, base = 10)
