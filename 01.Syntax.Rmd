@@ -125,7 +125,7 @@ e
 
 The value stored in the variable `e` gets printed as `2.718282` when we run the second line with the expression `e`, as expected. Try running the line 1 by itself by deleting the second line and re-running the code. There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable called `e`. The assignment operation leaves no trace on the output.
 
-### Other operators
+### Other built-in functions
 
 To compute logarithms, R offers the following predefined functions:
 
@@ -138,7 +138,7 @@ To compute logarithms, R offers the following predefined functions:
      log1p(x)
 ```
 
-Experiment now to compute logarithms in base 10 and for natural logarithms (base _e_). Try to answer the following: 
+Experiment now to compute logarithms in base 10 and natural logarithms (base _e_). Try to answer the following: 
 
  - What is the logarithm of 10 in base 10?
  - What is the natural logarithm of _e_?
@@ -146,9 +146,15 @@ Experiment now to compute logarithms in base 10 and for natural logarithms (base
  
 Try using the two variables already predefined in the first two lines. Add as many lines of code as you need to experiment.
 
-```{r other-operators, exercise=TRUE}
+```{r other-operators, exercise=TRUE, exercise.lines=5}
 a <- 10
 e <- exp(1)
+```
+
+To see all the predefined functions available in the base package type `library(help = "base)` at the command line.
+
+```{r functions-base-package, exercise=TRUE}
+library(help = "base")
 ```
 
 <!-- ======================== -->
@@ -163,10 +169,10 @@ a <- 1 + log10(10)
 ```{r quiz-1-a, echo=FALSE, cache=FALSE}
 quiz(
   question("What is the result of executing the line above on the R console?",
-    answer("2"),
-    answer("error, 'log10' of 10 is undefined"),
-    answer("nothing", correct = TRUE),
-    answer("the value of 'a' gets printed"),
+    answer("the value 2 gets assigned to _a_ and printed to the console", message = "the operaror _assignment_ has no side effects so nothing should be printed to the console"),
+    answer("error, _log10_ of 10 is undefined", message = "That's not quite right, check your the definition of a logarithm and try again"),
+    answer("nothing gets printed", correct = TRUE, message = "The operator _assignemnt_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
+    answer("the value of _a_ gets printed", message = "The operator _assignment_ has no other effect than to associate a value with a variable name"),
     allow_retry = TRUE,
     random_answer_order = TRUE
   ),
@@ -174,7 +180,7 @@ quiz(
     answer("2", message = "division has precedence over subtraction"),
     answer("7", correct = TRUE, message = "division has higher precedence than subtraction"),
     answer("8", message = "Good try, redo the calculation"),
-    answer("14/2", correct = TRUE),
+    answer("-4"),
   allow_retry = TRUE,
   random_answer_order = TRUE    
   ))
