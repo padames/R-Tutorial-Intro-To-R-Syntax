@@ -148,7 +148,23 @@ Try using the two variables already predefined in the first two lines. Add as ma
 
 ```{r other-operators, exercise=TRUE, exercise.lines=5}
 a <- 10
-e <- exp(1)
+e = exp(1)
+```
+
+The operators `<-` and `=` act identically in stand alone expressions like the ones displayed above because they both affect the global environment by creating new name-value pairs. However when used to assign a value to a named parameter to a function, as in the `log(x, base = exp(1))` example above, `=` does not affect the global environment but it limits its action to the local variable for the scope of the function, in the example: it evaluates the function `exp` with argument `1` and it assigns its result to the local variable `base`. `log(x, base <- exp(1))` would do the same with he side effect of creating a variable `base` in the global environment, however the value is given to `base` by position because `<-` does not match function parameters by name. Thus if we wrote `log(base <- exp(1), x)` the value of evaluating `exp(1)` would be given to `x` by position, and the value of evaluating `x` from the global environment would be assigned to `base` by position, not really the desired intention. So to avoid ambiguities, use `<-` for stand-alone expressions and `=` for function named parameter assignment. 
+
+```{r named-param, exercise = TRUE}
+three <- log(1000, base = 10)
+if (exists("base")) print(base) else print("base does not exist outside of log")
+unexpected <- log(base <- 10, 1000)
+named_params_correct <- log(base = 10, 1000)
+still_ok_by_position <- log(1000, base <- 10)
+
+print(paste0("base exists outside of log: base = ", base))
+print(paste0("three = ",three))
+print(paste0("unexpected = ", unexpected))
+print(paste0("named_params_correct = ", named_params_correct))
+print(paste0("still_ok_by_position = ", still_ok_by_position))
 ```
 
 To see all the predefined functions available in the base package type `library(help = "base)` at the command line.
@@ -204,6 +220,7 @@ quiz(
 ))
 ```
 
+## 
 
 
 <!-- Every computing language uses a model to represent information in memory. R is no exception.  -->
