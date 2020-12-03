@@ -237,13 +237,15 @@ if (exists("base")) {
 }
 ```
 
-Similarly if we
+If we use the global assignment operator `<-` in the first position it might have an unexpected result compared to using the local assignemnt operator `=`.  Check for yourself with the code below.
 
 ```{r named-param-5, exercise = TRUE}
-unexpected <- log(base <- 10, 1000)
+log(base <- 10, 1000)
 ```
 
-In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. Here is an exercise to solifiy these concepts.
+Did you get the same result of using `log(base = 10, 1000)`? That is almost true, the difference is that now there is a variable assignment represented by the pair `(base, 10)` that outlives the call to `log`.
+
+In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. On the next section there are a few exercises to solidifiy these concepts.
 
 
 <!-- ======================== -->
