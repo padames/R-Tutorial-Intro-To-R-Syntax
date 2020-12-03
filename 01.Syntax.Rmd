@@ -143,6 +143,13 @@ To compute logarithms, R offers the following predefined functions:
      
      log1p(x)
 ```
+To see all the predefined functions available in the base package type `library(help = "base)` at the command line.
+
+```{r functions-base-package, exercise=TRUE}
+library(help = "base")
+```
+
+### The assignment operators and their uses
 
 Experiment now to compute logarithms in base 10 and natural logarithms (base _e_). Try to answer the following: 
 
@@ -152,50 +159,92 @@ Experiment now to compute logarithms in base 10 and natural logarithms (base _e_
  
 Try using the two variables already predefined in the first two lines. Add as many lines of code as you need to experiment.
 
-```{r other-operators, exercise=TRUE, exercise.lines=5}
+```{r other-operators, exercise=TRUE, exercise.lines=12}
 a <- 10
 e = exp(1)
+
+print(paste0("a = ", a, "; e = ", round( x = e, digits = 4)))
+
+# logarithm of 10 in base 10
+
+# natural logarithm of e
+
+# binary logarithm of 512
+
 ```
 
-The operators `<-` and `=` behave identically in stand alone expressions like the ones displayed above. They both affect the global environment by creating new name-value pairs for each variable _a_ and _e_.
+```{r other-operators-hint}
+log10(a)
+log(e, base = e)
+```
+
+From the previous exercise you might have noticed that the operators `<-` and `=` behave identically in stand alone expressions. Technically speaking, their effect is to create name-value pairs for each variable, (_a_, 10) and (_e_, 2.7183), in the global environment.
 
 So, you might ask: why are there two aperators to do the same in R?
 Read on for the answer.
 
 ### Function arguments: positional and named 
 
-Built-in and user functions may have none, one or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`.
+R functions may be built-in or user created, they may have also none, one, or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`. Examine the code below and guess the output before running it, did you expect the result?
 
-The first argument is a positional one, taking position number one. The second argument is named and receives a value via the `=` operator if the function `log` requires it in its body while executing the function.
+```{r named-param-1, exercise = TRUE, exercise.lines=9}
+three <- log(1000, base = 10)
 
-If the function is called without a second argument, and `base` is used for computation inside the function, the assignment operator will use the value resulting from evaluating the experession `exp(1)` and give it to `base`, in this regard this is a default value for `base`. If a named argument is given instead as in `log(10, base = 10)`, the value of `base` will be `10`. The important thing is that `log(base = 10, 10)` works just as well because the first argument is named and the second is the first positional argument. A named argument does not count take a position in this respect. 
+# Does 'base' exist in the global environment after log gest evaluated?
+# let's  check it out and print a nice message accordingly
+if (exists("base")) {
+  print(paste0("base exists outside of log, base = ", base)) 
+} else {
+  print("base does not exist outside of log")
+}
+```
 
-Another important difference is that the `=` operator for a named function argument does not affect the global environment where the function is created. `=` limits its action to the local scope of the function, in the example: it creates a name-value pair visible only within the function `log`. 
-On the other hand, the expression `log(x, base <- exp(1))` would assign the local variable `base` with the result of evaluating `exp(1)` after creating a name-value pair in the global environment: that implies that there will be a global variable `base` with the value of evaluating `exp(1)` outside of the function `log` that will outlive the lifespan of `log` long after it returns with the result of the calculation. In a very concrete way this is a side effect in the global environment that `=` does not present. 
+In the call to the function `log`, the first argument is positional, taking exactly the position number one. The second argument is named and may receive a value via the `=` operator if the function requires it during its execution.
 
-In this last case the value is given to `base` by position because `<-` does not match function parameters by name. Thus if we wrote `log(base <- exp(1), x)` the value of evaluating `exp(1)` would be given to `x` by position, and the value of evaluating `x` from the global environment would be assigned to `base` by position, not really the desired intention.
+If the function is called without a second argument, and `base` is used for computation inside the function, the assignment operator will use the value resulting from evaluating the experession `exp(1)` and associate it with `base`. This is  how a default value for a named argument can be given. 
+
+If the user prefers to pass a different value from the default then the named argument can be given as in `log(10, base = 10)` or just  `log(10, 10)`. 
+
+```{r named-param-2, exercise = TRUE}
+# use the name for the second argument
+log(1000, base = 10)
+# use only a value for the second argument, still ok!
+log(1000, 10)
+```
+
+Now compare the flexibility of using the explicit name assignment.
+
+```{r named-param-3, exercise = TRUE}
+# the first argument is now a named argument so the second gets position one instead
+log(base = 10, 1000)
+# in absence of hints x = 10 (position one) and base = 1000 (named)
+log(10, 1000)
+```
+
+### More on variable assignment
+
+We already saw how the `=` operator for a named argument does not affect the global environment where the function is created. Variable assignment is like creating a pair (variable-name, expression) that lives in a scope where it can be reached for further evaluation.
+
+We could use the `<-` operator for the named argument, the expression `log(x, base <- exp(1))` would assign the expression `exp(1)` to the local variable `base`. However, before that gets done, the name-expression pair gets created in the global environment. That implies that there will be a global variable `base` with the value of evaluating `exp(1)` outside of the function `log` after exiting `log`. Let's test that. 
+
+```{r named-param-4, exercise = TRUE}
+log(1000, base <- 10)
+# Does 'base' exist in the global environment after log gest evaluated?
+if (exists("base")) {
+  print(paste0("base exists outside of log, base = ", base)) 
+} else {
+  print("base does not exist outside of log")
+}
+```
+
+Similarly if we
+
+```{r named-param-5, exercise = TRUE}
+unexpected <- log(base <- 10, 1000)
+```
 
 In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. Here is an exercise to solifiy these concepts.
 
-```{r named-param, exercise = TRUE}
-three <- log(1000, base = 10)
-if (exists("base")) print(base) else print("base does not exist outside of log")
-unexpected <- log(base <- 10, 1000)
-named_params_correct <- log(base = 10, 1000)
-still_ok_by_position <- log(1000, base <- 10)
-
-print(paste0("base exists outside of log: base = ", base))
-print(paste0("three = ",three))
-print(paste0("unexpected = ", unexpected))
-print(paste0("named_params_correct = ", named_params_correct))
-print(paste0("still_ok_by_position = ", still_ok_by_position))
-```
-
-To see all the predefined functions available in the base package type `library(help = "base)` at the command line.
-
-```{r functions-base-package, exercise=TRUE}
-library(help = "base")
-```
 
 <!-- ======================== -->
 ## Quiz 1
@@ -211,7 +260,7 @@ quiz(
   question("What is the result of executing the line above on the R console?",
     answer("the value 2 gets assigned to _a_ and printed to the console", message = "the operaror _assignment_ has no side effects so nothing should be printed to the console"),
     answer("error, _log10_ of 10 is undefined", message = "That's not quite right, check your the definition of a logarithm and try again"),
-    answer("nothing gets printed", correct = TRUE, message = "The operator _assignemnt_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
+    answer("nothing gets printed", correct = TRUE, message = "The operator _assignment_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
     answer("the value of _a_ gets printed", message = "The operator _assignment_ has no other effect than to associate a value with a variable name"),
     allow_retry = TRUE,
     random_answer_order = TRUE
@@ -244,7 +293,6 @@ quiz(
 ))
 ```
 
-## 
 
 
 <!-- Every computing language uses a model to represent information in memory. R is no exception.  -->
