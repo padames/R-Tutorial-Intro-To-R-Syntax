@@ -247,17 +247,16 @@ In summary, to avoid ambiguities and unplanned side effects, when assigning valu
 
 
 <!-- ======================== -->
-## Quiz 1
+## Test your understanding
 <!-- ======================== -->
-
-```
-a <- 1 + log10(10)
-```
-
 
 ```{r quiz-1-a, echo=FALSE, cache=FALSE}
 quiz(
-  question("What is the result of executing the line above on the R console?",
+  question("Consider the expression: 
+  
+            a <- 1 + log10(10)
+  
+  What is the result of executing the line above in the R console?",
     answer("the value 2 gets assigned to _a_ and printed to the console", message = "the operaror _assignment_ has no side effects so nothing should be printed to the console"),
     answer("error, _log10_ of 10 is undefined", message = "That's not quite right, check your the definition of a logarithm and try again"),
     answer("nothing gets printed", correct = TRUE, message = "The operator _assignment_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
@@ -265,7 +264,9 @@ quiz(
     allow_retry = TRUE,
     random_answer_order = TRUE
   ),
-  question("What is the result of 10 - 6 / 2",
+  question("What is the result of executing
+           
+           10 - 6 / 2 ?",
     answer("2", message = "division has precedence over subtraction"),
     answer("7", correct = TRUE, message = "division has higher precedence than subtraction"),
     answer("8", message = "Good try, redo the calculation"),
@@ -275,14 +276,14 @@ quiz(
   ))
 ```
 
-```
-a <- 5
-b <- a * (34 - 22) / 1 + 1
-```
 
 ```{r quiz-1-c, echo=FALSE, cache=FALSE}
 quiz(
-  question("What is the value of b afteer executing the R code above?",
+  question("What is the value of b after executing the following R code?
+  
+          a <- 5
+  
+          b <- a * (34 - 22) / 1 + 1",
   answer("12"),
   answer("30"),
   answer("61", correct = TRUE),
