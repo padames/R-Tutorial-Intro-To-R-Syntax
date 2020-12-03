@@ -314,25 +314,5 @@ quiz(
 <!-- } -->
 <!-- ``` -->
 
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
 
 
