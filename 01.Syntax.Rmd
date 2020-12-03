@@ -2,6 +2,7 @@
 title: "R Syntax"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: "Basic R Syntax and data structures"
 ---
 
 ```{r setup, include=FALSE}
