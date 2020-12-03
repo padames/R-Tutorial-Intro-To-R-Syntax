@@ -2,6 +2,7 @@
 title: "R Syntax"
 output: learnr::tutorial
 runtime: shiny_prerendered
+bibliography: bib.bib
 description: "Basic R Syntax and data structures"
 ---
 
@@ -102,7 +103,26 @@ description = c("access variables in a namespace",
                 "help (unary and binary)")))
 ```
 
-You can get documentation like this from the R help at the comamnd line by typing `?Syntax` or `help("Syntax")`, note the double quotes in the second comamnd. 
+You can get documentation like this from the R help at the comamnd line by typing `?Syntax` or `help("Syntax")`, a full set of help functions appears on the table below. 
+
+```{r help-commands, echo=FALSE, results='asis'}
+library(knitr)
+long_form <- c("help.start()", "help(\"funABC\")", "help.search(\"funABC\")", "example(\"funABC\")", "RSiteSearch()","apropos(\"funABC\", mode = \"function\")", "data()", "vignette()", "vignette(\"ABC\")") 
+short_form <- c("", "?funABC", "??funABC", "", "", "", "", "", "")
+description = c("General help system",
+                "Help on function \"funABC\" (quotations optional)",
+                "Searches help for string \"funABC\"",
+                "Finds examples for \"funABC\"",
+                "Opens a browser search for \"funABC\" on R online manuals and archived mailing lists",
+                "List of all avaliable functions with \"funABC\" in their name",
+                "List all data sets in loaded packages",
+                "List vignettes for currently installed packages",
+                "Displays content of vignette for package \"ABC\"")
+
+kable( data.frame(long_form, short_form, description, 
+                 stringsAsFactors = FALSE),
+       caption = 'Help commands explained [@KabacoffRobert2015Ria, p.11]')
+```
 
 ### Storing values in variables
 
@@ -297,26 +317,49 @@ quiz(
 ))
 ```
 
+## Data Representation in R
+
+Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. These objects adopt the form of data structures that we will study on this section.
+
+### Data Types
 
 
-<!-- Every computing language uses a model to represent information in memory. R is no exception.  -->
 
-<!-- Everything in R is an object with a default constructor. -->
-<!-- There are two types of data structures according to what they data types they can store: homogeneous and heterogeneous. They can also be categorized according to the dimensions they can store: 1d, 2d or nd. -->
+### Data Structures
 
-<!-- *The first homogeneous 1d structure is an atomic vector.* -->
+There are two types of data structures according to what data types they can store: homogeneous and heterogeneous. They can also be categorized according to the dimensions they can store: 1d, 2d or nd. This produces the following double entry table. 
 
-<!-- ### Exercise with Code -->
+```{r data structures, echo=FALSE, results='asis'}
+Homogeneous <- c("Atomic vector", "Matrix", "Array")
+Heterogeneous <- c("List", "Data frame", "")
 
-<!-- *Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.* -->
+kable( data.frame(Homogeneous, Heterogeneous, 
+                 row.names = c("1d", "2d", "nd"), 
+                 stringsAsFactors = FALSE),
+       caption = 'Native data structures in R according to the data type they can store and the number of dimensions they use [@WickhamHadley2015AR, p.13].')
+```
 
-<!-- Now write a function that adds any two numbers and then call it: -->
-
-<!-- ```{r add-function, exercise=TRUE, exercise.lines = 5} -->
-<!-- add <- function() { -->
-
-<!-- } -->
-<!-- ``` -->
+*The first homogeneous 1d structure is an atomic vector.*
 
 
+
+
+## User functions
+
+
+Now write a function that adds any two numbers and then call it.
+
+```{r add-function, exercise=TRUE, exercise.lines = 5}
+add2numbers <- function(a, b) {
+  
+}
+```
+
+```{r add-function-hint}
+add2numbers <- function(a, b) {
+  return(a + b)
+}
+```
+
+## References
 
