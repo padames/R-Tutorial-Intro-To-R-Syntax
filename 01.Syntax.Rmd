@@ -126,25 +126,27 @@ kable( data.frame(long_form, short_form, description,
 
 ### Storing values in variables
 
-It's a good idea to store results in variables so we can keep them around and do additional operations with them in other expressions.
+It's a good idea to store results in variables so we can keep them around to use them in other expressions.
 
 ```{r storing-values, exercise=TRUE}
 a <- 10
 b <- a + 10
 ```
 
-The _<-_ binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10 so when the second line is executed b is assigned he result of applying the operator `+` to the value `10` and the value of the variable `a`. As a result of all this `b` will be assigned the value `20`.
+The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10 so when the second line is executed b is assigned he result of applying the operator `+` to the value `10` and the value of the variable `a`. As a result of all this `b` will be assigned the value `20`.
 
 ### Built-in functions
 
-R offers predefined functions that may take arguments and return computed values when executed. These functions may be part of expressions intended to store in variables the result of evaluating the functions with specific arguments. Let's look at the result of running the following lines:
+R offers predefined functions. These may take arguments and return computed values when executed. Some expressions may take a function with arguments and store the returned value for storage in a variable. Let's look at the result of running the following lines:
 
 ```{r executing-function, exercise.lines=2, exercise=TRUE}
 e <- exp(1)
 e
 ```
 
-The value stored in the variable `e` gets printed as `2.718282` when we run the second line with the expression `e`, as expected. Try running the line 1 by itself.
+The first line executes the expression on the right of the assignment operator, itself a function call to `exp()` with argument `1` and assignes the returned value to the variable `e`. The second line prints the value stored in `e` as `2.718282`.
+
+Try running the line 1 by itself below.
 
 ```{r executing-function-oneline, exercise.lines=1, exercise=TRUE}
 e <- exp(1)
@@ -319,9 +321,18 @@ quiz(
 
 ## Data Representation in R
 
-Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. These objects adopt the form of data structures that we will study on this section.
+Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. These objects adopt the form of data structures to hold values that have data types. We will cover these definitions and woork with them in this section.
 
 ### Data Types
+
+The fundamental values that R can represent and manipulate int he computer memory are:
+
+  - integer
+  - double (also called numeric)
+  - character
+  - logical
+  
+There are two less commonly used: _complex_ and _raw_ that we will leave for another time.
 
 
 
