@@ -32,13 +32,14 @@ Let's get started.
 
 R has a console to interact with it. Let's use it as a calculator to add two numbers. 
 
-Run the line of code to add two plus two:
+Here is an example of a line of code to add two plus two and the resulting output:
 
-```{r two-plus-two, exercise=TRUE}
+```{r two-plus-two, echo=TRUE}
 2 + 2
 ```
 
-Note the output, there is a [1] and the result of the calculation. We will address the meaning of the number between square brackets shortly. For now pretend it tells you the position of the single answer provided: a `[1]` indicates that the number `4` is the first value in the answer.
+Note the output, there is a [1] and the result of the calculation. We will address the meaning of the number between square brackets when discussing `Vectors`. For now pretend it tells you the position of the single answer provided: a `[1]` indicates that the number `4` is the first value in the answer.
+
 
 ### Mathematical operators in R
 
@@ -395,7 +396,7 @@ length(x)
 x[length(x)] - x[1]
 ```
 
-Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. When we can or need to use patterns  to create them the functions `rep()` and `seq()` can be pretty helpful.
+Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. When we can or need to use patterns  to create them the functions `rep()` and `seq()` can be pretty helpful. Study the output of these functions.
 
 ```{r seq-rep, echo=TRUE}
 rep(-1, times = 10)
@@ -442,24 +443,36 @@ c("Hello", "world", "in", "R!")
 
 And finally here is a vector of logical symbols:
 
-```{r vector-logiocals, echo = TRUE}
+```{r vector-logicals, echo = TRUE}
 c(TRUE, T, 1, FALSE, F, 0)
 ```
 
-`FALSE`, `F`, or `0` represent the negation of `TRUE`, `T`, or `1`. So they are logical values in R and be mixed and matched at will.
+As you might have guessed, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. In R, like in other languages, you can add logical values as if they were zeros and ones.
+
+```{r logical-sum, exercise= TRUE}
+is_a_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), times = 7)
+# how many TRUE values are there in is_a_positive?
+```
+
+```{r logical-sum-hint}
+sum(is_a_positive)
+```
 
 
 ### An eye-opener to type cohersion in R
 
-Vectors can be queried for their type with the function `typeof` in general or individually for each type.
+We can aske vectors to tell us the type of values they carry with the function `typeof`. We can also ask if they have a specific type of value. Run this code and figure out what the vector of answers mean.
 
-```{r type-numeric-vector, exercise = TRUE}
+```{r type-numeric-vector, exercise=TRUE}
 v_dbl <- c(0, 1, 3)
 c(is.integer(v_dbl), is.numeric(v_dbl), is.double(v_dbl))
 typeof(v_dbl)
 ```
 
-The characters that represent integers are automatically interpreted as doubles or numeric, the more general concept. In order to force the interpretation as integers (in case it is absolutely necessary) use `L` as a suffix. Run the following and compare the results:
+Can you explain why both `is.numeric` and `is.double` are `TRUE`. Woild a plain `integer` type be numeric?
+Read on to answer that question.
+
+The characters that represent integers are automatically interpreted as doubles or numeric, the more general concept. In order to enforce their interpretation as integers (in case it is absolutely necessary) use `L` as a suffix on each number. Run the following and compare the results:
 
 ```{r type-int-vetor, exercise=TRUE}
 v_int <- c(0L, 1L, 3L)
@@ -472,7 +485,7 @@ In general R will try to coherce the elements of a vector to the most general ty
 
 ### Vector attributes
 
-Vector can also be interrogated for their class and their attributes.
+Vectors can also be interrogated for their class and their attributes.
 
 ```{r vectors-class, echo=TRUE}
 # a vector of four truth values
@@ -483,15 +496,16 @@ class(v)
 attributes(v)
 ```
 
-Now let's create the vector with names that become an attribute of the vector object. Pay close attention to the results of running this code.
+Now let's create the vector with names. The names become an attribute of the vector object. Pay close attention to the results of running this code.
 
 ```{r vectors-names, echo=TRUE}
 # a vector of four truth value for four logical propositions
 v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
+# check the attributes of the object
 attributes(v)
 ```
 
-There are three important attributes if a vector: names, class, and dimension. Each can be accessed via a specific function and may have the `NULL` value by default.
+There are three default attributes of a vector: names, class, and dimension. Each can be accessed via a specific function. Dimnesion has the `NULL` value by default for vectors, it will be different for matrices and arrays though.
 
 ```{r vector-attributes-by-accessor, echo=TRUE}
 v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
