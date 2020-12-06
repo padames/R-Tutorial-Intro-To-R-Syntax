@@ -82,6 +82,15 @@ This section introduces the structural components used to write an R script. Bec
 
 At its core, R represents everything as an object. Even functions and operators are an especial type of it in R. Programming languages model information by using objects called data structures. Let's go over the data structures, data types, and functions available in R to model information.
 
+## Data types
+
+ - *numeric:* double precision floating point real numbers.
+ - *integer:* model integer numbers.
+ - *logical:* can be TRUE, T, 1 or FALSE, F, 0.
+ - *character:* models aa text character in an encoding.
+
+This section has exercises that give examples and questions students on the meaning of operating on mixed data types and the concept of type coercion.
+
 ## Data structures
 
 R uses the data structures illustrated in the table below taken from [@WickhamHadley2015AR, p.13].
@@ -106,14 +115,7 @@ As a consequence of this design, scalars are implemented in R as vectors of leng
 This section contains exercises to illustrate and practice how to create, access, and do simple operations with the basic data structures.
 Valid identifiers and variable assignment is explained at this point.
 
-## Data types
 
- - *numeric:* double precision floating point real numbers.
- - *integer:* model integer numbers.
- - *logical:* can be TRUE, T, 1 or FALSE, F, 0.
- - *character:* models aa text character in an encoding.
-
-This section has exercises that give examples and questions students on the meaning of operating on mixed data types and the concept of type coercion.
 
 ## Built in functions
 
