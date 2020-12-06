@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Basic Instructions
 <!-- ======================== -->
 
-Start in order with every topic as they appear on the left panel. A check mark will appear to the left of each header when you have completed the executing of the code or answered the questions, in the case of quizes.
+Start in order with every topic as they appear on the left panel. A check mark will appear to the left of each title when you have run all the code or answered the all the questions if the section is a quiz.
 
 Press the `Continue` button at the botton of the screen after covering each subsection within a topic. New subsections will appear until completing the topic. The tutorial will not block you if you skip the exercises, it is in your best interest that you do them but life can get busy or you may be just reviewing a specific content, so feel free to browse at your pace. Just be warned, the material will make more sense if covered in sequential order the first time.
 
