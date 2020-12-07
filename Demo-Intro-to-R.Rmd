@@ -1,0 +1,106 @@
+---
+title: "Demonstration of Introduction to R"
+author: "P. Adames"
+# date: "12/07/2020"
+bibliography: bib.bib
+header-includes: 
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{floatrow}
+  - \floatsetup[table]{capposition=top}
+output: 
+  pdf_document:
+    number_sections: true
+    toc: false
+    toc_depth: 4
+    highlight: tango
+  urlcolor: blue
+  linkcolor: red
+  citecolor: purple
+  citation_package: natbib
+  latex_engine: lualatex
+  includes:
+    in_header: preamble.tex
+documentclass: article
+classoption: oneside
+fontsize: 12
+geometry: margin=0.9in
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+```{r loading packages, echo=FALSE}
+# from https://www.r-bloggers.com/2015/11/creating-nice-tables-using-r-markdown/
+
+# List of packages required for this analysis
+pkg <- c("dplyr", "knitr", "devtools", "DT", "xtable")
+# Check if packages are not installed and assign the
+# names of the packages not installed to the variable new.pkg
+new.pkg <- pkg[!(pkg %in% installed.packages())]
+# If there are any packages in the list that aren't installed,
+# install them
+if (length(new.pkg)) {
+  install.packages(new.pkg, repos = "http://cran.rstudio.com")
+}
+# Load the packages into R
+library(dplyr)
+library(knitr)
+library(DT)
+library(xtable)
+```
+
+# Target audience
+
+This demostration shows the kind of material and methodology used in a CalgaryR tutorial aimed to undergraduate and graduate students in the areas of science and engineering. The goal is to stengthen their computational skills with the most popular statistical computing language and the ecosystem of open source and free packages and tools.
+
+<!-- Students are usually expected to learn how to use these specialized tools -->
+<!-- outside of their normal curriculum, this it becomes important to expose them to -->
+<!-- them as early as possible in their engineering or scientific careers. -->
+
+
+# Introduction to R
+
+R is both a full-fledged scientific computing language and an interpreter to run scripts. It was started by statisticians and shared with the open source community who has contributed a rich ecosystem of leading edge packages and engineering tools able to do statistical analysis, data science, data engineering, and data visualization. 
+
+<!-- An introduction can take a full-semester course: <https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf>. However, for this demo, we will focus on highlighting the methodology and the basic syntax that the R computing language uses and that can make working with it different from other computing languages. -->
+
+The delivery is done through a web-based application containing the sections to cover during the tutorial but also with the exercises that the student can revisit later together with the content. Each section of the tutorial is broken into subsections with targeted explanations, examples, and code exercises designed to engage the student. The examples run in R command line sandboxes where most of the R language is functional. This gives immediate opportunity for hands on practice and avoids software versioning/installation/connectivity conflicts, as the tutorial material is self-contained.
+
+<!-- The instructor can briefly present each section, demonstrate the basic material and then ask the students to tackle the exercises for a minute or two. Each exercise is small enough to be done within a minute. -->
+
+This demo will focus on the R syntax, leaving behind the introduction to data science approach for another tutorial with that emphasis:
+
+    - R as a calculator
+      - Operators
+      - Operator precendence
+      - Variable assignment
+      - Built-in functions
+      - Positional and named parameters
+      - The assignment operator
+    - Data representation
+      - Data types
+      - Data structures
+        - Vectors
+        - Matrices
+        - Arrays
+        - Lists
+        - Dataframes
+
+# Duration
+
+25 minutes of presentation plus follow up discussion.
+
+Pablo Adames
+
+
+
+
+
+
+

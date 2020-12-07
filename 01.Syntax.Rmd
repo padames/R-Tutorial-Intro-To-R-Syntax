@@ -734,8 +734,6 @@ Under the hood a data frame ios implemented as a list of vectors of the same len
 
 
 
-
-
 ## User functions
 
 If you start writing a lot of R code, sooner or later you will find the need to reuse the same functionality over and over. Functions help you package that functionality in a single scope and reuse it in a convenient form.
