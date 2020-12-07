@@ -729,7 +729,7 @@ Follow these rules and dataframes are an almost ideal data structure to manipula
 
 Dataframes are similar to tables of a sophisticated relational data base, where you can store procedures and even other tables in the cells.
 
-Under the hood a data frame ios impolemented as a list of vectors of the same length.
+Under the hood a data frame ios implemented as a list of vectors of the same length.
 
 
 
