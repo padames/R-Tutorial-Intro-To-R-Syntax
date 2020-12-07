@@ -396,7 +396,7 @@ length(x)
 x[length(x)] - x[1]
 ```
 
-### Creating vectors with patterns
+### Constructing vectors
 
 Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. When we can or need to use patterns  to create them the functions `rep()` and `seq()` can be pretty helpful. Study the output of these functions.
 
@@ -404,22 +404,6 @@ Creating vectors can become a tedious task so there are a number of techniques t
 rep(-1, times = 10)
 seq(1, 100, by = 5)
 ```
-
-The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
-
-```{r short-version-of-seq, echo=TRUE}
-1:100
-```
-
-Note that the execution of the expression creates a vector of integers from 1 to 100. Now we can interpret the numbers in square brackets on the left of the output as the position of the first value presented in that line of the output. Therefor the last line of output begins with the 91st element of the vector, which happens to be the number 91 in the sequence.
-
-Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
-
-```{r subsetting-a-vector, echo=TRUE}
-x <- c(5, -1, 3, 0, -4, 1)
-x[1:4]
-```
-
 
 `rep` and `seq` can be combined to composed colorful patterns.
 
@@ -460,6 +444,39 @@ is_a_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), 
 sum(is_a_positive)
 ```
 
+### Subsetting vectors
+
+The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
+
+```{r short-version-of-seq, echo=TRUE}
+1:100
+```
+
+Note that the execution of the expression creates a vector of integers from 1 to 100. Now we can interpret the numbers in square brackets on the left of the output as the position of the first value presented in that line of the output. Therefor the last line of output begins with the 91st element of the vector, which happens to be the number 91 in the sequence.
+
+Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
+
+```{r subsetting-a-vector, echo=TRUE}
+x <- c(5, -1, 3, 0, -4, 1)
+# subset the range of elements from the third to the fifth one
+x[3:5]
+```
+There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the index is in the reverse order (starting from the tail instead of from the head).
+
+```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=5}
+x <- c(5, -1, 3, 0, -4, 1)
+# subset the last element of the vector 'x'
+
+# remove the last element
+```
+
+
+```{r subset-from-a-point-to-the-end-hint}
+x[-1]
+x[length(x)]
+```
+
+
 ### Vectors within vectors
 
 When a vector is created within another vector they are not nested, but rather they are concatenated in a linear fashion.
@@ -470,6 +487,41 @@ y <- 1:3
 c(0, y, 4)
 ```
 
+### Appending elements to a vector
+
+You cannot make nested structures with vectors. Incidentally this property becomes your way of appending elements to either end of a vector as we just did to the vector `y` above. However using the function `append` does a cleaner job because it keeps the original attributes of the vector like names, if there were  any. Try it below.
+
+
+```{r append-to-vector-with-names, exercise=T}
+y <- letters[1:5]
+names(y) <- c("c1","c2", "c3","c4","c5")
+y
+```
+
+```{r append-to-vector-with-names-setup}
+y <- letters[1:5]
+names(y) <- c("c1","c2", "c3","c4","c5")
+```
+
+```{r append-to-vector-with-names-extended, exercise=T, exercise.setup="append-to-vector-with-names-setup"}
+# now add ther sixth letter of the ascii character set
+y_extended <- append(y, letters[6])
+# check the new vector, are the first five names preserved?
+y_extended
+```
+
+Append the 26th lower case letter of the  ascii character set to the beginning (a rather odd request, point taken!).
+
+
+```{r append-z-to-head, exercise=TRUE}
+y <- letters[1:5]
+# append the 26th letter to the head of 'y'
+
+```
+
+```{r append-z-to-head-hint}
+y <-  append(letters[26], y)
+```
 
 ### An eye-opener to type cohersion in R
 
@@ -540,6 +592,42 @@ names(v)
 names(sum(v))
 ```
 
+### Factors
+
+These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a palylist may be described by:
+
+```{r music-sample-genres, echo=TRUE}
+# The genres on an eclectic play list 
+music_sample <- c("Indie", "Electronic", "Country")
+class(music_sample)
+```
+
+Now, what if we created a new type of vector that could only be populated with these genres, assuming that these are the only ones we will ever listen to.
+
+```{r music-sample-genres-setup, echo=TRUE}
+# The genres on an eclectic play list 
+music_sample <- c("Indie", "Electronic", "Country")
+```
+
+
+```{r music-sample-genres-as-factors, exercise.setup="music-sample-genres-setup", echo=T}
+music_sample_2 <- factor(music_sample)
+class(music_sample_2)
+```
+
+
+Check out the levels available to populate the play list:
+
+```{r music-sample-genres-as-factors-setup}
+music_sample_2 <- factor(c("Indie", "Electronic", "Country"))
+```
+
+```{r music-sample-genres-levels, exercise=T, exercise.setup="music-sample-genres-as-factors-setup", exercise.lines=4}
+levels(music_sample_2)
+# add a new entry 
+music_sample_2 <- c(music_sample_2, "Indie")
+music_sample_2
+```
 
 
 ### Matrices
