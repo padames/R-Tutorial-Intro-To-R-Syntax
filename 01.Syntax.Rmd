@@ -821,6 +821,10 @@ Under the hood a data frame ios implemented as a list of vectors of the same len
 
 
 
+```{r dataframe, echo=FALSE, results='asis'}
+knitr::include_graphics("images/dataframe.png")
+```
+
 
 ## User functions
 
