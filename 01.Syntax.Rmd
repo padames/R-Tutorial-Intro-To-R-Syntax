@@ -825,6 +825,22 @@ Under the hood a data frame ios implemented as a list of vectors of the same len
 knitr::include_graphics("images/dataframe.png")
 ```
 
+Let's create this data frame using code using the constructor function `data.frame`.
+
+```{r dataframe-constructor, exercise=T}
+# for better documentation name the vectors
+country_name <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population_millions <- c(37, 331, 67, 83, 60, 39)
+census_2019 <- c(T,T,T,T,F,T)
+# the dot in names means nothing special in R, see note below for explanation
+df <- data.frame(country.name = country_name,
+                 population.millions = population_millions,
+                 census.2019 = census_2019)
+# Display the data frame
+df
+```
+
+*Note:* In R the dot for names has no special meaning, it is like `_`. The dot for formulas and in generic object dispatch has special meaning, bit those are topics for later.
 
 ## User functions
 
