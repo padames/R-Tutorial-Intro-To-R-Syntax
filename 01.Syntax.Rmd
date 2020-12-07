@@ -460,6 +460,16 @@ is_a_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), 
 sum(is_a_positive)
 ```
 
+### Vectors within vectors
+
+When a vector is created within another vector they are not nested, but rather they are concatenated in a linear fashion.
+
+```{r concatenated-vectors, exercise=T}
+y <- 1:3
+# try nesting y within a new vector and see what happens
+c(0, y, 4)
+```
+
 
 ### An eye-opener to type cohersion in R
 
@@ -529,6 +539,7 @@ names(v)
 # finally check the names of the vector with the summ of all the values
 names(sum(v))
 ```
+
 
 
 ### Matrices
@@ -613,6 +624,77 @@ array(1:18, dim = c(2, 3, 3))
 Here we  created a tensor of 2 rows by 3 columns by 3 frames with the numbers 1 to 18. Study the output to verify this.
 
 Let's leave this data structure for deep learning practice and move on now.
+
+
+### Lists
+
+Lists are one-dimensional data structures that can store information of heterogenious type. R's well-known linear model object, with constructor `lm()`, is a list. Let's creat a list  with the general constructor.
+
+Here is a graphical representation of a list with three components.
+
+```{r list, echo=FALSE, results='asis'}
+knitr::include_graphics("images/list.png")
+```
+
+And here is your turn to create it in R code. Try to complete the exercise before looking at the hint.
+
+```{r list-constructor, exercise=TRUE}
+l <- list(some_strings = c("hello", "world"), 
+          some_numbers = 10:15, 
+          some_booleans = c(T,T,T,F))
+# check the names
+
+# extract the first element of the list
+```
+
+```{r list-constructor-hint}
+attributes(l)
+names(l)
+l[[1]]
+```
+
+### Lists can be nested
+
+Try the following simple code to make sure you grasp the concept. This will become very important to do amazing data analysis later. Lists are very versatile that way.
+
+Would would have thought that R would come in handy for that party you are planning for friends and family. The list of items for the party can be nested within the list of party items, how convenient! 
+
+```{r list-nesting, exercise=TRUE}
+# get organized for that party you are throwing for friends and family
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items)
+
+# extract the party items and display the drinks to buy
+
+```
+
+```{r list-nesting-hint}
+to_do_list[[3]][[1]]
+```
+
+Another way to reference list elemenst by name uses the $ operator.
+
+```{r list-dollar}
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items)
+```
+
+Check out the use of the `$` operator to extract the elemenst by name and printing the drinks for the party. 
+
+```{r list-dollar-show, exercise=TRUE, exercise.setup="list-dollar" }
+to_buy <- to_do_list$items
+to_buy$drinks
+```
+
+
 
 ## User functions
 
