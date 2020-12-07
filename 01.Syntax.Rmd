@@ -622,11 +622,36 @@ Check out the levels available to populate the play list:
 music_sample_2 <- factor(c("Indie", "Electronic", "Country"))
 ```
 
+Adding a new element has to be done on the levels, the underlying vector.
+
 ```{r music-sample-genres-levels, exercise=T, exercise.setup="music-sample-genres-as-factors-setup", exercise.lines=4}
 levels(music_sample_2)
 # add a new entry 
-music_sample_2 <- c(music_sample_2, "Indie")
-music_sample_2
+music_sample_3 <- append(levels(music_sample_2), "Indie")
+music_sample_3
+```
+
+Why is this important? Let's see an example of how to tally the number of elements in each category of a factor vector.
+
+```{r tally-factor, exercise=T}
+# build the factors for your play list, remember the convenient 'rep' function?
+genres <- factor(c(rep("Indie", times = 5), 
+                rep("Electronic", times = 9), 
+                rep("Country", times = 27)))
+# whoa, do I sense a certain trend here? let's check with R
+table(genres)
+```
+
+If you need to add a new level to the factor vector then there is a form of level assignment to do it, using simple vector linear concatenation with the `c()` function, remember 'nesting vectors'?:
+
+```{r adding-level-to-factor, echo=T}
+music_sample_genres <- factor(c("Country", "Indie", "Electronic", "Indie", "Country"))
+# add a new level for newly discovered musical genre "Classical":
+levels(music_sample_genres) <- c(levels(music_sample_genres), "Classical")
+# now add a few entries, here we only add their genres
+music_sample_genres <- append(levels(music_sample_genres), c("Classical", "Indie", "Indie"))
+# see the tally
+table(music_sample_genres)
 ```
 
 
@@ -829,18 +854,132 @@ Let's create this data frame using code using the constructor function `data.fra
 
 ```{r dataframe-constructor, exercise=T}
 # for better documentation name the vectors
-country_name <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
-population_millions <- c(37, 331, 67, 83, 60, 39)
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
 census_2019 <- c(T,T,T,T,F,T)
 # the dot in names means nothing special in R, see note below for explanation
-df <- data.frame(country.name = country_name,
-                 population.millions = population_millions,
-                 census.2019 = census_2019)
+df <- data.frame(country,
+                 population,
+                 census2019)
 # Display the data frame
 df
 ```
 
 *Note:* In R the dot for names has no special meaning, it is like `_`. The dot for formulas and in generic object dispatch has special meaning, bit those are topics for later.
+
+If any of the vectors has a different length there will be error messages, R will not be happy about it. Try it for yourself in the previous exercise.
+
+### Subsetting a dataframe
+
+Similarly to subsetting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention. 
+
+```{r slice-n-dice-df-setup}
+# for better documentation name the vectors
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+```
+
+```{r slice-n-dice-df, exercise=T, exercise.setup="slice-n-dice-df-setup", exercise.lines=4}
+# get the country names
+df$country
+```
+
+Let's  extract all the information for Canada. 
+
+```{r subset-df-by-row-setup}
+# for better documentation name the vectors
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+```
+
+```{r subset-df-by-row, exercise=T, exercise.setup="subset-df-by-row-setup", exercise.lines=4}
+df[df$country == "Canada",]
+```
+
+We can extract the countries with population greater than 80 million.
+
+```{r subset-df-by-multiple-rows, exercise=T, exercise.setup="subset-df-by-row-setup", exercise.lines=4}
+df[df$population > 80,]
+```
+
+Please note that this syntax is using a concept called a logical mask. It is a form of vector subsetting similar to what we have studied before. Here is an explanation:
+
+```{r explain-logical-mask-1, exercise.setup="subset-df-by-row-setup", echo=T}
+# build the logical mask with a vector of logical values
+filter <- df$population > 80
+filter
+```
+Now subset the dataframe using this logical mask. a `TRUE` value will let the value at that position on each vector of the dataframe to pass as is. A `FALSE` will eliminate it so it does not appear on the result.
+
+```{r explain-logical-mask-setup, echo = F}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+filter <- df$population > 80
+filter
+```
+
+
+```{r explain-logical-mask-2, exercise.setup="explain-logical-mask-setup", echo=T}
+# apply the filter to all the vectors of the data frame
+result <- df[filter,]
+result
+```
+
+Now only show the column for country and wheather the data is from the 2019 census:
+
+```{r explain-logical-mask-3-setup, echo = F}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+filter <- df$population > 80
+result <- df[filter,]
+```
+
+
+```{r explain-logical-mask-3, exercise.setup="explain-logical-mask-3-setup", echo=T}
+# apply the filter to all the vectors of the data frame
+result[c("country", "population")]
+```
+
+
+### Factors or strings
+
+Remember that section on factors? Well here we go again. When you construct a dataframe from vectors their class will be interpreted by the constructor. Remember R will try to coerce all the elements of the vector to the lowest common denominator to be able to work with them. 
+
+You can give R hints, though, for instance you can tell it to interpret the strings in vectors as factors or not, base R will do it by default.
+
+```{r example-dataframe-strings-as-factors, echo=T}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+# strings as factors is the default
+country_stats <- data.frame( country,
+                             population)
+# the function 'str()' tells us the structure of the object
+str(country_stats)
+```
+The R constructor for dataframes interpreted the strings as 6 factors. Perhaps not what you expected, compare with this case.
+
+```{r example-dataframe-strings-as-is-setup}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+```
+
+
+```{r example-dataframe-strings-as-is, exercise.setup="example-dataframe-strings-as-is-setup", echo=T}
+country_stats <- data.frame( country, population, stringsAsFactors = FALSE)
+str(country_stats)
+```
+
+
+
+
 
 ## User functions
 
