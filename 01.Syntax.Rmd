@@ -861,6 +861,7 @@ How would one obtain the last two names for any length of 'v'?",
            answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coherced into numeric, the most general type."),
            answer("c(1, c(2L, 4L))", correct = F, message = "Did  you select an answer that has only numeric elements? Remember integers are a subset of numeric."),
            answer("c(\"hi\", 'there', 'c')", correct = T, message = "Well done!"),
+           type = "multiple",
            allow_retry = TRUE,
            random_answer_order = TRUE)
 )
@@ -884,7 +885,7 @@ Under the hood a data frame ios implemented as a list of vectors of the same len
 
 
 
-```{r dataframe, echo=FALSE, results='asis'}
+```{r dataframe, echo=FALSE, results='asis', dpi=76}
 knitr::include_graphics("images/dataframe.png")
 ```
 
@@ -894,7 +895,7 @@ Let's create this data frame using code using the constructor function `data.fra
 # for better documentation name the vectors
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
-census_2019 <- c(T,T,T,T,F,T)
+census2019 <- c(T,T,T,T,F,T)
 # the dot in names means nothing special in R, see note below for explanation
 df <- data.frame(country,
                  population,
@@ -940,18 +941,29 @@ df[df$country == "Canada",]
 
 We can extract the countries with population greater than 80 million.
 
-```{r subset-df-by-multiple-rows, exercise=T, exercise.setup="subset-df-by-row-setup", exercise.lines=4}
+```{r subset-df-by-multiple-rows, exercise=T, exercise.setup="subset-df-by-row-setup,", exercise.lines=4}
+# extract only the names of the counties  in the rows filtered
+df[df$population > 80, 'country']
+# display all the columns for the rows filtered
 df[df$population > 80,]
 ```
 
-Please note that this syntax is using a concept called a logical mask. It is a form of vector subsetting similar to what we have studied before. Here is an explanation:
+This way of subsetting a dataframe uses what is called a **_logical mask_**. This is nothing more than a boolean vector used for subsetting into another vector (recall that the columns of a dataframe are vectors). This is similar to what we have studied before. 
+
+This image helps explain it.
+
+```{r dataframe-row-filter, echo=FALSE, results='asis', fig.height=1}
+knitr::include_graphics("images/dataframe-row-filter.png", dpi = 126)
+```
+
+And here is a step by step description:
 
 ```{r explain-logical-mask-1, exercise.setup="subset-df-by-row-setup", echo=T}
 # build the logical mask with a vector of logical values
 filter <- df$population > 80
 filter
 ```
-Now subset the dataframe using this logical mask. a `TRUE` value will let the value at that position on each vector of the dataframe to pass as is. A `FALSE` will eliminate it so it does not appear on the result.
+Now subset the dataframe by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the dataframe pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
 
 ```{r explain-logical-mask-setup, echo = F}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
@@ -959,12 +971,11 @@ population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
 df <- data.frame(country, population, census2019, stringsAsFactors = T)
 filter <- df$population > 80
-filter
 ```
 
 
 ```{r explain-logical-mask-2, exercise.setup="explain-logical-mask-setup", echo=T}
-# apply the filter to all the vectors of the data frame
+# apply the same filter to every column of the data frame by
 result <- df[filter,]
 result
 ```
@@ -989,7 +1000,9 @@ result[c("country", "population")]
 
 ### Factors or strings
 
-Remember that section on factors? Well here we go again. When you construct a dataframe from vectors their class will be interpreted by the constructor. Remember R will try to coerce all the elements of the vector to the lowest common denominator to be able to work with them. 
+Did you notice that in the previous section we got the countries as a vector of factors with 6 levels. Remember that section on factors when we studied vectors? Well here we go again. 
+
+When you construct a dataframe from vectors their class will be interpreted by the constructor. Remember R will try to coerce all the elements of the vector to the lowest common denominator to be able to work with them. 
 
 You can give R hints, though, for instance you can tell it to interpret the strings in vectors as factors or not, base R will do it by default.
 
