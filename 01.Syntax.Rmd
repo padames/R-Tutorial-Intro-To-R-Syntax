@@ -511,17 +511,19 @@ y_extended <- append(y, letters[6])
 y_extended
 ```
 
-Append the 26th lower case letter of the  ascii character set to the beginning (a rather odd request, point taken!).
+Append the 24th lower case letter of the  ascii character set to the beginning of the following vector, what do you read?
 
 
-```{r append-z-to-head, exercise=TRUE}
-y <- letters[1:5]
-# append the 26th letter to the head of 'y'
+```{r append-z-to-head, exercise=TRUE, exercise.lines=5}
+y <- letters[c(15, 24, 15)]
+# append the 24th letter to the head of 'y'
 
+# don't modify the following line
+paste0(y, collapse = "")
 ```
 
 ```{r append-z-to-head-hint}
-y <-  append(letters[26], y)
+y <-  append(letters[24], y)
 ```
 
 ### An eye-opener to type cohersion in R
