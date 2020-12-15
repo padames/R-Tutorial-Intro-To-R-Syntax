@@ -829,6 +829,33 @@ to_buy <- to_do_list$items
 to_buy$drinks
 ```
 
+## Test your knwoledge
+
+```{r quiz-2-a, echo=FALSE, cache=FALSE}
+quiz(
+  question("Given the following vector:
+    
+    v <- c('Anne', 'Simon', 'Alice', 'Carl', 'Tom')      
+    
+How would one obtain the last two names for any length of 'v'?",
+    answer("v[c(length(v)-1,length(v))]", correct = TRUE, message = "This answer works for any length of 'v' indeed."),
+    answer("v[-1:-3]", message = "This actually works by excluding the first three names, however it is not general for any length of 'v'."),
+    answer("v[-2]", message = "In R this returns all but the second before last element."),
+    answer("v[c('Carl', 'Tom')]", message = "Use a vector of indices or booleans to subset a vector."),
+  answer("v[-c(1,2,3)]", message = "Selecting the first three names and then removing them leaves the last two, however this answer does not generalizes to any length of 'v'"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Construct a vector of doubles from 80 to 20 by decrements of 10",
+    answer("c(80, 70, 60, 50, 40, 30)", message = "Missing the last value."),
+    answer("seq(80, 20, by = -10)", correct = TRUE, message = "Well done!"),
+    answer("seq(20, 80, by=10)", message = "Not quite, the specification is descending order for the elements of the vector"),
+    answer("seq(20, 80, by=-10)", message = "This one would generate an error because the sign of the increment contradicts the direction of the 'to' and 'from' arguments."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE    
+  ))
+```
+
 
 ## Dataframes
 
