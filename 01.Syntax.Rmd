@@ -27,6 +27,27 @@ If you want to reset the state of your answers and the code  you've run on the e
 Let's get started.
 
 <!-- ======================== -->
+## Learning outcomes
+<!-- ======================== -->
+
+This introduction to R syntax will allow you to become familiar with the following concepts:
+
+  * Using mathematical and logical operators
+  * Build complex expressions using operators
+  * How to get documentation about R at the command line
+  * How to create variable to store values
+  * How to call built-in R functions
+  * How to get a list of all predefined functions in a package
+
+R can be easily used to carry out accurate and expressive statistical analysis, complex data processing, classical statistical modelling, machine learning, distributed big data processing in clusters, data visualization, and many other tasks. 
+
+Your continued use and application of the language will strengthen your command of the syntax and of the multiple packages freely available.  This practice will make you a very productive R specialist.
+
+
+
+
+
+<!-- ======================== -->
 ## R as a calculator
 <!-- ======================== -->
 
@@ -132,9 +153,14 @@ kable( data.frame(long_form, short_form, description,
 
 It's a good idea to store results in variables so we can keep them around to use them in other expressions.
 
-```{r storing-values, exercise=TRUE}
+```{r storing-values, exercise.lines=7, exercise=TRUE}
+# store a value
 a <- 10
+# store the result of an operation
 b <- a + 10
+# print the contents 'a' and 'b' one on separate lines
+a
+b
 ```
 
 The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10 so when the second line is executed b is assigned he result of applying the operator `+` to the value `10` and the value of the variable `a`. As a result of all this `b` will be assigned the value `20`.
@@ -143,8 +169,10 @@ The `<-` binary operator indicates assignment. The value on the right is assigne
 
 R offers predefined functions. These may take arguments and return computed values when executed. Some expressions may take a function with arguments and store the returned value for storage in a variable. Let's look at the result of running the following lines:
 
-```{r executing-function, exercise.lines=2, exercise=TRUE}
+```{r executing-function, exercise.lines=4, exercise=TRUE}
+# assign the result of the function call to the variable 'e'
 e <- exp(1)
+# print the contents fo 'e' to the output
 e
 ```
 
@@ -161,8 +189,8 @@ There should be no output. The value of the function `exp` with the argument `1`
 *Note:* As it is usually the case in R, there is a way to get more millage out of your code. You can get a two-for-one effect by printing and doing assignment in a single expression on the console by surrounding the assignment with parenthesis. Try it!
 
 ```{r two-for-one,  exercise = TRUE}
+# this accomplishes the assignment and prints the value of the variable in one line
 (e <- exp(1))
-e
 ```
 
 ### Other built-in functions
