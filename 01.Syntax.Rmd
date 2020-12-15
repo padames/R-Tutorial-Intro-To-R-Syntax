@@ -831,7 +831,7 @@ to_buy <- to_do_list$items
 to_buy$drinks
 ```
 
-## Test your knwoledge
+## Test your knowledge
 
 ```{r quiz-2-a, echo=FALSE, cache=FALSE}
 quiz(
@@ -854,8 +854,16 @@ How would one obtain the last two names for any length of 'v'?",
     answer("seq(20, 80, by=10)", message = "Not quite, the specification is descending order for the elements of the vector"),
     answer("seq(20, 80, by=-10)", message = "This one would generate an error because the sign of the increment contradicts the direction of the 'to' and 'from' arguments."),
   allow_retry = TRUE,
-  random_answer_order = TRUE    
-  ))
+  random_answer_order = TRUE
+  ),
+  question("Select all applicable answers that construct a vector of characters",
+           answer("c(1,2,'c')", correct = T, message = "The last option you ticked is also correct. "),
+           answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coherced into numeric, the most general type."),
+           answer("c(1, c(2L, 4L))", correct = F, message = "Did  you select an answer that has only numeric elements? Remember integers are a subset of numeric."),
+           answer("c(\"hi\", 'there', 'c')", correct = T, message = "Well done!"),
+           allow_retry = TRUE,
+           random_answer_order = TRUE)
+)
 ```
 
 
