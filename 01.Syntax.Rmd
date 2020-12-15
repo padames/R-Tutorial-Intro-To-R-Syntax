@@ -38,7 +38,16 @@ This introduction to R syntax will allow you to become familiar with the followi
   * How to create variable to store values
   * How to call built-in R functions
   * How to get a list of all predefined functions in a package
-
+  * What named and positional arguments are
+  * Variable assignment operators in R
+  * The most common data types in R
+  * The data structures in R
+  * How to create vectors
+  * How to append elements to a vector
+  * How to subset a vector
+  * How to create lists
+  * How to append to a list
+  
 R can be easily used to carry out accurate and expressive statistical analysis, complex data processing, classical statistical modelling, machine learning, distributed big data processing in clusters, data visualization, and many other tasks. 
 
 Your continued use and application of the language will strengthen your command of the syntax and of the multiple packages freely available.  This practice will make you a very productive R specialist.
@@ -172,7 +181,7 @@ R offers predefined functions. These may take arguments and return computed valu
 ```{r executing-function, exercise.lines=4, exercise=TRUE}
 # assign the result of the function call to the variable 'e'
 e <- exp(1)
-# print the contents fo 'e' to the output
+# print the contents of 'e' to the output
 e
 ```
 
@@ -205,11 +214,25 @@ To compute logarithms, R offers the following predefined functions:
      
      log1p(x)
 ```
+
+R has a few natively defined functions and many more defined through packages
 To see all the predefined functions available in the base package type `library(help = "base)` at the command line.
 
 ```{r functions-base-package, exercise=TRUE}
 library(help = "base")
 ```
+
+The language R provides a mechanism to supply functions, variables, and data bundled as a package. Contributors write R packages and share them mainly via the CRAN repository. The base package comes with the basic R installation.
+The `builtins()` function from the `base` R package lists the `r length(builtins())` predefined functions that come with R.
+
+```{r number-functions-base-package, echo=T, message=FALSE, warning=FALSE}
+# get the number of functions in the base R package
+length(builtins())
+# The function 'match' is a builtin, it has a binary in-fix operator %in%
+# Use %in% to test if 'match' is part of the builtins
+"match" %in% builtins()
+```
+
 
 ### The assignment operators and their uses
 
