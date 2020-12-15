@@ -444,15 +444,16 @@ is_a_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), 
 sum(is_a_positive)
 ```
 
-### Subsetting vectors
 
 The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
 
 ```{r short-version-of-seq, echo=TRUE}
-1:100
+1:50
 ```
 
-Note that the execution of the expression creates a vector of integers from 1 to 100. Now we can interpret the numbers in square brackets on the left of the output as the position of the first value presented in that line of the output. Therefor the last line of output begins with the 91st element of the vector, which happens to be the number 91 in the sequence.
+*Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefor the second line of output begins with the 26th element of the vector, which happens to be the number 26 in the sequence.
+
+### Subsetting vectors
 
 Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
 
@@ -592,9 +593,9 @@ names(v)
 names(sum(v))
 ```
 
-### Factors
+### Factors (More Advanced)
 
-These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a palylist may be described by:
+These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a playlist may be described by:
 
 ```{r music-sample-genres, echo=TRUE}
 # The genres on an eclectic play list 
