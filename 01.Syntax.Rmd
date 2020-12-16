@@ -35,19 +35,23 @@ This introduction to R syntax will allow you to become familiar with the followi
   * Using mathematical and logical operators
   * Build complex expressions using operators
   * How to get documentation about R at the command line
-  * How to create variable to store values
+  * How to create variables to store values
   * How to call built-in R functions
   * How to get a list of all predefined functions in a package
   * What named and positional arguments are
   * Variable assignment operators in R
   * The most common data types in R
-  * The data structures in R
+  * The data structures used in R
   * How to create vectors
   * How to append elements to a vector
   * How to subset a vector
+  * How to create factors, a special type of vector
   * How to create a matrix
+  * How to work with a matrix
+  * How to create arrays
   * How to create lists
   * How to append to a list
+  
   
 R can be easily used to carry out accurate and expressive statistical analysis, complex data processing, classical statistical modelling, machine learning, distributed big data processing in clusters, data visualization, and many other tasks. 
 
@@ -196,7 +200,7 @@ e <- exp(1)
 
 There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable `e`. The assignment operation leaves no trace on the output. Another way of saying this is _the assignment operator produces no side efects in the console_. Its only effect is to create a name-value pair, (e, 2.718282) in the global environment, so the value can be recalled later by its assigned name.
 
-*Note:* As it is usually the case in R, there is a way to get more millage out of your code. You can get a two-for-one effect by printing and doing assignment in a single expression on the console by surrounding the assignment with parenthesis. Try it!
+*Note:* As it is usually the case in R, there is more than one way of getting things done. You can get a two-for-one effect by printing and doing assignment in a single expression on the console by surrounding the assignment with parenthesis. Try it!
 
 ```{r two-for-one,  exercise = TRUE}
 # this accomplishes the assignment and prints the value of the variable in one line
@@ -216,20 +220,20 @@ To compute logarithms, R offers the following predefined functions:
      log1p(x)
 ```
 
-R has a few natively defined functions and many more defined through packages
-To see all the predefined functions available in the base package type `library(help = "base)` at the command line.
+The most fundamental R builtin functions come bundled in the `base` package.
+To read about an R package use the function call `library(help = "base")` at the command line. Packages are loaded by issuing the function `libray("base")`  but the `base` package is loaded by default when an R session is started. Try it below.
 
-```{r functions-base-package, exercise=TRUE}
+```{r functions-base-package, exercise=TRUE, exercise.lines=1}
 library(help = "base")
 ```
 
-The language R provides a mechanism to supply functions, variables, and data bundled as a package. Contributors write R packages and share them mainly via the CRAN repository. The base package comes with the basic R installation.
-The `builtins()` function from the `base` R package lists the `r length(builtins())` predefined functions that come with R.
+The language R provides a standard workflow to build packages that contain functions, variables, and data targeting a specific problem. Contributors write R packages and share them mainly via the CRAN repository. To find out what comes builtin with the `base` package we can call the 
+`builtins()` function to produce the list of `r length(builtins())` objects that are loaded in the base environment when you start R the first time.
 
 ```{r number-functions-base-package, echo=T, message=FALSE, warning=FALSE}
-# get the number of functions in the base R package
+# get the number of objects loaded from the base R package
 length(builtins())
-# The function 'match' is a builtin, it has a binary in-fix operator %in%
+# The function 'match' is a builtin, it has a binary in-fix operator: %in%
 # Use %in% to test if 'match' is part of the builtins
 "match" %in% builtins()
 ```
@@ -416,7 +420,7 @@ kable( data.frame(Homogeneous, Heterogeneous,
 The table we just saw should be read as follows: all one-dimensional data structures that contain objects of the same type are vectors, as in they are stored in contiguous memory. A vector of six integer values would be represented graphically as:
 
 ```{r vector, echo=FALSE, results='asis'}
-knitr::include_graphics("images/vector.png")
+knitr::include_graphics("images/vector.png", dpi = 86)
 ```
 
 And as code:
@@ -716,11 +720,11 @@ Just like vectors are one-dimensional data structures that contain objects of th
 
 
 ```{r matrix, echo=FALSE, results='asis'}
-knitr::include_graphics("images/matrix.png")
+knitr::include_graphics("images/matrix.png", dpi = 106)
 ```
 
 And as code:
-```{r matrix-construction, echo=TRUE}
+```{r matrix-construction, exercise=T, exercise.lines=1}
 matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
 ```
 
@@ -801,7 +805,7 @@ cbind(c(6,6), m)
 
 Arrays are the natural extension of vector and matrices to n-dimensions. 
 ```{r array, echo=FALSE, results='asis'}
-knitr::include_graphics("images/array.png")
+knitr::include_graphics("images/array.png", dpi = 86)
 ```
 
 The image illustrates a three-dimensional array with rows, columns, and frames. These data structures are very useful for tensor analysis and in particular for deep learning.
@@ -822,12 +826,12 @@ Lists are one-dimensional data structures that can store information of heteroge
 Here is a graphical representation of a list with three components.
 
 ```{r list, echo=FALSE, results='asis'}
-knitr::include_graphics("images/list.png")
+knitr::include_graphics("images/list.png", dpi = 126)
 ```
 
 And here is your turn to create it in R code. Try to complete the exercise before looking at the hint.
 
-```{r list-constructor, exercise=TRUE}
+```{r list-constructor, exercise=TRUE, exercise.lines=7}
 l <- list(some_strings = c("hello", "world"), 
           some_numbers = 10:15, 
           some_booleans = c(T,T,T,F))
@@ -848,7 +852,7 @@ Try the following simple code to make sure you grasp the concept. This will beco
 
 Would would have thought that R would come in handy for that party you are planning for friends and family. The list of items for the party can be nested within the list of party items, how convenient! 
 
-```{r list-nesting, exercise=TRUE}
+```{r list-nesting, exercise=TRUE, exercise.lines=15}
 # get organized for that party you are throwing for friends and family
 party_items = list( drinks = c("pop", "wine", "beer", "water"),
                     furniture = c(chairs = 8, tables = 2, hammocks = 1))
@@ -863,6 +867,8 @@ to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
 
 ```{r list-nesting-hint}
 to_do_list[[3]][[1]]
+# equivalent but using the dollar operator
+to_do_list[[3]]$drinks
 ```
 
 Another way to reference list elemenst by name uses the $ operator.
@@ -933,8 +939,7 @@ Follow these rules and dataframes are an almost ideal data structure to manipula
 
 Dataframes are similar to tables of a sophisticated relational data base, where you can store procedures and even other tables in the cells.
 
-Under the hood a data frame ios implemented as a list of vectors of the same length.
-
+Under the hood a data frame is implemented as a list of vectors of the same length.
 
 
 ```{r dataframe, echo=FALSE, results='asis', dpi=76}
@@ -1054,7 +1059,7 @@ result[c("country", "population")]
 
 Did you notice that in the previous section we got the countries as a vector of factors with 6 levels. Remember that section on factors when we studied vectors? Well here we go again. 
 
-When you construct a dataframe from vectors their class will be interpreted by the constructor. Remember R will try to coerce all the elements of the vector to the lowest common denominator to be able to work with them. 
+When you construct a dataframe from vectors their class will be interpreted by the constructor. R will try to coerce all the elements of the vector to the most general data type to be able to work with them. An ordering of types from more general to less `character` > `integer` > `numeric` > `complex` > `logical`. 
 
 You can give R hints, though, for instance you can tell it to interpret the strings in vectors as factors or not, base R will do it by default.
 
