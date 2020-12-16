@@ -347,6 +347,8 @@ If we use the global assignment operator `<-` in the first position it might hav
 
 ```{r named-param-5, exercise = TRUE}
 log(base <- 10, 1000)
+# try now using the local assignment = for the named parameter
+log(base = 10, 1000)
 ```
 
 Did you get the same result of using `log(base = 10, 1000)`? That is almost true, the difference is that now there is a variable assignment represented by the pair `(base, 10)` that outlives the call to `log`.
