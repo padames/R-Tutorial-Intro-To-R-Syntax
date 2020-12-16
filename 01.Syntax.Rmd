@@ -51,6 +51,8 @@ This introduction to R syntax will allow you to become familiar with the followi
   * How to create arrays
   * How to create lists
   * How to append to a list
+  * How to create a dataframe
+  * How to subset a dataframe
   
   
 R can be easily used to carry out accurate and expressive statistical analysis, complex data processing, classical statistical modelling, machine learning, distributed big data processing in clusters, data visualization, and many other tasks. 
