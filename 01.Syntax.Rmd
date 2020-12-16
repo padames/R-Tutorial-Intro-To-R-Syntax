@@ -279,7 +279,7 @@ Read on for the answer.
 
 R functions may be built-in or user created, they may also have none, one, or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`. Examine the code below and guess the output before running it, did you expect the result?
 
-```{r named-param-1, exercise = TRUE, exercise.lines=9}
+```{r named-param-1, exercise = TRUE, exercise.lines=3}
 three <- log(1000, base = 10)
 # uncomment to check if bas exists after executing the line above
 # base
