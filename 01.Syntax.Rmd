@@ -540,9 +540,10 @@ There are many interesting ways of sub-setting a vector using ranges. For exampl
 
 ```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=5}
 x <- c(5, -1, 3, 0, -4, 1)
-# subset the last element of the vector 'x'
+# subset all but last element of the vector 'x'
 
-# remove the last element
+# extract the last element
+
 ```
 
 
