@@ -232,12 +232,11 @@ library(help = "base")
 The language R provides a standard workflow to build packages that contain functions, variables, and data targeting a specific problem. Contributors write R packages and share them mainly via the CRAN repository. To find out what comes builtin with the `base` package we can call the 
 `builtins()` function to produce the list of `r length(builtins())` objects that are loaded in the base environment when you start R the first time.
 
-```{r number-functions-base-package, echo=T, message=FALSE, warning=FALSE}
+```{r number-functions-base-package, exercise=TRUE, exercise.lines=5}
 # get the number of objects loaded from the base R package
 length(builtins())
-# The function 'match' is a builtin, it has a binary in-fix operator: %in%
-# Use %in% to test if 'match' is part of the builtins
-"match" %in% builtins()
+# test if a object (a function) is part of the builtins in the base environment
+"exp" %in% builtins()
 ```
 
 
@@ -277,7 +276,7 @@ Read on for the answer.
 
 ### Function arguments: positional and named 
 
-R functions may be built-in or user created, they may have also none, one, or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`. Examine the code below and guess the output before running it, did you expect the result?
+R functions may be built-in or user created, they may also have none, one, or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`. Examine the code below and guess the output before running it, did you expect the result?
 
 ```{r named-param-1, exercise = TRUE, exercise.lines=9}
 three <- log(1000, base = 10)
