@@ -97,7 +97,8 @@ Operators that act on a single value are _unary_ while those that receive two ar
 
 ```{r op-precendence, exercise=TRUE}
 1 + 5 * 5
-(1 + 5) * 5
+# uncomment removing the '#' at the beginning of the line to run
+# (1 + 5) * 5
 ```
 
 Multiplication takes precendence over addition when the first line is evaluated. The use of parenthesis forces the addition to be carried out before the final multiplication by `5` on the second line.
@@ -280,15 +281,21 @@ R functions may be built-in or user created, they may also have none, one, or mo
 
 ```{r named-param-1, exercise = TRUE, exercise.lines=9}
 three <- log(1000, base = 10)
+# uncomment to check if bas exists after executing the line above
+# base
+```
 
-# Does 'base' exist in the global environment after log gest evaluated?
+<!-- ```{r named-param-1, exercise = TRUE, exercise.lines=9}
+three <- log(1000, base = 10)
+ 
+# Does 'base' exist in the global environment after log gest valuated?
 # let's  check it out and print a nice message accordingly
 if (exists("base")) {
   print(paste0("base exists outside of log, base = ", base)) 
 } else {
-  print("base does not exist outside of log")
+   print("base does not exist outside of log")
 }
-```
+```--->
 
 In the call to the function `log`, the first argument is positional, taking exactly the position number one. The second argument is named and may receive a value via the `=` operator if the function requires it during its execution.
 
@@ -319,6 +326,13 @@ We already saw how the `=` operator for a named argument does not affect the glo
 We could use the `<-` operator for the named argument, the expression `log(x, base <- exp(1))` would assign the expression `exp(1)` to the local variable `base`. However, before that gets done, the name-expression pair gets created in the global environment. That implies that there will be a global variable `base` with the value of evaluating `exp(1)` outside of the function `log` after exiting `log`. Let's test that. 
 
 ```{r named-param-4, exercise = TRUE}
+base = 100
+log(1000, base = 10)
+# Does 'base' exist in the global environment after log gest evaluated?
+base
+```
+
+<!-- ```{r named-param-4, exercise = TRUE}
 log(1000, base <- 10)
 # Does 'base' exist in the global environment after log gest evaluated?
 if (exists("base")) {
@@ -326,7 +340,8 @@ if (exists("base")) {
 } else {
   print("base does not exist outside of log")
 }
-```
+``` -->
+
 
 If we use the global assignment operator `<-` in the first position it might have an unexpected result compared to using the local assignemnt operator `=`.  Check for yourself with the code below.
 
