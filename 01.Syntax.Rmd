@@ -80,30 +80,37 @@ Note the output, there is a [1] and the result of the calculation. We will addre
 
 ### Mathematical operators in R
 
-Please try running the following lines of code representing mathematical  operations.
+Please try running the following lines of code, each representing a different mathematical operation.   
 
 ```{r operators-1, exercise=TRUE}
 450 - 100
 3 * 10
 35 / 7
-5^2
+5^2 
 ```
 
-Each result appears on its own line after running the code. This is the same behaviour you would see on a command line if you entererd the four lines of code.
+Each result appears on its own line after running the code. This is the same behaviour you would see on a command line if you entererd the four lines of code. Go back and prove to yourself that white space between the numbers and the operators has no effect on the result.
 
 ### Operator precedence
 
-Operators that act on a single value are _unary_ while those that receive two arguments are _binary_. The execution order of an expression containing several operators follows the rules of operator precedence that give more or less priority to some operators over others. Compare the following two lines:
+Operators that act on a single value are _unary_ while those that receive two arguments are _binary_. The execution order of an expression containing several operators follows the rules of operator precedence. These rules determine the  priority of execution given to some operators over others. Let's look at an example:
 
-```{r op-precendence, exercise=TRUE}
+```{r op-precendence-A, exercise=TRUE, exercise.lines=2}
+# predict the result computed by R before pressing the Run Code button
 1 + 5 * 5
-# uncomment removing the '#' at the beginning of the line to run
-# (1 + 5) * 5
 ```
 
-Multiplication takes precendence over addition when the first line is evaluated. The use of parenthesis forces the addition to be carried out before the final multiplication by `5` on the second line.
+Did you predict the result correctly? For R, multiplication takes precendence over addition. 
 
-From the R help here is a list of all the unary and binary operators and their precedence from highest to lowest from top to bottom and from left to right within groups:
+You can force the execution of addition over multiplication by use of parenthesis as illustrated below:
+
+```{r op-precendence-B, exercise=TRUE, exercise.lines=2}
+# predict the new result using parenthesis around the addition operator
+(1 + 5) * 5
+```
+
+To learn about the rules of precedence built into R you can use its help system. 
+Here is a list of all the unary and binary operators and their precedence order from highest to lowest from top to bottom and from left to right within groups:
 
 ```{r op-precedence-2, results='asis'}
 library(knitr)
