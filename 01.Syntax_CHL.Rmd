@@ -1,0 +1,1187 @@
+---
+title: "R Syntax"
+subtitle: "Chel commented"
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+bibliography: bib.bib
+description: "Basic R Syntax and data structures"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<!-- ======================== -->
+## Basic Instructions
+<!-- ======================== -->
+
+Start in order with every topic as they appear on the left panel. A bar on the left of each title will indicate that you have completed it. In addition to presenting explanations, code examples and code exercises, some sections may contain a quiz to test your understanding of the material. Completing a section means, having clicked through all the subsections, ran all the code exercises, or having answered all the questions.
+
+As you work through each section, press the `Continue` button at the botton of the screen after covering each subsection. New subsections will appear until you reach the end of the section. The tutorial will not block you if you skip the exercises and you can also click on the next section on the left panel at any time. It is in your best interest that you go through them all, however life can get busy or you may be just reviewing a specific item, so feel free to browse at your pace. Just be warned, the material will make more sense if covered in sequential order the first time.
+
+If you want to reset the state of your answers and the code  you've run on the exercises, erasing all of your previous history, press the `Start Over` option at the bottom left on the main panel. If you are following this material on a browser, reopening the page after having closed it will continue the previous session so you will maintain all of your answers up to the point where you last worked on it.
+
+Let's get started.
+
+<!-- ======================== -->
+## Learning outcomes
+<!-- ======================== -->
+
+<span style="color: red"> In my opinion, a participant will feel tired as soon as this session is started since this specific details. I suggest a higher level of conceptual learning objective. You can use them once you wrap up the contents at the end of session. This can be verbally since these tasks are shown in the table of contents when you develop contents. </span>
+
+This introduction to R syntax will allow you to become familiar with the following concepts:
+
+  * Using mathematical and logical operators
+  * Build complex expressions using operators
+  * How to get documentation about R at the command line
+  * How to create variables to store values
+  * How to call built-in R functions
+  * How to get a list of all predefined functions in a package
+  * What named and positional arguments are
+  * Variable assignment operators in R
+  * The most common data types in R
+  * The data structures used in R
+  * How to create vectors
+  * How to append elements to a vector
+  * How to subset a vector
+  * How to create factors, a special type of vector
+  * How to create a matrix
+  * How to work with a matrix
+  * How to create arrays
+  * How to create lists
+  * How to append to a list
+  * How to create a dataframe
+  * How to subset a dataframe
+  
+  
+R can be easily used to carry out accurate and expressive statistical analysis, complex data processing, classical statistical modelling, machine learning, distributed big data processing in clusters, data visualization, and many other tasks. 
+
+Your continued use and application of the language will strengthen your command of the syntax and of the multiple packages freely available.  This practice will make you a very productive R specialist.
+
+
+
+
+
+<!-- ======================== -->
+## R as a calculator
+<!-- ======================== -->
+
+<span style="color: red"> How many subsections? Is this "R as a caculator" section only one? </span>
+
+R has a console to interact with it. Let's use it as a calculator to add two numbers. 
+
+Here is an example of a line of code to add two plus two and the resulting output:
+
+```{r two-plus-two, echo=TRUE}
+2 + 2
+```
+
+Note the output, there is a [1] and the result of the calculation. We will address the meaning of the number between square brackets when discussing `Vectors`. For now pretend it tells you the position of the single answer provided: a `[1]` indicates that the number `4` is the first value in the answer.
+
+
+### Mathematical operators in R
+
+Please try running the following lines of code, each representing a different mathematical operation.   
+
+<span style="color: red"> Only four operators? There are many operators. Please provide more examples </span> 
+
+```{r operators-1, exercise=TRUE}
+450 - 100
+3 * 10
+35 / 7
+5^2 
+```
+
+Each result appears on its own line after running the code. This is the same behaviour you would see on a command line if you entererd the four lines of code. Go back and prove to yourself that white space between the numbers and the operators has no effect on the result.
+
+### Operator precedence
+
+<span style="color: red"> You also need to explain a logical operator to lead this section. Please provide more examples </span>
+
+Operators that act on a single value are _unary_ while those that receive two arguments are _binary_. The execution order of an expression containing several operators follows the rules of operator precedence. These rules determine the  priority of execution given to some operators over others. Let's look at an example:
+
+```{r op-precendence-A, exercise=TRUE, exercise.lines=2}
+# predict the result computed by R before pressing the Run Code button
+1 + 5 * 5
+```
+
+Did you predict the result correctly? For R, multiplication takes precendence over addition. 
+
+You can force the execution of addition over multiplication by use of parenthesis as illustrated below:
+
+```{r op-precendence-B, exercise=TRUE, exercise.lines=2}
+# predict the new result using parenthesis around the addition operator
+(1 + 5) * 5
+```
+
+To learn about the rules of precedence built into R you can use its help system. 
+Here is a list of all the unary and binary operators and their precedence order from highest to lowest from top to bottom and from left to right within groups:
+
+```{r op-precedence-2, results='asis'}
+library(knitr)
+kable(data.frame(operator_groups = c(":: :::",
+                               "$ @",
+                               "[ [[",
+                               "^",
+                               "- +",
+                               ":",
+                               "%any%",
+                               "* /",
+                               "+ -",
+                               "< > <= >= == !=",
+                               "!",
+                               "& &&",
+                               "| ||",
+                               "~",
+                               "-> ->>",
+                               "<- <<-",
+                               "=",
+                               "?"),
+description = c("access variables in a namespace",
+                "component / slot extraction",
+                "indexing",
+                "exponentiation (right to left)",
+                "unary minus and plus",
+                "sequence operator",
+                "special operators (including %% and %/%)",
+                "multiply, divide",
+                "(binary) add, subtract",
+                "ordering and comparison",
+                "negation",
+                "and",
+                "or",
+                "as in formulae",
+                "rightwards assignment",
+                "assignment (right to left)",
+                "assignment (right to left)",
+                "help (unary and binary)")))
+```
+
+<span style="color: red"> It seems to be a place where the explnataion of operator is over. Why don't you illustrate how a complex computation can be made here as an example or exercise? </span>
+
+
+You can get documentation like this from the R help at the comamnd line by typing `?Syntax` or `help("Syntax")`, a full set of help functions appears on the table below. 
+
+<span style="colore: red"> I cannot follow your logic why this help functionality is presented after talking about operators. This functionality is very useful in practice. I suggest you provide an actual example how they are utilized. </span>
+
+```{r help-commands, echo=FALSE, results='asis'}
+library(knitr)
+long_form <- c("help.start()", "help(\"funABC\")", "help.search(\"funABC\")", "example(\"funABC\")", "RSiteSearch()","apropos(\"funABC\", mode = \"function\")", "data()", "vignette()", "vignette(\"ABC\")") 
+short_form <- c("", "?funABC", "??funABC", "", "", "", "", "", "")
+description = c("General help system",
+                "Help on function \"funABC\" (quotations optional)",
+                "Searches help for string \"funABC\"",
+                "Finds examples for \"funABC\"",
+                "Opens a browser search for \"funABC\" on R online manuals and archived mailing lists",
+                "List of all avaliable functions with \"funABC\" in their name",
+                "List all data sets in loaded packages",
+                "List vignettes for currently installed packages",
+                "Displays content of vignette for package \"ABC\"")
+
+kable( data.frame(long_form, short_form, description, 
+                 stringsAsFactors = FALSE),
+       caption = 'Help commands explained [@KabacoffRobert2015Ria, p.11]')
+```
+
+### Storing values in variables
+
+
+It's a good idea to store results in variables so we can keep them around to use them in other expressions.
+
+```{r storing-values, exercise.lines=7, exercise=TRUE}
+# store a value
+a <- 10
+# store the result of an operation
+b <- a + 10
+# print the contents 'a' and 'b' one on separate lines
+a
+b
+```
+
+The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10 so when the second line is executed b is assigned he result of applying the operator `+` to the value `10` and the value of the variable `a`. As a result of all this `b` will be assigned the value `20`.
+
+### Built-in functions
+
+
+R offers predefined functions. These may take arguments and return computed values when executed. Some expressions may take a function with arguments and store the returned value for storage in a variable. Let's look at the result of running the following lines:
+
+```{r executing-function, exercise.lines=4, exercise=TRUE}
+# assign the result of the function call to the variable 'e'
+e <- exp(1)
+# print the contents of 'e' to the output
+e
+```
+
+The first line executes the expression on the right of the assignment operator, itself a function call to `exp()` with argument `1` and assignes the returned value to the variable `e`. The second line prints the value stored in `e` as `2.718282`.
+
+Try running the line 1 by itself below.
+
+```{r executing-function-oneline, exercise.lines=1, exercise=TRUE}
+e <- exp(1)
+```
+
+There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable `e`. The assignment operation leaves no trace on the output. Another way of saying this is _the assignment operator produces no side efects in the console_. Its only effect is to create a name-value pair, (e, 2.718282) in the global environment, so the value can be recalled later by its assigned name.
+
+*Note:* As it is usually the case in R, there is more than one way of getting things done. You can get a two-for-one effect by printing and doing assignment in a single expression on the console by surrounding the assignment with parenthesis. Try it!
+
+```{r two-for-one,  exercise = TRUE}
+# this accomplishes the assignment and prints the value of the variable in one line
+(e <- exp(1))
+```
+
+### Other built-in functions
+
+<span style="colore: red"> you can show more built-in functions which are not limited to only mathematics; thus, you can motivate the subsequent sections </span> 
+
+To compute logarithms, R offers the following predefined functions:
+
+```
+     log(x, base = exp(1))
+     logb(x, base = exp(1))
+     log10(x)
+     log2(x)
+     
+     log1p(x)
+```
+
+The most fundamental R builtin functions come bundled in the `base` package.
+To read about an R package use the function call `library(help = "base")` at the command line. Packages are loaded by issuing the function `libray("base")`  but the `base` package is loaded by default when an R session is started. Try it below.
+
+```{r functions-base-package, exercise=TRUE, exercise.lines=1}
+library(help = "base")
+```
+
+The language R provides a standard workflow to build packages that contain functions, variables, and data targeting a specific problem. Contributors write R packages and share them mainly via the CRAN repository. To find out what comes builtin with the `base` package we can call the 
+`builtins()` function to produce the list of `r length(builtins())` objects that are loaded in the base environment when you start R the first time.
+
+```{r number-functions-base-package, exercise=TRUE, exercise.lines=5}
+# get the number of objects loaded from the base R package
+length(builtins())
+# test if a object (a function) is part of the builtins in the base environment
+"exp" %in% builtins()
+```
+
+
+### The assignment operators and their uses
+
+<span style="colore: red"> Do you need need this level of details? Is your target audience a student who is studying mathematics or engineering? </span> 
+
+Experiment now to compute logarithms in base 10 and natural logarithms (base _e_). Try to answer the following: 
+
+ - What is the logarithm of 10 in base 10?
+ - What is the natural logarithm of _e_?
+ - What is the logarithm of 512 in base 2?
+ 
+Try using the two variables already predefined in the first two lines. Add as many lines of code as you need to experiment.
+
+```{r other-operators, exercise=TRUE, exercise.lines=12}
+a <- 10
+e = exp(1)
+
+print(paste0("a = ", a, "; e = ", round( x = e, digits = 4)))
+
+# logarithm of 10 in base 10
+
+# natural logarithm of e
+
+# binary logarithm of 512
+
+```
+
+```{r other-operators-hint}
+log10(a)
+log(e, base = e)
+```
+
+From the previous exercise you might have noticed that the operators `<-` and `=` behave identically in stand alone expressions. Technically speaking, their effect is to create name-value pairs for each variable, (_a_, 10) and (_e_, 2.7183), in the global environment.
+
+So, you might ask: why are there two aperators to do the same in R?
+Read on for the answer.
+
+### Function arguments: positional and named 
+
+<span style="colore: red"> You should spend more contents in this section. Please provide a motivational example why we need a function. </span> 
+
+R functions may be built-in or user created, they may also have none, one, or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`. Examine the code below and guess the output before running it, did you expect the result?
+
+```{r named-param-1, exercise = TRUE, exercise.lines=3}
+three <- log(1000, base = 10)
+# uncomment to check if bas exists after executing the line above
+# base
+```
+
+<!-- ```{r named-param-1, exercise = TRUE, exercise.lines=9}
+three <- log(1000, base = 10)
+ 
+# Does 'base' exist in the global environment after log gest valuated?
+# let's  check it out and print a nice message accordingly
+if (exists("base")) {
+  print(paste0("base exists outside of log, base = ", base)) 
+} else {
+   print("base does not exist outside of log")
+}
+```--->
+
+In the call to the function `log`, the first argument is positional, taking exactly the position number one. The second argument is named and may receive a value via the `=` operator if the function requires it during its execution.
+
+If the function is called without a second argument, and `base` is used for computation inside the function, the assignment operator will use the value resulting from evaluating the experession `exp(1)` and associate it with `base`. This is  how a default value for a named argument can be given. 
+
+If the user prefers to pass a different value from the default then the named argument can be given as in `log(10, base = 10)` or just  `log(10, 10)`. 
+
+```{r named-param-2, exercise = TRUE}
+# use the name for the second argument
+log(1000, base = 10)
+# use only a value for the second argument, still ok!
+log(1000, 10)
+```
+
+Now compare the flexibility of using the explicit name assignment.
+
+```{r named-param-3, exercise = TRUE}
+# the first argument is now a named argument so the second gets position one instead
+log(base = 10, 1000)
+# in absence of hints x = 10 (position one) and base = 1000 (named)
+log(10, 1000)
+```
+
+### More on variable assignment
+
+<span styel="color: red"> I think you are providing many options. A student will be confused. It will be good if you are stick with only core concepts since a student will learn options as they are getting experiences.  </span>
+
+We already saw how the `=` operator for a named argument does not affect the global environment where the function is created. Variable assignment is like creating a pair (variable-name, expression) that lives in a scope where it can be reached for further evaluation.
+
+We could use the `<-` operator for the named argument, the expression `log(x, base <- exp(1))` would assign the expression `exp(1)` to the local variable `base`. However, before that gets done, the name-expression pair gets created in the global environment. That implies that there will be a global variable `base` with the value of evaluating `exp(1)` outside of the function `log` after exiting `log`. Let's test that. 
+
+```{r named-param-4, exercise = TRUE}
+base = 100
+log(1000, base = 10)
+# Does 'base' exist in the global environment after log gest evaluated?
+base
+```
+
+<!-- ```{r named-param-4, exercise = TRUE}
+log(1000, base <- 10)
+# Does 'base' exist in the global environment after log gest evaluated?
+if (exists("base")) {
+  print(paste0("base exists outside of log, base = ", base)) 
+} else {
+  print("base does not exist outside of log")
+}
+``` -->
+
+
+If we use the global assignment operator `<-` in the first position it might have an unexpected result compared to using the local assignemnt operator `=`.  Check for yourself with the code below.
+
+```{r named-param-5, exercise = TRUE}
+log(base <- 10, 1000)
+# try now using the local assignment = for the named parameter
+log(base = 10, 1000)
+```
+
+Did you get the same result of using `log(base = 10, 1000)`? That is almost true, the difference is that now there is a variable assignment represented by the pair `(base, 10)` that outlives the call to `log`.
+
+In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. On the next section there are a few exercises to solidifiy these concepts.
+
+
+<!-- ======================== -->
+## Test your understanding
+<!-- ======================== -->
+
+
+<span style="colore: red">  This needs to be a subsection.  </span>
+
+```{r quiz-1-a, echo=FALSE, cache=FALSE}
+quiz(
+  question("Consider the expression: 
+  
+            a <- 1 + log10(10)
+  
+  What is the result of executing the line above in the R console?",
+    answer("the value 2 gets assigned to _a_ and printed to the console", message = "the operaror _assignment_ has no side effects so nothing should be printed to the console"),
+    answer("error, _log10_ of 10 is undefined", message = "That's not quite right, check your the definition of a logarithm and try again"),
+    answer("nothing gets printed", correct = TRUE, message = "The operator _assignment_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
+    answer("the value of _a_ gets printed", message = "The operator _assignment_ has no other effect than to associate a value with a variable name"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("What is the result of executing
+           
+           10 - 6 / 2 ?",
+    answer("2", message = "division has precedence over subtraction"),
+    answer("7", correct = TRUE, message = "division has higher precedence than subtraction"),
+    answer("8", message = "Good try, redo the calculation"),
+    answer("-4"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE    
+  ))
+```
+
+
+```{r quiz-1-c, echo=FALSE, cache=FALSE}
+quiz(
+  question("What is the value of b after executing the following R code?
+  
+          a <- 5
+  
+          b <- a * (34 - 22) / 1 + 1",
+  answer("12"),
+  answer("30"),
+  answer("61", correct = TRUE),
+  answer("149"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE,
+  try_again = "Check the operator precedence table and try again."
+))
+```
+
+## Data Representation in R
+
+<span style="colore: red"> Pleaes provide a motivational example </span> 
+
+
+Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. These objects adopt the form of data structures to hold values that have data types. We will cover these definitions and woork with them in this section.
+
+### Data Types
+
+The fundamental values that R can represent and manipulate int he computer memory are:
+
+  - integer
+  - double (also called numeric)
+  - character
+  - logical
+  
+There are two less commonly used: _complex_ and _raw_ that we will leave for another time.
+
+### Data Structures
+
+There are two types of data structures according to what data types they can store: homogeneous and heterogeneous. They can also be categorized according to the dimensions they can store: 1d, 2d or nd. This produces the following double entry table. 
+
+```{r data structures, echo=FALSE, results='asis'}
+Homogeneous <- c("Atomic vector", "Matrix", "Array")
+Heterogeneous <- c("List", "Data frame", "")
+
+kable( data.frame(Homogeneous, Heterogeneous, 
+                 row.names = c("1d", "2d", "nd"), 
+                 stringsAsFactors = FALSE),
+       caption = 'Native data structures in R according to the data type they can store and the number of dimensions they use [@WickhamHadley2015AR, p.13].')
+```
+
+### Vectors
+
+The table we just saw should be read as follows: all one-dimensional data structures that contain objects of the same type are vectors, as in they are stored in contiguous memory. A vector of six integer values would be represented graphically as:
+
+```{r vector, echo=FALSE, results='asis'}
+knitr::include_graphics("images/vector.png", dpi = 86)
+```
+
+And as code:
+```{r vector-construction, echo=TRUE}
+c(5, -1, 3, 0, -4, 1)
+```
+
+A vector is constructed with the function `c()` that takes a variable number of arguments. Once a vector has been constructed and assigned to a variable `x` its elements can be extracted with the subsetting operator `[]` like `x[1]` to subset the vector so it returns a vector with the first  element only.
+
+Try to answer the questions with your code.
+
+```{r vector-example, exercise = TRUE, exercise.lines=10}
+x <- c(5, -1, 3, 0, -4, 1)
+
+# extract the third element of x
+
+# subtract the first element from the last and print the result
+
+# compute the length of x
+
+# compute the difference between the last and first elements using the length
+
+```
+
+```{r vector-example-hint, echo=TRUE}
+x[3]
+x[6] - x[1]
+length(x)
+x[length(x)] - x[1]
+```
+
+### Constructing vectors
+
+<span style="color: red"> Sections related to operating vectors, including this section, are very useful. It should be the core part of this lecture. Please spend more time on this section </span>
+
+Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. When we can or need to use patterns  to create them the functions `rep()` and `seq()` can be pretty helpful. Study the output of these functions.
+
+```{r seq-rep, echo=TRUE}
+rep(-1, times = 10)
+seq(1, 100, by = 5)
+```
+
+`rep` and `seq` can be combined to composed colorful patterns.
+
+```{r rep-seq-mix, exercise=TRUE}
+# repeat the sequence of digits twice
+rep(seq(1,9), times = 2)
+# repeat the sequence of digits two at a time
+rep(seq(1:9), each = 2)
+```
+
+Remember a vector *must* have elements of the same homogeneous type.
+So this is a valid vector of doubles:
+
+```{r vector-of-doubles, echo = TRUE}
+c(2.3, -0.54, 1.01, 10.8)
+```
+
+And this one contains character strings:
+
+```{r  vector-characters, echo = TRUE}
+c("Hello", "world", "in", "R!")
+```
+
+And finally here is a vector of logical symbols:
+
+```{r vector-logicals, echo = TRUE}
+c(TRUE, T, 1, FALSE, F, 0)
+```
+
+As you might have guessed, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. In R, like in other languages, you can add logical values as if they were zeros and ones.
+
+```{r logical-sum, exercise= TRUE}
+is_a_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), times = 7)
+# how many TRUE values are there in is_a_positive?
+```
+
+```{r logical-sum-hint}
+sum(is_a_positive)
+```
+
+
+The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
+
+```{r short-version-of-seq, echo=TRUE}
+1:50
+```
+
+*Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefor the second line of output begins with the 26th element of the vector, which happens to be the number 26 in the sequence.
+
+### Subsetting vectors
+
+Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
+
+```{r subsetting-a-vector, echo=TRUE}
+x <- c(5, -1, 3, 0, -4, 1)
+# subset the range of elements from the third to the fifth one
+x[3:5]
+```
+There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the index is in the reverse order (starting from the tail instead of from the head).
+
+```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=9}
+x <- c(5, -1, 3, 0, -4, 1)
+# subset all but last element of the vector 'x'
+
+# extract the last element
+
+# create a vector of logicals
+mask <- x>2
+# subset (filter)
+x[mask]
+```
+
+
+```{r subset-from-a-point-to-the-end-hint}
+x[-1]
+x[length(x)]
+```
+
+
+### Vectors within vectors
+
+When a vector is created within another vector they are not nested, but rather they are concatenated in a linear fashion.
+
+```{r concatenated-vectors, exercise=T}
+y <- 1:3
+# try nesting y within a new vector and see what happens
+c(0, y, 4)
+```
+
+### Appending elements to a vector
+
+You cannot make nested structures with vectors. Incidentally this property becomes your way of appending elements to either end of a vector as we just did to the vector `y` above. However using the function `append` does a cleaner job because it keeps the original attributes of the vector like names, if there were  any. Try it below.
+
+
+```{r append-to-vector-with-names, exercise=T}
+y <- letters[1:5]
+names(y) <- c("c1","c2", "c3","c4","c5")
+y
+```
+
+```{r append-to-vector-with-names-setup}
+y <- letters[1:5]
+names(y) <- c("c1","c2", "c3","c4","c5")
+```
+
+```{r append-to-vector-with-names-extended, exercise=T, exercise.setup="append-to-vector-with-names-setup"}
+# now add ther sixth letter of the ascii character set
+y_extended <- append(y, letters[6])
+# check the new vector, are the first five names preserved?
+y_extended
+```
+
+Append the 24th lower case letter of the  ascii character set to the beginning of the following vector, what do you read?
+
+
+```{r append-z-to-head, exercise=TRUE, exercise.lines=5}
+y <- letters[c(15, 24, 15)]
+# append the 24th letter to the head of 'y'
+
+# don't modify the following line
+paste0(y, collapse = "")
+```
+
+```{r append-z-to-head-hint}
+y <-  append(letters[24], y)
+```
+
+### An eye-opener to type cohersion in R
+
+We can aske vectors to tell us the type of values they carry with the function `typeof`. We can also ask if they have a specific type of value. Run this code and figure out what the vector of answers mean.
+
+```{r type-numeric-vector, exercise=TRUE}
+v_dbl <- c(0, 1, 3)
+c(is.integer(v_dbl), is.numeric(v_dbl), is.double(v_dbl))
+typeof(v_dbl)
+```
+
+Can you explain why both `is.numeric` and `is.double` are `TRUE`. Woild a plain `integer` type be numeric?
+Read on to answer that question.
+
+The characters that represent integers are automatically interpreted as doubles or numeric, the more general concept. In order to enforce their interpretation as integers (in case it is absolutely necessary) use `L` as a suffix on each number. Run the following and compare the results:
+
+```{r type-int-vetor, exercise=TRUE}
+v_int <- c(0L, 1L, 3L)
+c(is.integer(v_int), is.numeric(v_int), is.double(v_int))
+typeof(v_int)
+```
+
+In general R will try to coherce the elements of a vector to the most general type possible, usually _character_.
+
+
+### Vector attributes
+
+Vectors can also be interrogated for their class and their attributes.
+
+```{r vectors-class, echo=TRUE}
+# a vector of four truth values
+v <- c(T, T, F, T)
+# the same as typeof for this object
+class(v)
+# are there any attributes?
+attributes(v)
+```
+
+Now let's create the vector with names. The names become an attribute of the vector object. Pay close attention to the results of running this code.
+
+```{r vectors-names, echo=TRUE}
+# a vector of four truth value for four logical propositions
+v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
+# check the attributes of the object
+attributes(v)
+```
+
+There are three default attributes of a vector: names, class, and dimension. Each can be accessed via a specific function. Dimnesion has the `NULL` value by default for vectors, it will be different for matrices and arrays though.
+
+```{r vector-attributes-by-accessor, echo=TRUE}
+v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
+names(v)
+class(v)
+dim(v)
+```
+
+Names can be changed in place with the assignment operator. Run this code and compare the two vectors of names from `v` after creation and after the reassignment.
+
+```{r assigning-vector-names, exercise=TRUE}
+v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
+# check the original names
+names(v)
+# reassigned names
+names(v) <- c("val1", "val2", "val3", "val4")
+# new names
+names(v)
+# finally check the names of the vector with the summ of all the values
+names(sum(v))
+```
+
+### Factors (More Advanced)
+
+<span style="color: red"> Factor is not an advanced content. It is very useful and fundamental concept in data analysis. Please provide a motivational example.  </span>
+
+These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a playlist may be described by:
+
+```{r music-sample-genres, echo=TRUE}
+# The genres on an eclectic play list 
+music_sample <- c("Indie", "Electronic", "Country")
+class(music_sample)
+```
+
+Now, what if we created a new type of vector that could only be populated with these genres, assuming that these are the only ones we will ever listen to.
+
+```{r music-sample-genres-setup, echo=TRUE}
+# The genres on an eclectic play list 
+music_sample <- c("Indie", "Electronic", "Country")
+```
+
+
+```{r music-sample-genres-as-factors, exercise.setup="music-sample-genres-setup", echo=T}
+music_sample_2 <- factor(music_sample)
+class(music_sample_2)
+```
+
+
+Check out the levels available to populate the play list:
+
+```{r music-sample-genres-as-factors-setup}
+music_sample_2 <- factor(c("Indie", "Electronic", "Country"))
+```
+
+Adding a new element has to be done on the levels, the underlying vector.
+
+```{r music-sample-genres-levels, exercise=T, exercise.setup="music-sample-genres-as-factors-setup", exercise.lines=4}
+levels(music_sample_2)
+# add a new entry 
+music_sample_3 <- append(levels(music_sample_2), "Indie")
+music_sample_3
+```
+
+Why is this important? Let's see an example of how to tally the number of elements in each category of a factor vector.
+
+```{r tally-factor, exercise=T}
+# build the factors for your play list, remember the convenient 'rep' function?
+genres <- factor(c(rep("Indie", times = 5), 
+                rep("Electronic", times = 9), 
+                rep("Country", times = 27)))
+# whoa, do I sense a certain trend here? let's check with R
+table(genres)
+```
+
+If you need to add a new level to the factor vector then there is a form of level assignment to do it, using simple vector linear concatenation with the `c()` function, remember 'nesting vectors'?:
+
+```{r adding-level-to-factor, echo=T}
+music_sample_genres <- factor(c("Country", "Indie", "Electronic", "Indie", "Country"))
+# add a new level for newly discovered musical genre "Classical":
+levels(music_sample_genres) <- c(levels(music_sample_genres), "Classical")
+# now add a few entries, here we only add their genres
+music_sample_genres <- append(levels(music_sample_genres), c("Classical", "Indie", "Indie"))
+# see the tally
+table(music_sample_genres)
+```
+
+
+### Matrices
+
+Just like vectors are one-dimensional data structures that contain objects of the same type, matrices are their two-dimensional equivalents. A matrix of six integer values would be represented graphically as:
+
+
+```{r matrix, echo=FALSE, results='asis'}
+knitr::include_graphics("images/matrix.png", dpi = 106)
+```
+
+And as code:
+```{r matrix-construction, exercise=T, exercise.lines=1}
+matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+```
+
+A matrix is constructed with the function `matrix()` that takes vector with a variable number of arguments and a number of other parameters that inform the function how to construct the matrix from the vector. R by default populates the matrix _column-wise_, thus the argument `byrow = T` efectively instructs to fill in the matrix _row-wise_.
+
+Try to answer the questions with your code.
+
+```{r matrix-example, exercise = TRUE, exercise.lines=10}
+x <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+
+# extract the element on the first row and thrid column of x
+
+# subtract the first element from the frist row from the first element of the second row
+
+# find the dimensions of x
+
+# display the contents of x
+```
+
+```{r matrix-example-hint}
+x[1,3]
+x[1,1] - x[1,2]
+dim(x)
+x
+```
+
+If the argument `T` had not been given to the named parameter `byrow` above R would have constructed the matrix on a column first order. Verify this for yourself:
+
+```{r matrix-example-bycolumn, exercise = TRUE, exercise.lines=10}
+y <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2)
+# extract the element on the first row and thrid column of x
+y[1,3]
+# subtract the first element from the frist row from the first element of the second row
+y[1,1] - y[1,2]
+# find the dimensions of x
+dim(y)
+# output the contents of y
+
+```
+
+As a task, find out how to name rows and columns in a matrix.
+
+### Useful matrix functions
+
+There are very useful functions to deal with matrices. Let's just mention a few here. 
+
+```{r sum-rows-cols-matrix, exercise=TRUE}
+m <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+# add each row
+rowSums(m)
+# add each column
+colSums(m)
+```
+
+Append a new row or column to the matrix.
+
+```{r matrix-m}
+m <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+```
+
+```{r add-row-to-matrix, exercise=TRUE, exercise.setup="matrix-m"}
+# append a  row with the number 6 to matrix 'm' from the previous exercise
+rbind(m, c(6,6,6))
+# append the new row at the top instead
+rbind(c(6,6,6), m)
+```
+
+```{r add-column-to-matrix, exercise=TRUE, exercise.setup="matrix-m"}
+# append a column with the number 6 to matrix 'm' from the previous exercise
+cbind(m, c(6,6))
+# append the new column at the beginning instead
+cbind(c(6,6), m)
+```
+
+
+
+### Arrays
+
+Arrays are the natural extension of vector and matrices to n-dimensions. 
+```{r array, echo=FALSE, results='asis'}
+knitr::include_graphics("images/array.png", dpi = 86)
+```
+
+The image illustrates a three-dimensional array with rows, columns, and frames. These data structures are very useful for tensor analysis and in particular for deep learning.
+
+```{r arrray-creation, echo=T}
+array(1:18, dim = c(2, 3, 3))
+```
+
+Here we  created a tensor of 2 rows by 3 columns by 3 frames with the numbers 1 to 18. Study the output to verify this.
+
+Let's leave this data structure for deep learning practice and move on now.
+
+
+### Lists
+
+Lists are one-dimensional data structures that can store information of heterogenious type. R's well-known linear model object, with constructor `lm()`, is a list. Let's creat a list  with the general constructor.
+
+Here is a graphical representation of a list with three components.
+
+```{r list, echo=FALSE, results='asis'}
+knitr::include_graphics("images/list.png", dpi = 126)
+```
+
+And here is your turn to create it in R code. Try to complete the exercise before looking at the hint.
+
+```{r list-constructor, exercise=TRUE, exercise.lines=7}
+l <- list(some_strings = c("hello", "world"), 
+          some_numbers = 10:15, 
+          some_booleans = c(T,T,T,F))
+# check the names
+
+# extract the first element of the list
+```
+
+```{r list-constructor-hint}
+attributes(l)
+names(l)
+l[[1]]
+```
+
+### Lists can be nested
+
+Try the following simple code to make sure you grasp the concept. This will become very important to do amazing data analysis later. Lists are very versatile that way.
+
+Would would have thought that R would come in handy for that party you are planning for friends and family. The list of items for the party can be nested within the list of party items, how convenient! 
+
+```{r list-nesting, exercise=TRUE, exercise.lines=15}
+# get organized for that party you are throwing for friends and family
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items)
+
+# extract the party items and display the drinks to buy
+
+```
+
+```{r list-nesting-hint}
+to_do_list[[3]][[1]]
+# equivalent but using the dollar operator
+to_do_list[[3]]$drinks
+```
+
+Another way to reference list elemenst by name uses the $ operator.
+
+```{r list-dollar}
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items)
+```
+
+Check out the use of the `$` operator to extract the elemenst by name and printing the drinks for the party. 
+
+```{r list-dollar-show, exercise=TRUE, exercise.setup="list-dollar" }
+to_buy <- to_do_list$items
+to_buy$drinks
+```
+
+## Test your knowledge
+
+<span styel="color: red"> this should be a subsection </span>
+
+```{r quiz-2-a, echo=FALSE, cache=FALSE}
+quiz(
+  question("Given the following vector:
+    
+    v <- c('Anne', 'Simon', 'Alice', 'Carl', 'Tom')      
+    
+How would one obtain the last two names for any length of 'v'?",
+    answer("v[c(length(v)-1,length(v))]", correct = TRUE, message = "This answer works for any length of 'v' indeed."),
+    answer("v[-1:-3]", message = "This actually works by excluding the first three names, however it is not general for any length of 'v'."),
+    answer("v[-2]", message = "In R this returns all but the second before last element."),
+    answer("v[c('Carl', 'Tom')]", message = "Use a vector of indices or booleans to subset a vector."),
+  answer("v[-c(1,2,3)]", message = "Selecting the first three names and then removing them leaves the last two, however this answer does not generalizes to any length of 'v'"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Construct a vector of doubles from 80 to 20 by decrements of 10",
+    answer("c(80, 70, 60, 50, 40, 30)", message = "Missing the last value."),
+    answer("seq(80, 20, by = -10)", correct = TRUE, message = "Well done!"),
+    answer("seq(20, 80, by=10)", message = "Not quite, the specification is descending order for the elements of the vector"),
+    answer("seq(20, 80, by=-10)", message = "This one would generate an error because the sign of the increment contradicts the direction of the 'to' and 'from' arguments."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+  ),
+  question("Select all applicable answers that construct a vector of characters",
+           answer("c(1,2,'c')", correct = T, message = "The last option you ticked is also correct. "),
+           answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coherced into numeric, the most general type."),
+           answer("c(1, c(2L, 4L))", correct = F, message = "Did  you select an answer that has only numeric elements? Remember integers are a subset of numeric."),
+           answer("c(\"hi\", 'there', 'c')", correct = T, message = "Well done!"),
+           type = "multiple",
+           allow_retry = TRUE,
+           random_answer_order = TRUE)
+)
+```
+
+
+## Dataframes
+
+<span style="color: red"> Please provide a motivational example </span>
+
+If you have followed the data structure section then this section should be relatively easy. Like a list, data frames store information of heterogenous type, however there are some rules.
+
+  - Two dimensional only, like a table.
+  - Any number of rows or columns
+  - The columns have to be of the same type
+
+
+Follow these rules and dataframes are an almost ideal data structure to manipulate data for data analysis. There are other more suitable data structures for long term data storage of multidimensional nature but R does not deal with that problem, a data base might be more suitable for this or specilaized data wearehousing applications.
+
+Dataframes are similar to tables of a sophisticated relational data base, where you can store procedures and even other tables in the cells.
+
+Under the hood a data frame is implemented as a list of vectors of the same length.
+
+
+```{r dataframe, echo=FALSE, results='asis', dpi=76}
+knitr::include_graphics("images/dataframe.png")
+```
+
+Let's create this data frame using code using the constructor function `data.frame`.
+
+```{r dataframe-constructor, exercise=T}
+# for better documentation name the vectors
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+# the dot in names means nothing special in R, see note below for explanation
+df <- data.frame(country,
+                 population,
+                 census2019)
+# Display the data frame
+df
+```
+
+*Note:* In R the dot for names has no special meaning, it is like `_`. The dot for formulas and in generic object dispatch has special meaning, bit those are topics for later.
+
+If any of the vectors has a different length there will be error messages, R will not be happy about it. Try it for yourself in the previous exercise.
+
+### Subsetting a dataframe
+
+Similarly to subsetting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention. 
+
+```{r slice-n-dice-df-setup}
+# for better documentation name the vectors
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+```
+
+```{r slice-n-dice-df, exercise=T, exercise.setup="slice-n-dice-df-setup", exercise.lines=4}
+# get the country names
+df$country
+```
+
+Let's  extract all the information for Canada. 
+
+```{r subset-df-by-row-setup}
+# for better documentation name the vectors
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+```
+
+```{r subset-df-by-row, exercise=T, exercise.setup="subset-df-by-row-setup", exercise.lines=4}
+df[df$country == "Canada",]
+```
+
+We can extract the countries with population greater than 80 million.
+
+```{r subset-df-by-multiple-rows, exercise=T, exercise.setup="subset-df-by-row-setup,", exercise.lines=4}
+# extract only the names of the counties  in the rows filtered
+df[df$population > 80, 'country']
+# display all the columns for the rows filtered
+df[df$population > 80,]
+```
+
+This way of subsetting a dataframe uses what is called a **_logical mask_**. This is nothing more than a boolean vector used for subsetting into another vector (recall that the columns of a dataframe are vectors). This is similar to what we have studied before. 
+
+This image helps explain it.
+
+```{r dataframe-row-filter, echo=FALSE, results='asis', fig.height=1}
+knitr::include_graphics("images/dataframe-row-filter.png", dpi = 126)
+```
+
+And here is a step by step description:
+
+```{r explain-logical-mask-1, exercise.setup="subset-df-by-row-setup", echo=T}
+# build the logical mask with a vector of logical values
+filter <- df$population > 80
+filter
+```
+Now subset the dataframe by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the dataframe pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
+
+```{r explain-logical-mask-setup, echo = F}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+filter <- df$population > 80
+```
+
+
+```{r explain-logical-mask-2, exercise.setup="explain-logical-mask-setup", echo=T}
+# apply the same filter to every column of the data frame by
+result <- df[filter,]
+result
+```
+
+Now only show the column for country and wheather the data is from the 2019 census:
+
+```{r explain-logical-mask-3-setup, echo = F}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+census2019 <- c(T,T,T,T,F,T)
+df <- data.frame(country, population, census2019, stringsAsFactors = T)
+filter <- df$population > 80
+result <- df[filter,]
+```
+
+
+```{r explain-logical-mask-3, exercise.setup="explain-logical-mask-3-setup", echo=T}
+# apply the filter to all the vectors of the data frame
+result[c("country", "population")]
+```
+
+
+### Factors or strings
+
+Did you notice that in the previous section we got the countries as a vector of factors with 6 levels. Remember that section on factors when we studied vectors? Well here we go again. 
+
+When you construct a dataframe from vectors their class will be interpreted by the constructor. R will try to coerce all the elements of the vector to the most general data type to be able to work with them. An ordering of types from more general to less `character` > `integer` > `numeric` > `complex` > `logical`. 
+
+You can give R hints, though, for instance you can tell it to interpret the strings in vectors as factors or not, base R will do it by default.
+
+```{r example-dataframe-strings-as-factors, echo=T}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+# strings as factors is the default
+country_stats <- data.frame( country,
+                             population)
+# the function 'str()' shows us the structure of the object
+str(country_stats)
+```
+The R constructor for dataframes interpreted the strings as 6 factors. Perhaps not what you expected, compare with this case.
+
+```{r example-dataframe-strings-as-is-setup}
+country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
+population <- c(37, 331, 67, 83, 60, 39)
+```
+
+
+```{r example-dataframe-strings-as-is, exercise.setup="example-dataframe-strings-as-is-setup", echo=T}
+country_stats <- data.frame( country, population, stringsAsFactors = FALSE)
+str(country_stats)
+```
+
+
+
+
+
+## User functions
+
+<span style="color: red"> please provide a motivational example </span>
+
+If you start writing a lot of R code, sooner or later you will find the need to reuse the same functionality over and over. Functions help you package that functionality in a single scope and reuse it in a convenient form.
+
+A user function behaves like a built-in function, although their scopes (the environments where they live) are different.
+
+The values that the function receives are called parameters in the definition of the function. The values actually passed to the function  when called are called arguments.
+
+In R the body of a function is written between curly braces and the last statement is the returned value.
+
+Now write a function that adds any two numbers and then call it.
+
+```{r add-function, exercise=TRUE, exercise.lines = 5}
+add2numbers <- function(a, b) {
+  
+}
+```
+
+```{r add-function-hint}
+add2numbers <- function(a, b) {
+  return(a + b)
+}
+```
+
+## References
+
