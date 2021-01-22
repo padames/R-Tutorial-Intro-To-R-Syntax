@@ -191,7 +191,9 @@ The `<-` binary operator indicates assignment. The value on the right is assigne
 
 ### Built-in functions
 
-R offers predefined functions. These may take arguments and return computed values when executed. Some expressions may take a function with arguments and store the returned value for storage in a variable. Let's look at the result of running the following lines:
+R offers predefined functions. When you use an R package you also use functions to get many complex tasks done with ease. It is important to familiarize yourself with their syntax. This requires that we start simple and build up the concepts gradually. The goal is to learn how to pass information to them and how to obtain results in two forms: as direct returned objects or as side effects. A side effect would be something like a file being written to the local disk or to a file service in the cloud.
+
+Functions in general may take arguments and return computed values when executed. Some expressions may be made up of a function with its arguments and the assignment operator to store the returned value in a variable. Let's look at the result of running the following lines:
 
 ```{r executing-function, exercise.lines=4, exercise=TRUE}
 # assign the result of the function call to the variable 'e'
