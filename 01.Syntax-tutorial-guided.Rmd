@@ -9,6 +9,7 @@ output:
     highlight: pygments
     toc: yes
     toc_depth: 2
+    code_folding: hide
 runtime: shiny_prerendered
 bibliography: bib.bib
 description: "Basic R Syntax and data structures"
@@ -100,11 +101,13 @@ Please try running the following lines of code, each representing a different ma
 5^2 
 ```
 
-Each result appears on its own line after running the code. This is the same behaviour you would see on a command line if you entererd the four lines of code. Go back and prove to yourself that white space between the numbers and the operators has no effect on the result.
+Each result appears on its own line after running the code. This is the same behaviour you would see on a command line if you entered the four lines of code. Go back and prove to yourself that white space between the numbers and the operators has no effect on the result.
 
 ### Relational operators
 
-These operators are used to establish comparisons between values. Examples are the equal `==`, less than `<`, greater than `>`, and not equal operators `!=`.
+These operators have R compute numerical equality or inequality between objects. Don't get intimidated by the word objects: in R everything is an object, although some appear to be just numeric values. 
+
+The basic relational operators compute equality or the lack of it:  "is equal" `==`, "is not equal"; and inequality in either direction with "is less than" `<` and "is greater than" `>`. 
 
 ```{r relational-operators, exercise = TRUE}
 18 == 3 * 6
@@ -113,7 +116,7 @@ These operators are used to establish comparisons between values. Examples are t
 9 != 3 * 3
 ```
 
-What about text comparisons?
+What about text comparisons? Text is written between double quotes, it contain letters, numbers, white space, and other special characters like punctuation. Execute the following lines of code.
 
 ```{r relational-operators-with-text, exercise=TRUE}
 "Calgary Flames" == "Edmonton Oilers"
@@ -128,6 +131,74 @@ For example `"d" < "b"` for line 3 to produce `TRUE`.
 
 <!-- roundoff error using the equality operator deferred for later when we have covered functions --> 
 
+### Logical operators
+
+These operators are used to combine the results of two or more relational operators into a single result. Here is the AND operator `&`:
+
+```{r logical-AND-exercise, exercise=TRUE, collapse=TRUE}
+5 > 3 & 5 < 8
+5 > 3 & 5 != 5
+5 < 4 & 5 > 1
+5 < 4 & 5 > 7
+```
+Can you make a table with the truth values of the relational operators before they were combined with the logical operator AND?
+
+```{r logical-table-AND, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
+library(knitr)
+and = c("&", "&", "&", "&")
+equals = c("=", "=", "=" , "=")
+relation1 <- c("5 > 3", "5 > 3", "5 < 4", "5 < 4") 
+value1 <- c(paste0("(", 5 > 3, ")"), 
+            paste0("(", 5 > 3, ")"),
+            paste0("(", 5 < 4, ")"),
+            paste0("(", 5 < 4, ")"))
+relation2 <- c("5 < 8", "5 != 5", "5 > 1", "5 > 7")
+value2 <- c(paste0("(", 5 < 8, ")"),
+            paste0("(", 5 != 5, ")"),
+            paste0("(", 5 > 1, ")"),
+            paste0("(", 5 > 7, ")"))
+result = c(5 > 3 & 5 < 8,
+           5 > 3 & 5 != 5, 
+           5 < 4 & 5 > 1, 
+           5 < 4 & 5 > 7)
+
+kable( data.frame(relation1, value1, and, relation2, value2, equals, result, 
+                 stringsAsFactors = FALSE),
+       col.names = c("rel1", "(value)", "", "rel2", "(value)", "", "result"),
+       align = 'rlcrlcl',
+       caption = 'Truth table for AND')
+```
+
+
+For the OR operator the table would look as follows:
+
+```{r logical-table-OR, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
+library(knitr)
+and = c("|", "|", "|", "|")
+equals = c("=", "=", "=" , "=")
+relation1 <- c("5 > 3", "5 > 3", "5 < 4", "5 < 4") 
+value1 <- c(paste0("(", 5 > 3, ")"), 
+            paste0("(", 5 > 3, ")"),
+            paste0("(", 5 < 4, ")"),
+            paste0("(", 5 < 4, ")"))
+relation2 <- c("5 < 8", "5 != 5", "5 > 1", "5 > 7")
+value2 <- c(paste0("(", 5 < 8, ")"),
+            paste0("(", 5 != 5, ")"),
+            paste0("(", 5 > 1, ")"),
+            paste0("(", 5 > 7, ")"))
+result = c(5 > 3 | 5 < 8,
+           5 > 3 | 5 != 5, 
+           5 < 4 | 5 > 1, 
+           5 < 4 | 5 > 7)
+
+kable( data.frame(relation1, value1, and, relation2, value2, equals, result, 
+                 stringsAsFactors = FALSE),
+       col.names = c("rel1", "(value)", "", "rel2", "(value)", "", "result"),
+       align = 'rlcrlcl',
+       caption = 'Truth table for OR')
+```
 
 
 ### Operator precedence
@@ -212,9 +283,12 @@ kable( data.frame(long_form, short_form, description,
        caption = 'Help commands explained [@KabacoffRobert2015Ria, p.11]')
 ```
 
-### Storing values in variables
 
-It's a good idea to store results in variables so we can keep them around to use them in other expressions.
+
+
+## Variables
+
+Just like in mathematics and statistics, the concept of variables is that of a placeholder for values. In R or any other programming language it is a good idea to store results in variables so we can keep them around to use them in other expressions. Here is an exercise to declare and assign values to variables.
 
 ```{r storing-values, exercise.lines=7, exercise=TRUE}
 # store a value
