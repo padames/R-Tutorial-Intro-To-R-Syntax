@@ -7,6 +7,8 @@ output:
     progressive: true
     allow_skip: true
     highlight: pygments
+    toc: yes
+    toc_depth: 2
 runtime: shiny_prerendered
 bibliography: bib.bib
 description: "Basic R Syntax and data structures"
@@ -40,8 +42,9 @@ Let's get started.
 
 This introduction to R syntax will allow you to become familiar with the following concepts:
 
-  * Using mathematical and logical operators
-  * Build complex expressions using operators
+  * How R can be used as a calculator
+  * What mathematical operators are
+  * How to build complex expressions using operators
   * How to get documentation about R at the command line
   * How to create variables to store values
   * How to call built-in R functions
