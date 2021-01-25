@@ -104,7 +104,30 @@ Each result appears on its own line after running the code. This is the same beh
 
 ### Relational operators
 
-These are operators that are used to establish comparisons between values. Examples are the equal `==`, less than `<`, greater than `>`, and not equal operators `!=`.
+These operators are used to establish comparisons between values. Examples are the equal `==`, less than `<`, greater than `>`, and not equal operators `!=`.
+
+```{r relational-operators, exercise = TRUE}
+18 == 3 * 6
+6 < 10
+12 > 5
+9 != 3 * 3
+```
+
+What about text comparisons?
+
+```{r relational-operators-with-text, exercise=TRUE}
+"Calgary Flames" == "Edmonton Oilers"
+"Susan" > "Anne"
+"a" < "b"
+"Airport" != "Bus station"
+```
+The previous comparisons work because R uses the ASCII values of the characters on the text to compute numbers. The `a` comes before the `b` so its value is lower and thus the result observed above.
+
+Can you go back and transform the arguments, not the operators, in the code above to reverse the results?
+For example `"d" < "b"` for line 3 to produce `TRUE`.
+
+<!-- roundoff error using the equality operator deferred for later when we have covered functions --> 
+
 
 
 ### Operator precedence
