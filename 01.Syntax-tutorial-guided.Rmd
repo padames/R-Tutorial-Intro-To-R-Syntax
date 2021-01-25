@@ -44,9 +44,9 @@ Let's get started.
 This introduction to R syntax will allow you to become familiar with the following concepts:
 
   * How R can be used as a calculator
-  * What mathematical operators are
-  * How to build complex expressions using operators
-  * How to get documentation about R at the command line
+    - What mathematical operators are
+    - How to build complex expressions using operators
+    - How to get documentation about R at the command line
   * How to create variables to store values
   * How to call built-in R functions
   * How to get a list of all predefined functions in a package
@@ -76,7 +76,7 @@ Your continued use and application of the language will strengthen your command 
 
 
 <!-- ======================== -->
-## R as a calculator
+## Operators -- R as a calculator
 <!-- ======================== -->
 
 R has a console to interact with it. Let's use it as a calculator to add two numbers. 
@@ -210,7 +210,7 @@ Operators that act on a single value are _unary_ while those that receive two ar
 1 + 5 * 5
 ```
 
-Did you predict the result correctly? For R, multiplication takes precendence over addition. 
+Did you predict the result correctly? For R, multiplication takes precedence over addition. 
 
 You can force the execution of addition over multiplication by use of parenthesis as illustrated below:
 
@@ -222,7 +222,9 @@ You can force the execution of addition over multiplication by use of parenthesi
 To learn about the rules of precedence built into R you can use its help system. 
 Here is a list of all the unary and binary operators and their precedence order from highest to lowest from top to bottom and from left to right within groups:
 
-```{r op-precedence-2, results='asis'}
+
+```{r op-precedence-2, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
 library(knitr)
 kable(data.frame(operator_groups = c(":: :::",
                                "$ @",
@@ -262,9 +264,11 @@ description = c("access variables in a namespace",
                 "help (unary and binary)")))
 ```
 
-You can get documentation like this from the R help at the comamnd line by typing `?Syntax` or `help("Syntax")`, a full set of help functions appears on the table below. 
+You can get documentation like this from the R help at the command line by typing `?Syntax` or `help("Syntax")`, a full set of help functions appears on the table below. 
 
-```{r help-commands, echo=FALSE, results='asis'}
+
+```{r help-commands, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
 library(knitr)
 long_form <- c("help.start()", "help(\"funABC\")", "help.search(\"funABC\")", "example(\"funABC\")", "RSiteSearch()","apropos(\"funABC\", mode = \"function\")", "data()", "vignette()", "vignette(\"ABC\")") 
 short_form <- c("", "?funABC", "??funABC", "", "", "", "", "", "")
@@ -286,7 +290,7 @@ kable( data.frame(long_form, short_form, description,
 
 
 
-## Variables
+## Variables -- Storing results
 
 Just like in mathematics and statistics, the concept of variables is that of a placeholder for values. In R or any other programming language it is a good idea to store results in variables so we can keep them around to use them in other expressions. Here is an exercise to declare and assign values to variables.
 
@@ -546,6 +550,7 @@ There are two less commonly used: _complex_ and _raw_ that we will leave for ano
 There are two types of data structures according to what data types they can store: homogeneous and heterogeneous. They can also be categorized according to the dimensions they can store: 1d, 2d or nd. This produces the following double entry table. 
 
 ```{r data structures, echo=FALSE, results='asis'}
+library(knitr)
 Homogeneous <- c("Atomic vector", "Matrix", "Array")
 Heterogeneous <- c("List", "Data frame", "")
 
