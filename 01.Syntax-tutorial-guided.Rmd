@@ -41,52 +41,13 @@ Let's get started.
 ## Learning outcomes
 <!-- ======================== -->
 
-The main goal of this tutorial is to teach patterns of the R language basic syntax. We believe that this knowledge will set you on a positive trajectory at any point on your R language journey. R has specific properties that set it apart from others and that can make it easier to learn for a beginner but a bit confusing at first for people with experience in other computer languages.
+The main goal of this tutorial is to teach patterns of the R language basic syntax. We believe that this knowledge will set you on a positive trajectory at any point in your R language journey. R has specific properties that set it apart from other languages and can make it easier to learn for a beginner. However, those same differences can make it confusing at first for people with experience.
 
-By the end of this tutorial you will know what data structures to use to store your data in memory. You will know what basic data types to use according to the data you  have for your specific problem. You will know the syntax to use R as a powerful calculation tool to generate statistical and data insights by sub-setting, filtering, and computing on R native data structures.
+By the end of this tutorial, you will know what data structures to use to store your data in memory. You will select the data type according to the data you have for your specific problem. You will know the syntax to use R as a powerful calculation tool to generate statistical and data insights by sub-setting, filtering, and computing in R native data structures.
 
-You will know how to build complex expressions that compute on R data structures with simplicity, whether they are vectors, lists, or dataframes.
+You will know how to build complex expressions that compute using R data structures with simplicity, whether they are vectors, lists, or data frames.
 
-You will know how to search for built-in R functions to help you process the data and achieve your goals. You will also know how to create your own functions if no other function from the built-ins or publicly available R packages meets your needs.
-
-
-
-<!-- This introduction to R syntax will allow you to become familiar with the following concepts:
-
-  * How R can be used as a calculator
-    - What mathematical operators are
-    - How to build complex expressions using operators
-    - How to get documentation about R at the command line
-  * How to create variables to store values
-  * How to call built-in R functions
-    - How to get a list of all predefined functions in a package
-    - What named and positional arguments are
-    - Variable assignment operators in R
-  * The most common data types in R
-  * How and why to use vectors
-    - How to create vectors
-    - How to append elements to a vector
-    - How to subset a vector
-  * How to create factors, a special type of vector
-  * How to create a matrix
-    - How to work with a matrix
-  * How and why to use lists
-    - How to create lists
-    - How to append to a list
-  * How and why to use a dataframe
-    - How to create them
-    - How to add or delete rows and columns
-    - How to subset a dataframe
-  * How to create a user defined function
-  * Basic conditional change of program execution
--->    
-  
-R can be easily used to carry out accurate and expressive statistical analysis, complex data processing, classical statistical modelling, machine learning, data visualization, dashboard creation, and many other tasks. 
-
-Your continued use and application of the language will strengthen your command of the syntax and of the multiple packages freely available.  This practice will make you a very productive R specialist.
-
-
-
+You will know how to search for built-in R functions to help you process the data and achieve your goals. You will also create your own if no other from the built-ins or publicly available R packages meets your needs.
 
 
 <!-- ======================== -->
