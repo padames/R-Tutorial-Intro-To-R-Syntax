@@ -285,6 +285,9 @@ kable( data.frame(long_form, short_form, description,
 
 
 
+
+
+
 <!-- ======================== -->
 ## Variables -- Storing results
 <!-- ======================== -->
@@ -315,6 +318,8 @@ Variables have a type and a mode. To find out the type and the mode of R variabl
 ## Built-in functions
 
 R offers predefined functions. When you use an R package you also use functions to get many complex tasks done with ease. It is important to familiarize yourself with their syntax. This requires that we start simple and build up the concepts gradually. The goal is to learn how to pass information to them and how to obtain results in two forms: as direct returned objects or as side effects. A side effect would be something like a file being written to the local disk or to a file service in the cloud.
+
+### Finding the type of a variable
 
 Functions in general may take arguments and return computed values when executed. Let's revisit the type and mode of variables.
 
@@ -351,7 +356,8 @@ mode(mode)
 
 In computer language _lingo_ a closure is a function and an environment to evaluate it, let's leave it at that for now. R is a unique language in more ways than one, let's move on with more basic concepts.
 
-### Assignment from values returned from built-ins 
+
+### Assignment of values returned from built-ins 
 
 Some expressions may be made up of a function with its arguments and the assignment operator to store the returned value from the function in a new variable. Let's look at the result of running the following lines:
 
@@ -408,6 +414,46 @@ length(builtins())
 # test if a object (a function) is part of the built-ins in the base environment
 "exp" %in% builtins()
 ```
+
+<!-- ======================== -->
+## Test your understanding
+<!-- ======================== -->
+
+```{r quiz-1-a, echo=FALSE, cache=FALSE}
+quiz(
+  question("Consider the expression: 
+  
+            a <- 1 + log10(10)
+  
+  What is the result of executing the line above in the R console?",
+    answer("the value 2 gets assigned to _a_ and printed to the console", message = "the operaror _assignment_ has no side effects so nothing should be printed to the console"),
+    answer("error, _log10_ of 10 is undefined", message = "That's not quite right, check your the definition of a logarithm and try again"),
+    answer("nothing gets printed", correct = TRUE, message = "The operator _assignment_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
+    answer("the value of _a_ gets printed", message = "The operator _assignment_ has no other effect than to associate a value with a variable name"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ))
+  #),
+  # question("What is the result of executing
+  #          
+  #          10 - 6 / 2 ?",
+  #   answer("2", message = "division has precedence over subtraction"),
+  #   answer("7", correct = TRUE, message = "division has higher precedence than subtraction"),
+  #   answer("8", message = "Good try, redo the calculation"),
+  #   answer("-4"),
+  # allow_retry = TRUE,
+  # random_answer_order = TRUE    
+  # ))
+```
+
+
+<!-- ```{r quiz-1-c, echo=FALSE, cache=FALSE} quiz( question("What is the value of b -->
+<!-- after executing the following R code? -->
+<!-- a <- 5 -->
+<!-- b <- a * (34 - 22) / 1 + 1", answer("12"), answer("30"), answer("61", correct = -->
+<!-- TRUE), answer("149"), allow_retry = TRUE, random_answer_order = TRUE, try_again -->
+<!-- = "Check the operator precedence table and try again." )) ``` -->
+
 
 
 ### The assignment operators and their uses
@@ -529,20 +575,8 @@ In summary, to avoid ambiguities and unplanned side effects, when assigning valu
 ## Test your understanding
 <!-- ======================== -->
 
-```{r quiz-1-a, echo=FALSE, cache=FALSE}
+```{r quiz-1-b, echo=FALSE, cache=FALSE}
 quiz(
-  question("Consider the expression: 
-  
-            a <- 1 + log10(10)
-  
-  What is the result of executing the line above in the R console?",
-    answer("the value 2 gets assigned to _a_ and printed to the console", message = "the operaror _assignment_ has no side effects so nothing should be printed to the console"),
-    answer("error, _log10_ of 10 is undefined", message = "That's not quite right, check your the definition of a logarithm and try again"),
-    answer("nothing gets printed", correct = TRUE, message = "The operator _assignment_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
-    answer("the value of _a_ gets printed", message = "The operator _assignment_ has no other effect than to associate a value with a variable name"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE
-  ),
   question("What is the result of executing
            
            10 - 6 / 2 ?",
