@@ -133,7 +133,7 @@ For example `"d" < "b"` for line 3 to produce `TRUE`.
 
 ### Logical operators
 
-These operators are used to combine the results of two or more relational operators into a single result. Here is the AND operator `&`:
+These operators are used to combine the results of two or more relational operators into a single result. Here is the AND operator represented in R by the ampersand symbol `&`:
 
 ```{r logical-AND-exercise, exercise=TRUE, collapse=TRUE}
 5 > 3 & 5 < 8
@@ -171,7 +171,7 @@ kable( data.frame(relation1, value1, and, relation2, value2, equals, result,
 ```
 
 
-For the OR operator the table would look as follows:
+For the logical OR operator, represented in R by the pipe symbol `|`, the table would look as follows:
 
 ```{r logical-table-OR, exercise=TRUE, exercise.lines=1}
 # Run Code to see the table"
@@ -200,6 +200,24 @@ kable( data.frame(relation1, value1, and, relation2, value2, equals, result,
        caption = 'Truth table for OR')
 ```
 
+Finally the negation or NOT logical operator is represented in R by the exclamation mark `!`. It negates or turns the logical value into its oposite.
+
+```{r negation-logical-operator, exercise=TRUE}
+!TRUE
+!(4 < 1)
+```
+Notice the presence of the parenthesis around the last expression. What do you think would have been the meaning of `!4 > 6`?
+
+Try it.
+
+```{r negation-precedence, exercise=TRUE}
+!4 < 1
+# furthermore try just the first element
+!4
+```
+As it turns out R coerces the values of `TRUE` to 1 and `FALSE` to 0. Thus the last expression `!4` translates into `0`, which makes `!4 < 1` `TRUE` as opposed to `FALSE` for `!(4 < 1)`.
+
+The change in final result depending on the order of evaluation brings us into the subject of operator precedence.
 
 ### Operator precedence
 
@@ -289,8 +307,9 @@ kable( data.frame(long_form, short_form, description,
 
 
 
-
+<!-- ======================== -->
 ## Variables -- Storing results
+<!-- ======================== -->
 
 Just like in mathematics and statistics, the concept of variables is that of a placeholder for values. In R or any other programming language it is a good idea to store results in variables so we can keep them around to use them in other expressions. Here is an exercise to declare and assign values to variables.
 
@@ -304,9 +323,19 @@ a
 b
 ```
 
-The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10 so when the second line is executed b is assigned he result of applying the operator `+` to the value `10` and the value of the variable `a`. As a result of all this `b` will be assigned the value `20`.
+The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10 so when the second line is executed b is assigned the result of applying the operator `+` to the value `10` and the value of the variable `a`. As a result of this `b` will be assigned the value `20`.
 
-### Built-in functions
+The operator assignment has subtleties in R that we will cover when addressing the subject of functions and their arguments.
+
+### Variables and objects
+
+In R the name used to label a variable is an object itself [@RLangDef.objects], in fact everything is an object in R and in this tutorial we will refer to objects and variables interchangeably.
+
+Variables have a type and a mode. When we discuss functions we will learn how to find out the type and the mode of R variables.
+
+
+
+## Built-in functions
 
 R offers predefined functions. When you use an R package you also use functions to get many complex tasks done with ease. It is important to familiarize yourself with their syntax. This requires that we start simple and build up the concepts gradually. The goal is to learn how to pass information to them and how to obtain results in two forms: as direct returned objects or as side effects. A side effect would be something like a file being written to the local disk or to a file service in the cloud.
 
