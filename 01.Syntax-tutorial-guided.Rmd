@@ -371,6 +371,9 @@ typeof(mode)
 mode(mode)
 ```
 
+In computer language _lingo_ a closure is a function and an environment to evaluate it, let's leave it at that for now. R is a unique language in more ways than one, let's move on with more basic concepts.
+
+### Assignment from values returned from built-ins 
 
 Some expressions may be made up of a function with its arguments and the assignment operator to store the returned value from the function in a new variable. Let's look at the result of running the following lines:
 
@@ -393,7 +396,7 @@ There should be no output. The value of the function `exp` with the argument `1`
 
 *Note:* As it is usually the case in R, there is more than one way of getting things done. You can get a two-for-one effect by printing and doing assignment in a single expression on the console by surrounding the assignment with parenthesis. Try it!
 
-```{r two-for-one,  exercise = TRUE}
+```{r two-for-one,  exercise = TRUE, exercise.lines=2}
 # this accomplishes the assignment and prints the value of the variable in one line
 (e <- exp(1))
 ```
@@ -469,14 +472,14 @@ R functions may be built-in or user created, they may also have none, one, or mo
 
 ```{r named-param-1, exercise = TRUE, exercise.lines=3}
 three <- log(1000, base = 10)
-# uncomment to check if bas exists after executing the line above
+# un-comment to check if base exists after executing the line above
 # base
 ```
 
 <!-- ```{r named-param-1, exercise = TRUE, exercise.lines=9}
 three <- log(1000, base = 10)
  
-# Does 'base' exist in the global environment after log gest valuated?
+# Does 'base' exist in the global environment after log gets valuated?
 # let's  check it out and print a nice message accordingly
 if (exists("base")) {
   print(paste0("base exists outside of log, base = ", base)) 
@@ -590,6 +593,42 @@ quiz(
   random_answer_order = TRUE,
   try_again = "Check the operator precedence table and try again."
 ))
+```
+
+
+## On number representation
+
+Computers can only store and operate on numbers in the binary system, meaning only with two states that we will call  "off" and "on" or zeros and ones. Due to this limitation there are round off errors intrinsic to the arithmetic of converting from binary to decimal, a counting system we humans are more familiar with. Let's investigate the problem and find a solution in R [@CRAN.FAQ.RDoesNotThinkNumbersAreEqual].
+
+```{r round-off-error, exercise=TRUE, exercise.lines=1}
+0.1 + 0.1 + 0.1 == 0.3
+```
+
+Wait a second, no one saw that one coming! Let's explore what is happening and why. First let's try to see the decimal representation of these numeric types.
+
+```{r printing-double-at-max-resolution, exercise=TRUE, exercise.lines=2}
+print(0.1, digits = 17)
+print(0.3, digits = 17)
+```
+Let's investigate now what the machine's precision to represent a double floating point number:
+
+```{r floating-point-precision, exercise=TRUE, exercise.lines=2}
+# using the R constant .Machine, find out more with help(".Machine")
+.Machine$double.eps
+```
+This means that this is the smallest number that will make this expression `FALSE`: `1 + x == 1`:
+
+```{r precision-double-test, exercise=TRUE}
+1 + 9e-17 == 1
+1 + 1e-16 == 1
+1 + 2e-16 == 1
+```
+To avoid the round-off error when making these kind of comparisons it is recommended to use a built-in function that considers the machine precision of doubles: `all.equal()`.
+
+```{r how-to-avoid-round-off-error, exercise=TRUE}
+sum_calc <- 0.1 + 0.1 + 0.1 
+sum_expected <- 0.3
+all.equal(sum_calc, sum_expected)
 ```
 
 ## Data Representation in R
