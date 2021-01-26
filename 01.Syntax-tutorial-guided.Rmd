@@ -69,14 +69,17 @@ Note the output, there is a [1] and the result of the calculation. We will addre
 
 Please try running the following lines of code, each representing a different mathematical operation.   
 
-```{r operators-1, exercise=TRUE}
-450 - 100
-3 * 10
-35 / 7
-5^2 
+```{r operators-1, exercise=TRUE, exercise.lines=5}
+# white space between operands and operator does not matter below, try it!
+450 - 100 # subtraction
+3 * 10 # multiplication
+35 / 7 # division
+5^2 #exponentiation
 ```
 
-Each result appears on its own line after running the code. This is the same behaviour you would see on a command line if you entered the four lines of code. Go back and prove to yourself that white space between the numbers and the operators has no effect on the result.
+Each result appears on its own line after running the code. The `#` symbol precedes a comment that is ignored by the interpreter of the code. This is the same behaviour you would see on a command line if you entered the four lines of code. Go back and prove to yourself that white space between the numbers and the operators has no effect on the result.
+
+There are many more operators. We will now go over some of the most important and show how to search for all of the ones that R offers so you can find them when you need them.
 
 ### Relational operators
 
