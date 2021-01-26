@@ -633,11 +633,11 @@ all.equal(sum_calc, sum_expected)
 
 ## Data Representation in R
 
-Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. These objects adopt the form of data structures to hold values that have data types. We will cover these definitions and woork with them in this section.
+Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. We are interested in the objects that adopt certain shapes in the computer memory to hold values. The values have types that can be queried with the built-in function `typeof()` that we have seen before. We will cover these definitions and work with them in this section.
 
 ### Data Types
 
-The fundamental values that R can represent and manipulate int he computer memory are:
+The fundamental values that R can represent and manipulate in the computer memory are:
 
   - integer
   - double (also called numeric)
@@ -648,11 +648,13 @@ There are two less commonly used: _complex_ and _raw_ that we will leave for ano
 
 ### Data Structures
 
-There are two types of data structures according to what data types they can store: homogeneous and heterogeneous. They can also be categorized according to the dimensions they can store: 1d, 2d or nd. This produces the following double entry table. 
+These are the shapes of the data in the computer memory, literally. There are two types of data structures according to the type of values they can store: homogeneous and heterogeneous. 
+
+They can also be categorized according to the dimensions they can store: 1d, 2d or nd. This produces the following double entry table: 
 
 ```{r data structures, echo=FALSE, results='asis'}
 library(knitr)
-Homogeneous <- c("Atomic vector", "Matrix", "Array")
+Homogeneous <- c("Vector", "Matrix", "Array")
 Heterogeneous <- c("List", "Data frame", "")
 
 kable( data.frame(Homogeneous, Heterogeneous, 
@@ -661,9 +663,14 @@ kable( data.frame(Homogeneous, Heterogeneous,
        caption = 'Native data structures in R according to the data type they can store and the number of dimensions they use [@WickhamHadley2015AR, p.13].')
 ```
 
+R was designed to manipulate data using these structures, they don't come from libraries or are add-ons to the language. This gives R a certain expressive power to work with data.
+
+This is important because a computer language has to allow the manipulation of values in memory using a certain recipe called an _algorithm_. These algorithms rely on the properties of the data structures and the data types themselves. They are intimately related. A computer language will allow a human to write a solution to a problem in terms of the data structures and types that  it provides. R has the fundamental data structures and types that we just discussed. Let's see how to start using them to represent information.
+
+
 ### Vectors
 
-The table we just saw should be read as follows: all one-dimensional data structures that contain objects of the same type are vectors, as in they are stored in contiguous memory. A vector of six integer values would be represented graphically as:
+From the table we just saw one could read as follows: all one-dimensional data structures that contain objects of the same type are vectors and thus can be stored in contiguous memory because all the elements require the same space to be stored. A vector of six integer values would be represented graphically as:
 
 ```{r vector, echo=FALSE, results='asis'}
 knitr::include_graphics("images/vector.png", dpi = 86)
@@ -674,7 +681,7 @@ And as code:
 c(5, -1, 3, 0, -4, 1)
 ```
 
-A vector is constructed with the function `c()` that takes a variable number of arguments. Once a vector has been constructed and assigned to a variable `x` its elements can be extracted with the subsetting operator `[]` like `x[1]` to subset the vector so it returns a vector with the first  element only.
+A vector is constructed with the function `c()` that takes a variable number of arguments. Once a vector has been constructed and assigned to a variable `x` its elements can be extracted with the sub-setting operator `[]` like `x[1]` to subset the vector so it returns a vector with the first  element only.
 
 Try to answer the questions with your code.
 
