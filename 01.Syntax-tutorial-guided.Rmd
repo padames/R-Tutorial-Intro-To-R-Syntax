@@ -635,6 +635,18 @@ all.equal(sum_calc, sum_expected)
 
 Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. We are interested in the objects that adopt certain shapes in the computer memory to hold values. The values have types that can be queried with the built-in function `typeof()` that we have seen before. We will cover these definitions and work with them in this section.
 
+Let's consider these cases:
+
+   * We need to store the grades of the mid-term exam of a class with 300 students to compute stats on them and make some visualizations.
+   * Then we need to store the student IDs, the course section, year of studies, and program of study the students belong to.
+   * Finally we want to find the two most relevant variables that influence grade and then visualize the clusters of students that got A or better as a function of those two variables.
+
+
+A simple spreadsheet could have been enough up to storing the data. However, automation of a repetitive task, reporting or visualization, and further data processing using algorithms, make a language like R more attractive for these tasks. 
+
+Although solving this problem is beyond the scope of this tutorial, the idea of using a programming language forces you to think of the type of data and the structures that you need to store and manipulate it in order to accomplish your goal. That is exactly the reason we need to address now the syntax of those data types and structures in the R language.
+
+
 ### Data Types
 
 The fundamental values that R can represent and manipulate in the computer memory are:
