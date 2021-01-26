@@ -331,15 +331,48 @@ The operator assignment has subtleties in R that we will cover when addressing t
 
 In R the name used to label a variable is an object itself [@RLangDef.objects], in fact everything is an object in R and in this tutorial we will refer to objects and variables interchangeably.
 
-Variables have a type and a mode. When we discuss functions we will learn how to find out the type and the mode of R variables.
-
+Variables have a type and a mode. To find out the type and the mode of R variables one needs to use built-in functions `typeof()` and `mode()`. Let's then go into the subject in the next section.
 
 
 ## Built-in functions
 
 R offers predefined functions. When you use an R package you also use functions to get many complex tasks done with ease. It is important to familiarize yourself with their syntax. This requires that we start simple and build up the concepts gradually. The goal is to learn how to pass information to them and how to obtain results in two forms: as direct returned objects or as side effects. A side effect would be something like a file being written to the local disk or to a file service in the cloud.
 
-Functions in general may take arguments and return computed values when executed. Some expressions may be made up of a function with its arguments and the assignment operator to store the returned value in a variable. Let's look at the result of running the following lines:
+Functions in general may take arguments and return computed values when executed. Let's revisit the type and mode of variables.
+
+```{r type-of-variables, exercise=TRUE, exercise.lines=8}
+i <- 54
+typeof(i)
+j <- 54L
+typeof(j)
+x <- 3.1416
+typeof(x)
+first_name <- "Rob"
+typeof(first_name)
+```
+
+The mode can be obtained by applying the function with the namesake:
+
+```{r mode-of-variables, exercise=TRUE, exercise.lines=8}
+i <- 54
+mode(i)
+j <- 54L
+mode(j)
+x <- 3.1416
+mode(x)
+first_name <- "Rob"
+mode(first_name)
+```
+
+Let's investigate the type and mode of the R function `mode` itself.
+
+```{r mode-of-mode, exercise=TRUE, exercise.lines=2}
+typeof(mode)
+mode(mode)
+```
+
+
+Some expressions may be made up of a function with its arguments and the assignment operator to store the returned value from the function in a new variable. Let's look at the result of running the following lines:
 
 ```{r executing-function, exercise.lines=4, exercise=TRUE}
 # assign the result of the function call to the variable 'e'
@@ -348,7 +381,7 @@ e <- exp(1)
 e
 ```
 
-The first line executes the expression on the right of the assignment operator, itself a function call to `exp()` with argument `1` and assignes the returned value to the variable `e`. The second line prints the value stored in `e` as `2.718282`.
+The first line executes the expression on the right of the assignment operator, itself a function call to `exp()` with argument `1` and assigns the returned value to the variable `e`. The second line prints the value stored in `e` as `2.718282`.
 
 Try running the line 1 by itself below.
 
@@ -356,7 +389,7 @@ Try running the line 1 by itself below.
 e <- exp(1)
 ```
 
-There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable `e`. The assignment operation leaves no trace on the output. Another way of saying this is _the assignment operator produces no side efects in the console_. Its only effect is to create a name-value pair, (e, 2.718282) in the global environment, so the value can be recalled later by its assigned name.
+There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable `e`. The assignment operation leaves no trace on the output. Another way of saying this is _the assignment operator produces no side effects in the console_. Its only effect is to create a name-value pair, (e, 2.718282) in the global environment, so the value can be recalled later by its assigned name.
 
 *Note:* As it is usually the case in R, there is more than one way of getting things done. You can get a two-for-one effect by printing and doing assignment in a single expression on the console by surrounding the assignment with parenthesis. Try it!
 
@@ -378,20 +411,20 @@ To compute logarithms, R offers the following predefined functions:
      log1p(x)
 ```
 
-The most fundamental R builtin functions come bundled in the `base` package.
+The most fundamental R built-in functions come bundled in the `base` package.
 To read about an R package use the function call `library(help = "base")` at the command line. Packages are loaded by issuing the function `libray("base")`  but the `base` package is loaded by default when an R session is started. Try it below.
 
 ```{r functions-base-package, exercise=TRUE, exercise.lines=1}
 library(help = "base")
 ```
 
-The language R provides a standard workflow to build packages that contain functions, variables, and data targeting a specific problem. Contributors write R packages and share them mainly via the CRAN repository. To find out what comes builtin with the `base` package we can call the 
+The language R provides a standard work-flow to build packages that contain functions, variables, and data targeting a specific problem. Contributors write R packages and share them mainly via the CRAN repository. To find out what comes built-in with the `base` package we can call the 
 `builtins()` function to produce the list of `r length(builtins())` objects that are loaded in the base environment when you start R the first time.
 
 ```{r number-functions-base-package, exercise=TRUE, exercise.lines=5}
 # get the number of objects loaded from the base R package
 length(builtins())
-# test if a object (a function) is part of the builtins in the base environment
+# test if a object (a function) is part of the built-ins in the base environment
 "exp" %in% builtins()
 ```
 
@@ -427,7 +460,7 @@ log(e, base = e)
 
 From the previous exercise you might have noticed that the operators `<-` and `=` behave identically in stand alone expressions. Technically speaking, their effect is to create name-value pairs for each variable, (_a_, 10) and (_e_, 2.7183), in the global environment.
 
-So, you might ask: why are there two aperators to do the same in R?
+So, you might ask: why are there two operators to do the same in R?
 Read on for the answer.
 
 ### Function arguments: positional and named 
@@ -454,7 +487,7 @@ if (exists("base")) {
 
 In the call to the function `log`, the first argument is positional, taking exactly the position number one. The second argument is named and may receive a value via the `=` operator if the function requires it during its execution.
 
-If the function is called without a second argument, and `base` is used for computation inside the function, the assignment operator will use the value resulting from evaluating the experession `exp(1)` and associate it with `base`. This is  how a default value for a named argument can be given. 
+If the function is called without a second argument, and `base` is used for computation inside the function, the assignment operator will use the value resulting from evaluating the expression `exp(1)` and associate it with `base`. This is  how a default value for a named argument can be given. 
 
 If the user prefers to pass a different value from the default then the named argument can be given as in `log(10, base = 10)` or just  `log(10, 10)`. 
 
