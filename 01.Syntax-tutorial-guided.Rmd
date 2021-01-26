@@ -49,23 +49,27 @@ This introduction to R syntax will allow you to become familiar with the followi
     - How to get documentation about R at the command line
   * How to create variables to store values
   * How to call built-in R functions
-  * How to get a list of all predefined functions in a package
-  * What named and positional arguments are
-  * Variable assignment operators in R
+    - How to get a list of all predefined functions in a package
+    - What named and positional arguments are
+    - Variable assignment operators in R
   * The most common data types in R
-  * The data structures used in R
-  * How to create vectors
-  * How to append elements to a vector
-  * How to subset a vector
+  * How and why to use vectors
+    - How to create vectors
+    - How to append elements to a vector
+    - How to subset a vector
   * How to create factors, a special type of vector
   * How to create a matrix
-  * How to work with a matrix
-  * How to create arrays
-  * How to create lists
-  * How to append to a list
-  * How to create a dataframe
-  * How to subset a dataframe
-  
+    - How to work with a matrix
+  * How and why to use lists
+    - How to create lists
+    - How to append to a list
+  * How and why to use a dataframe
+    - How to create them
+    - How to add or delete rows and columns
+    - How to subset a dataframe
+  * How to create a user defined function
+  * Basic conditional change of program execution
+    
   
 R can be easily used to carry out accurate and expressive statistical analysis, complex data processing, classical statistical modelling, machine learning, distributed big data processing in clusters, data visualization, and many other tasks. 
 
