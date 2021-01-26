@@ -295,13 +295,13 @@ Just like in mathematics and statistics, the concept of variables is that of a p
 # store a value
 a <- 10
 # store the result of an operation
-b <- a + 10
+b <- a + 5
 # print the contents 'a' and 'b' one on separate lines
 a
 b
 ```
 
-The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10 so when the second line is executed b is assigned the result of applying the operator `+` to the value `10` and the value of the variable `a`. As a result of this `b` will be assigned the value `20`.
+The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10. When the second line is executed, `b` is assigned the result of applying the operator `+` to the value of the variable `a`, `10`, and the value `5`. As a result of this, `b` will be assigned the value `15`.
 
 The operator assignment has subtleties in R that we will cover when addressing the subject of functions and their arguments.
 
