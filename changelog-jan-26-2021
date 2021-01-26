@@ -1,0 +1,6 @@
+Jan 26, 2021
+Changelog:
+1. Refactor learning outcomes as three paragraphs instead of TOC-like lists to avoid redundancy and cognitive overload. Following CHL's comment.
+2. Added relational and logical operators plus a note explaining that this tutorial explains how to search for the many more operators available in R.
+
+
