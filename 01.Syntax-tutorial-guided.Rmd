@@ -416,7 +416,7 @@ length(builtins())
 ```
 
 <!-- ======================== -->
-## Test your understanding
+### Test your understanding
 <!-- ======================== -->
 
 ```{r quiz-1-a, echo=FALSE, cache=FALSE}
@@ -568,11 +568,11 @@ log(base = 10, 1000)
 
 Did you get the same result of using `log(base = 10, 1000)`? That is almost true, the difference is that now there is a variable assignment represented by the pair `(base, 10)` that outlives the call to `log`.
 
-In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. On the next section there are a few exercises to solidifiy these concepts.
+In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. On the next section there are a few exercises to solidify these concepts.
 
 
 <!-- ======================== -->
-## Test your understanding
+### Test your understanding
 <!-- ======================== -->
 
 ```{r quiz-1-b, echo=FALSE, cache=FALSE}
@@ -586,12 +586,7 @@ quiz(
     answer("-4"),
   allow_retry = TRUE,
   random_answer_order = TRUE    
-  ))
-```
-
-
-```{r quiz-1-c, echo=FALSE, cache=FALSE}
-quiz(
+  ),
   question("What is the value of b after executing the following R code?
   
           a <- 5
@@ -1249,7 +1244,7 @@ If any of the vectors has a different length there will be error messages, R wil
 
 ### Subsetting a dataframe
 
-Similarly to subsetting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention. 
+Similarly to sub-setting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention. 
 
 ```{r slice-n-dice-df-setup}
 # for better documentation name the vectors
