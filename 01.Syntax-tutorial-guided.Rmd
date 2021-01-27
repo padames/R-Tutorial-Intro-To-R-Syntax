@@ -305,7 +305,7 @@ quiz(
     answer("Evaluates to TRUE because == has higher precendence that all other operators in the expression", correct = FALSE),
     answer("Evaluates to FALSE", correct = FALSE),
     answer("Evaluates to FALSE because ! has higher precendence than ==", correct = FALSE),
-    answer("Evaluates to TRUE because negating inequality gives the opposite inequality", correct = TRUE),
+    answer("Evaluates to TRUE because negating this inequality flips the direction of the inequality", correct = TRUE),
     random_answer_order = TRUE,
     allow_retry = TRUE,
     correct = "Well done, you have achieved a good understanding of relational and logical operators.",
