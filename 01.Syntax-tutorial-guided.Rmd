@@ -289,6 +289,28 @@ kable( data.frame(long_form, short_form, description,
 
 ```{r quiz-operator-precedence, echo=FALSE, cache=FALSE}
 quiz(
+  question_radio(
+    "The NOT operator is represented in R by the symbol ~", 
+    answer("yes", correct = FALSE, message = 'This is a good question though!'),
+    answer("no", correct= TRUE),
+    correct = 'Correct, it is actually the exclamation mark so !TRUE will give FALSE',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question_checkbox(
+    " !(5 > 2) == 5 < 2
+    
+    Select all that apply.",
+    answer("Evaluates to TRUE", correct = TRUE),
+    answer("Evaluates to TRUE because == has higher precendence that all other operators in the expression", correct = FALSE),
+    answer("Evaluates to FALSE", correct = FALSE),
+    answer("Evaluates to FALSE because ! has higher precendence than ==", correct = FALSE),
+    answer("Evaluates to TRUE because negating inequality gives the opposite inequality", correct = TRUE),
+    random_answer_order = TRUE,
+    allow_retry = TRUE,
+    correct = "Well done, you have achieved a good understanding of relational and logical operators.",
+    incorrect = "Not all true answers selected or maybe you have chosen good and bad answers."
+  ),
   question("What is the result of executing
            
            10 - 6 / 2 ?",
@@ -298,8 +320,18 @@ quiz(
     answer("-4"),
   allow_retry = TRUE,
   random_answer_order = TRUE    
+  ), 
+  # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Sort the following operators by precendence  in descending order",
+                          correct = "You must have memorized that table from the documentation, you are a star!",
+                          incorrect = "Not quite right, try again!",
+                          allow_retry = TRUE,
+                          random_answer_order = TRUE, 
+                          options = sortable::sortable_options(),
+                          learnr::answer(c("$", "[", "+", "&", "->"), correct = TRUE)
   )
 )
+
 ```
 
 
