@@ -392,7 +392,7 @@ In summary, to avoid ambiguities and unplanned side effects, when assigning valu
 <!-- ======================== -->
 
 
-<span style="colore: red">  This needs to be a subsection.  </span>
+<span style="color: red">  This needs to be a subsection.  </span>
 
 ```{r quiz-1-a, echo=FALSE, cache=FALSE}
 quiz(
