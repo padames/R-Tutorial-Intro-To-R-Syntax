@@ -699,11 +699,11 @@ They can also be categorized according to the dimensions they can store: 1d, 2d 
 
 ```{r data structures, echo=FALSE, results='asis'}
 library(knitr)
+Dimensions <- c("One", "Two", "Three or more")
 Homogeneous <- c("Vector", "Matrix", "Array")
-Heterogeneous <- c("List", "Data frame", "")
+Heterogeneous <- c("List", "Dataframe", "")
 
-kable( data.frame(Homogeneous, Heterogeneous, 
-                 row.names = c("1d", "2d", "nd"), 
+kable( data.frame(Dimensions, Homogeneous, Heterogeneous, 
                  stringsAsFactors = FALSE),
        caption = 'Native data structures in R according to the data type they can store and the number of dimensions they use [@WickhamHadley2015AR, p.13].')
 ```
@@ -950,7 +950,7 @@ names(v)
 names(v) <- c("val1", "val2", "val3", "val4")
 # new names
 names(v)
-# finally check the names of the vector with the summ of all the values
+# finally check the names of the vector with the sum of all the values
 names(sum(v))
 ```
 
@@ -958,7 +958,7 @@ names(sum(v))
 
 ## Factors
 
-These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a playlist may be described by:
+These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a play list may be described by:
 
 ```{r music-sample-genres, echo=TRUE}
 # The genres on an eclectic play list 
@@ -1233,14 +1233,14 @@ How would one obtain the last two names for any length of 'v'?",
 
 ## Dataframes
 
-If you have followed the data structure section then this section should be relatively easy. Like a list, data frames store information of heterogenous type, however there are some rules.
+If you have followed the data structure section then this section should be relatively easy. Like a list, data frames store information of heterogeneous type, however there are some rules.
 
   - Two dimensional only, like a table.
   - Any number of rows or columns
   - The columns have to be of the same type
 
 
-Follow these rules and dataframes are an almost ideal data structure to manipulate data for data analysis. There are other more suitable data structures for long term data storage of multidimensional nature but R does not deal with that problem, a data base might be more suitable for this or specilaized data wearehousing applications.
+Follow these rules and dataframes are an almost ideal data structure to manipulate data for data analysis. There are other more suitable data structures for long term data storage of multidimensional nature but R does not deal with that problem, a data base might be more suitable for this or specialized data warehousing applications.
 
 Dataframes are similar to tables of a sophisticated relational data base, where you can store procedures and even other tables in the cells.
 
