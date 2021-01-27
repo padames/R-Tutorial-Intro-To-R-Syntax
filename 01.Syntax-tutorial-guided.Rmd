@@ -715,18 +715,22 @@ This is important because a computer language has to allow the manipulation of v
 
 ## Vectors
 
-From the table we just saw one could read as follows: all one-dimensional data structures that contain objects of the same type are vectors and thus can be stored in contiguous memory because all the elements require the same space to be stored. A vector of six integer values would be represented graphically as:
+From the table we just saw one could read: if you need a one-dimension data structure to store  objects of the same type, then use a vector. An important characteristic of vectors is that their contents can be stored in contiguous memory because all the elements require the same space thanks to being of the same type. 
+
+### Constructing a vector
+
+A vector of six integer values would be represented graphically as a long structure of six boxes of equal size:
 
 ```{r vector, echo=FALSE, results='asis'}
 knitr::include_graphics("images/vector.png", dpi = 86)
 ```
 
 And as code:
-```{r vector-construction, echo=TRUE}
+```{r vector-construction, exercise = TRUE, exercise.lines=1}
 c(5, -1, 3, 0, -4, 1)
 ```
 
-A vector is constructed with the function `c()` that takes a variable number of arguments. Once a vector has been constructed and assigned to a variable `x` its elements can be extracted with the sub-setting operator `[]` like `x[1]` to subset the vector so it returns a vector with the first  element only.
+A vector is constructed with the function `c()` that takes a variable number of arguments. Once a vector has been constructed and assigned to a variable `x`, its elements can be extracted with the sub-setting operator `[]`. `x[1]` subsets the vector represented by the name `x` returning another vector with the first  element only.
 
 Try to answer the questions with your code.
 
@@ -750,18 +754,33 @@ length(x)
 x[length(x)] - x[1]
 ```
 
+
+### A vector in disguise
+
+Did you notice the language used to explain sub-setting? `x[1]` returns a vector with only the first element of `x`. In R the sub-setting function returns another vector. Let's verify these statements with R itself:
+
+```{r verify-data-structure-subsetting-a-vector, exercise=TRUE, exercise.lines=6}
+x <- c(5, -1, 3, 0, -4, 1)
+first_element <- x[1]
+typeof(x)
+is.vector(x)
+typeof(first_element)
+is.vector(first_element)
+```
+
+
 ### Constructing vectors
 
-Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. When we can or need to use patterns  to create them the functions `rep()` and `seq()` can be pretty helpful. Study the output of these functions.
+Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. The functions `rep()` and `seq()` can be pretty helpful to achieve this. Study the output of these functions.
 
-```{r seq-rep, echo=TRUE}
+```{r seq-rep, exercise=TRUE, exercise.lines=2}
 rep(-1, times = 10)
 seq(1, 100, by = 5)
 ```
 
 `rep` and `seq` can be combined to composed colorful patterns.
 
-```{r rep-seq-mix, exercise=TRUE}
+```{r rep-seq-mix, exercise=TRUE, exercise.lines=4}
 # repeat the sequence of digits twice
 rep(seq(1,9), times = 2)
 # repeat the sequence of digits two at a time
@@ -771,25 +790,31 @@ rep(seq(1:9), each = 2)
 Remember a vector *must* have elements of the same homogeneous type.
 So this is a valid vector of doubles:
 
-```{r vector-of-doubles, echo = TRUE}
-c(2.3, -0.54, 1.01, 10.8)
+```{r vector-of-doubles, exercise=TRUE, exercise.lines=2}
+vd <- c(2.3, -0.54, 1, 10.8)
+typeof(vd)
 ```
 
 And this one contains character strings:
 
-```{r  vector-characters, echo = TRUE}
-c("Hello", "world", "in", "R!")
+```{r  vector-characters, exercise=TRUE, exercise.lines=2}
+vc <- c("Hello", "world", "in", "R!")
+typeof(vc)
 ```
 
 And finally here is a vector of logical symbols:
 
-```{r vector-logicals, echo = TRUE}
-c(TRUE, T, 1, FALSE, F, 0)
+```{r vector-logicals, exercise=TRUE, exercise.lines=2}
+vl <- c(TRUE, T, 1, FALSE, F, 0)
+typeof(vl)
 ```
 
-As you might have guessed, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. In R, like in other languages, you can add logical values as if they were zeros and ones.
 
-```{r logical-sum, exercise= TRUE}
+### More operations on vectors
+
+As you might have guessed from the previous exercise, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. You can add logical values as if they were zeros and ones. This is useful to count the number of positive or TRUE values in a vector:
+
+```{r logical-sum, exercise= TRUE, exercise.lines=2}
 is_a_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), times = 7)
 # how many TRUE values are there in is_a_positive?
 ```
@@ -801,15 +826,15 @@ sum(is_a_positive)
 
 The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
 
-```{r short-version-of-seq, echo=TRUE}
+```{r short-version-of-seq, exercise=TRUE, exercise.lines=1}
 1:50
 ```
 
-*Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefor the second line of output begins with the 26th element of the vector, which happens to be the number 26 in the sequence.
+*Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefore the second line of output begins with the 23rd element of the vector, which happens to be the number 23 in the sequence.
 
 ### Subsetting vectors
 
-Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
+Combining the binary operator `:` and the sub-setting operator one can extract ranges of elements of a vector.
 
 ```{r subsetting-a-vector, echo=TRUE}
 x <- c(5, -1, 3, 0, -4, 1)
@@ -839,12 +864,20 @@ x[length(x)]
 
 ### Vectors within vectors
 
-When a vector is created within another vector they are not nested, but rather they are concatenated in a linear fashion.
+When a vector is created within another vector they form a longer vector.
 
 ```{r concatenated-vectors, exercise=T}
 y <- 1:3
 # try nesting y within a new vector and see what happens
 c(0, y, 4)
+```
+
+In other words a vector is always a linear structure, you cannot create branches on a vector. The technique just shown is what is used to concatenate or join two or more vectors.
+
+```{r concatenate-vectors, exercise=TRUE, exercise.lines=3}
+vx <- c("Rob", "Dori", "Nick")
+vy <- c("Anne", "Sam", "Jen")
+c(vx, vy)
 ```
 
 ### Appending elements to a vector
@@ -864,7 +897,7 @@ names(y) <- c("c1","c2", "c3","c4","c5")
 ```
 
 ```{r append-to-vector-with-names-extended, exercise=T, exercise.setup="append-to-vector-with-names-setup"}
-# now add ther sixth letter of the ascii character set
+# now add the sixth letter of the ascii character set
 y_extended <- append(y, letters[6])
 # check the new vector, are the first five names preserved?
 y_extended
