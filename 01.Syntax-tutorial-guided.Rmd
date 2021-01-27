@@ -643,18 +643,18 @@ Wait a second, no one saw that one coming! Let's explore what is happening and w
 print(0.1, digits = 17)
 print(0.3, digits = 17)
 ```
-Let's investigate now what the machine's precision to represent a double floating point number:
+Let's investigate now what the machine's precision to represent a double floating point number from the R documentation on the meaning of `double.eps` from the constant `.Machine` (you can summon the documentation with `help(.Machine)`:
 
 ```{r floating-point-precision, exercise=TRUE, exercise.lines=2}
 # using the R constant .Machine, find out more with help(".Machine")
-.Machine$double.eps
+(.Machine$double.base ^ .Machine$double.ulp.digits) / 2
 ```
 This means that this is the smallest number that will make this expression `FALSE`: `1 + x == 1`:
 
-```{r precision-double-test, exercise=TRUE}
-1 + 9e-17 == 1
-1 + 1e-16 == 1
-1 + 2e-16 == 1
+```{r precision-double-test, exercise=TRUE, exercise.lines=3}
+1 + 1.00e-16 == 1
+1 + 1.11e-16 == 1
+1 + 1.12e-16 == 1
 ```
 To avoid the round-off error when making these kind of comparisons it is recommended to use a built-in function that considers the machine precision of doubles: `all.equal()`.
 
@@ -713,7 +713,7 @@ R was designed to manipulate data using these structures, they don't come from l
 This is important because a computer language has to allow the manipulation of values in memory using a certain recipe called an _algorithm_. These algorithms rely on the properties of the data structures and the data types themselves. They are intimately related. A computer language will allow a human to write a solution to a problem in terms of the data structures and types that  it provides. R has the fundamental data structures and types that we just discussed. Let's see how to start using them to represent information.
 
 
-### Vectors
+## Vectors
 
 From the table we just saw one could read as follows: all one-dimensional data structures that contain objects of the same type are vectors and thus can be stored in contiguous memory because all the elements require the same space to be stored. A vector of six integer values would be represented graphically as:
 
@@ -887,7 +887,7 @@ y <-  append(letters[24], y)
 
 ### An eye-opener to type cohersion in R
 
-We can aske vectors to tell us the type of values they carry with the function `typeof`. We can also ask if they have a specific type of value. Run this code and figure out what the vector of answers mean.
+We can ask vectors what type of values they carry with the function `typeof`. We can also ask if they have a specific type of value. Run this code and figure out what the vector of answers mean.
 
 ```{r type-numeric-vector, exercise=TRUE}
 v_dbl <- c(0, 1, 3)
@@ -954,7 +954,9 @@ names(v)
 names(sum(v))
 ```
 
-### Factors (More Advanced)
+
+
+## Factors
 
 These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a playlist may be described by:
 
@@ -1017,7 +1019,7 @@ table(music_sample_genres)
 ```
 
 
-### Matrices
+## Matrices
 
 Just like vectors are one-dimensional data structures that contain objects of the same type, matrices are their two-dimensional equivalents. A matrix of six integer values would be represented graphically as:
 
@@ -1104,7 +1106,7 @@ cbind(c(6,6), m)
 
 
 
-### Arrays
+## Arrays
 
 Arrays are the natural extension of vector and matrices to n-dimensions. 
 ```{r array, echo=FALSE, results='asis'}
@@ -1122,7 +1124,7 @@ Here we  created a tensor of 2 rows by 3 columns by 3 frames with the numbers 1 
 Let's leave this data structure for deep learning practice and move on now.
 
 
-### Lists
+## Lists
 
 Lists are one-dimensional data structures that can store information of heterogenious type. R's well-known linear model object, with constructor `lm()`, is a list. Let's creat a list  with the general constructor.
 
