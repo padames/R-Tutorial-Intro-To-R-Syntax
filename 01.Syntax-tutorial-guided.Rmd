@@ -788,7 +788,7 @@ rep(seq(1:9), each = 2)
 ```
 
 Remember a vector *must* have elements of the same homogeneous type.
-So this is a valid vector of doubles:
+Here is a vector of doubles:
 
 ```{r vector-of-doubles, exercise=TRUE, exercise.lines=2}
 vd <- c(2.3, -0.54, 1, 10.8)
@@ -802,21 +802,27 @@ vc <- c("Hello", "world", "in", "R!")
 typeof(vc)
 ```
 
-And finally here is a vector of logical symbols:
+And finally here are two vectors of logical symbols:
 
-```{r vector-logicals, exercise=TRUE, exercise.lines=2}
-vl <- c(TRUE, T, 1, FALSE, F, 0)
+```{r vector-logicals, exercise=TRUE, exercise.lines=5}
+vl <- c(TRUE, T, T, FALSE, F, F)
 typeof(vl)
+# the presence of any zero or one coherces all elements to "numeric"
+vld <- c(TRUE, T, 1, FALSE, F, 0)
+typeof(vld)
 ```
+
+
 
 
 ### More operations on vectors
 
 As you might have guessed from the previous exercise, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. You can add logical values as if they were zeros and ones. This is useful to count the number of positive or TRUE values in a vector:
 
-```{r logical-sum, exercise= TRUE, exercise.lines=2}
-is_a_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), times = 7)
-# how many TRUE values are there in is_a_positive?
+```{r logical-sum, exercise= TRUE, exercise.lines=3}
+is_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), times = 7)
+# how many TRUE values are there in is_positive?
+
 ```
 
 ```{r logical-sum-hint}
@@ -832,7 +838,19 @@ The binary operator `:` can be used with integer values as a short version of `s
 
 *Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefore the second line of output begins with the 23rd element of the vector, which happens to be the number 23 in the sequence.
 
-### Subsetting vectors
+### Comparing vectors
+
+Suppose you have two vectors with values related to the same experiment repeated five consecutive times on two different days. Let's supposed you wanted to know if each of the results from day 1 are greater than or equal those of day 2 in the same order they were obtained. 
+
+```{r comparing-two-vectors, exercise=TRUE, exercise.lines=3}
+run_1 <- c(34.2, 28.7, 31.0, 30.7, 29.1)
+run_2 <- c(28.5, 35.1, 27.7, 29.1, 29.6)
+run_1 >= run_2
+```
+
+R is a vectorized language so operators work natively on vector objects.
+
+### Sub-setting vectors
 
 Combining the binary operator `:` and the sub-setting operator one can extract ranges of elements of a vector.
 
