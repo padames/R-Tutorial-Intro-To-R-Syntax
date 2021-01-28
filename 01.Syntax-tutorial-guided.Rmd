@@ -850,6 +850,44 @@ run_1 >= run_2
 
 R is a vectorized language so operators work natively on vector objects.
 
+Logical operators work similarly, remember the AND and OR operators represemted by the `&` and `|` symbols? They have the double ampersand and double pipe versions.
+
+```{r AND-on-vectors-setup}
+run_1 <- c(34.2, 28.7, 31.0, 30.7, 29.1)
+run_2 <- c(35.1, 28.5, 27.7, 29.1, 29.6)
+```
+
+```{r logical-AND-on-vectors, exercise=T, exercise.lines=4, exercise.setup = "AND-on-vectors-setup"}
+(val_gt_mean_1 <- run_1 > mean(run_1))
+(val_gt_mean_2 <- run_2 > mean(run_2))
+val_gt_mean_1 & val_gt_mean_2
+val_gt_mean_1 | val_gt_mean_2
+```
+
+```{r double-ampersand-on-vectors-setup}
+run_1 <- c(34.2, 28.7, 31.0, 30.7, 29.1)
+run_2 <- c(35.1, 28.5, 27.7, 29.1, 29.6)
+val_gt_mean_1 <- run_1 > mean(run_1)
+val_gt_mean_2 <- run_2 > mean(run_2)
+```
+
+
+The doble ampersand operator `&&` always returns a single value, thus when used on two vectors it returns the result of comparing only the first element of each of the two vectors.
+
+
+```{r double-ampersand-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1}
+val_gt_mean_1 && val_gt_mean_2
+```
+
+Similarly with the double pipe operator `||` or logical OR.
+
+
+```{r double-pipe-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1}
+val_gt_mean_1 || val_gt_mean_2
+```
+
+
+
 ### Sub-setting vectors
 
 Combining the binary operator `:` and the sub-setting operator one can extract ranges of elements of a vector.
@@ -882,7 +920,7 @@ x[length(x)]
 
 ### Vectors within vectors
 
-When a vector is created within another vector they form a longer vector.
+When a vector is created within another vector the result is a longer one.
 
 ```{r concatenated-vectors, exercise=T}
 y <- 1:3
