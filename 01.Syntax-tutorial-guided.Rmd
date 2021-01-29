@@ -807,7 +807,7 @@ And finally here are two vectors of logical symbols:
 ```{r vector-logicals, exercise=TRUE, exercise.lines=5}
 vl <- c(TRUE, T, T, FALSE, F, F)
 typeof(vl)
-# the presence of any zero or one coherces all elements to "numeric"
+# the presence of any zero or one coerces all elements to "numeric"
 vld <- c(TRUE, T, 1, FALSE, F, 0)
 typeof(vld)
 ```
@@ -974,7 +974,7 @@ paste0(y, collapse = "")
 y <-  append(letters[24], y)
 ```
 
-### An eye-opener to type cohersion in R
+### An eye-opener to type coersion in R
 
 We can ask vectors what type of values they carry with the function `typeof`. We can also ask if they have a specific type of value. Run this code and figure out what the vector of answers mean.
 
@@ -995,7 +995,7 @@ c(is.integer(v_int), is.numeric(v_int), is.double(v_int))
 typeof(v_int)
 ```
 
-In general R will try to coherce the elements of a vector to the most general type possible, usually _character_.
+In general R will try to coerce the elements of a vector to the most general type possible, usually _character_.
 
 
 ### Vector attributes
@@ -1310,7 +1310,7 @@ How would one obtain the last two names for any length of 'v'?",
   ),
   question("Select all applicable answers that construct a vector of characters",
            answer("c(1,2,'c')", correct = T, message = "The last option you ticked is also correct. "),
-           answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coherced into numeric, the most general type."),
+           answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coerced into numeric, the most general type."),
            answer("c(1, c(2L, 4L))", correct = F, message = "Did  you select an answer that has only numeric elements? Remember integers are a subset of numeric."),
            answer("c(\"hi\", 'there', 'c')", correct = T, message = "Well done!"),
            type = "multiple",
