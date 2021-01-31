@@ -804,34 +804,39 @@ rep(seq(1,9), times = 2)
 rep(seq(1:9), each = 2)
 ```
 
+<!-- ======================== -->
+### Test your understanding
+<!-- ======================== -->
 
-
-
-<!-- Remember a vector *must* have elements of the same homogeneous type. -->
-<!-- Here is a vector of doubles: -->
-
-<!-- ```{r vector-of-doubles, exercise=TRUE, exercise.lines=2} -->
-<!-- vd <- c(2.3, -0.54, 1, 10.8) -->
-<!-- typeof(vd) -->
-<!-- ``` -->
-
-<!-- And this one contains character strings: -->
-
-<!-- ```{r  vector-characters, exercise=TRUE, exercise.lines=2} -->
-<!-- vc <- c("Hello", "world", "in", "R!") -->
-<!-- typeof(vc) -->
-<!-- ``` -->
-
-<!-- And finally here are two vectors of logical symbols: -->
-
-<!-- ```{r vector-logicals, exercise=TRUE, exercise.lines=5} -->
-<!-- vl <- c(TRUE, T, T, FALSE, F, F) -->
-<!-- typeof(vl) -->
-<!-- # the presence of any zero or one coerces all elements to "numeric" -->
-<!-- vld <- c(TRUE, T, 1, FALSE, F, 0) -->
-<!-- typeof(vld) -->
-<!-- ``` -->
-
+```{r quiz-constructing-vectors, echo=FALSE, cache=FALSE}
+quiz(
+    question_checkbox("Consider the result of executing an R expression: 
+  
+            [1] \"a\" \"b\" \"c\" \"d\" \"e\"
+  
+  What expression(s) produce this output? (Select all that apply)",
+    answer("letters[1:4]", correct = FALSE),
+    answer("c('a', 'b', 'c', 'd', 'e')", correct = TRUE),
+    answer("letters[1] + letters[2] + letters[3] + letters[4] + letters[5]", correct = FALSE),
+    answer("c(letters[1:4], letters[5])", correct = TRUE),
+    answer("LETTERS[1:5]", correct = FALSE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "Well done, that must have required a lot of research on your part!",
+    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  ),
+  question_radio(
+    "rep(1:5, times = 2) will print out
+    
+    [1] 1 1 2 2 3 3 4 4 5 5",
+    answer("yes", correct = FALSE, message = 'Perhaps you are thinking of rep(1:5, each = 2)?'),
+    answer("no", correct= TRUE),
+    correct = 'Correct, the named argument \'times\' appends the vectors',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  )
+)
+```
 
 
 
