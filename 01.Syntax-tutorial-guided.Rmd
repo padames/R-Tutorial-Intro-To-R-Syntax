@@ -901,21 +901,21 @@ There are many interesting ways of sub-setting a vector using ranges. For exampl
 
 ```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=9}
 x <- c(5, -1, 3, 0, -4, 1)
-# subset all but last element of the vector 'x'
+# subset all but the first element of the vector 'x'
 
 # extract the last element
 
-# create a vector of logicals
+# create a vector of logical types
 mask <- x>2
 # subset (filter)
 x[mask]
 ```
 
-
 ```{r subset-from-a-point-to-the-end-hint}
 x[-1]
 x[length(x)]
 ```
+
 
 
 ### Vectors within vectors
