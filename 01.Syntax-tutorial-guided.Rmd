@@ -768,6 +768,9 @@ typeof(first_element)
 is.vector(first_element)
 ```
 
+
+### Naming the elements of a vector
+
 A vector can also have named elements. These may help future you or another reader of the code to understand the intended meaning of the data. These names can be assigned when creating the vector or later with the unary function `names`. Here are examples for you to try.
 
 
@@ -783,7 +786,7 @@ y <- c(current_temp = 5, low_forecast = -1, high_forecast = 10)
 ```
 
 
-### Constructing vectors
+### Constructing vectors with patterns
 
 Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. The functions `rep()` and `seq()` can be pretty helpful to achieve this. Study the output of these functions.
 
@@ -801,30 +804,33 @@ rep(seq(1,9), times = 2)
 rep(seq(1:9), each = 2)
 ```
 
-Remember a vector *must* have elements of the same homogeneous type.
-Here is a vector of doubles:
 
-```{r vector-of-doubles, exercise=TRUE, exercise.lines=2}
-vd <- c(2.3, -0.54, 1, 10.8)
-typeof(vd)
-```
 
-And this one contains character strings:
 
-```{r  vector-characters, exercise=TRUE, exercise.lines=2}
-vc <- c("Hello", "world", "in", "R!")
-typeof(vc)
-```
+<!-- Remember a vector *must* have elements of the same homogeneous type. -->
+<!-- Here is a vector of doubles: -->
 
-And finally here are two vectors of logical symbols:
+<!-- ```{r vector-of-doubles, exercise=TRUE, exercise.lines=2} -->
+<!-- vd <- c(2.3, -0.54, 1, 10.8) -->
+<!-- typeof(vd) -->
+<!-- ``` -->
 
-```{r vector-logicals, exercise=TRUE, exercise.lines=5}
-vl <- c(TRUE, T, T, FALSE, F, F)
-typeof(vl)
-# the presence of any zero or one coerces all elements to "numeric"
-vld <- c(TRUE, T, 1, FALSE, F, 0)
-typeof(vld)
-```
+<!-- And this one contains character strings: -->
+
+<!-- ```{r  vector-characters, exercise=TRUE, exercise.lines=2} -->
+<!-- vc <- c("Hello", "world", "in", "R!") -->
+<!-- typeof(vc) -->
+<!-- ``` -->
+
+<!-- And finally here are two vectors of logical symbols: -->
+
+<!-- ```{r vector-logicals, exercise=TRUE, exercise.lines=5} -->
+<!-- vl <- c(TRUE, T, T, FALSE, F, F) -->
+<!-- typeof(vl) -->
+<!-- # the presence of any zero or one coerces all elements to "numeric" -->
+<!-- vld <- c(TRUE, T, 1, FALSE, F, 0) -->
+<!-- typeof(vld) -->
+<!-- ``` -->
 
 
 
@@ -1018,7 +1024,16 @@ c(is.integer(v_int), is.numeric(v_int), is.double(v_int))
 typeof(v_int)
 ```
 
-In general R will try to coerce the elements of a vector to the most general type possible, usually _character_.
+```{r vector-logicals, exercise=TRUE, exercise.lines=5}
+v_logicals <- c(TRUE, T, T, FALSE, F, F)
+typeof(v_logicals)
+# the presence of a 0 or 1 coerces all elements to "double"
+v_logicals2 <- c(TRUE, T, 1, FALSE, F, 0)
+typeof(v_logicals2)
+```
+
+
+In general R will try to coerce the elements of a vector to the most general type possible, usually _double_ or _character_.
 
 
 ### Vector attributes
