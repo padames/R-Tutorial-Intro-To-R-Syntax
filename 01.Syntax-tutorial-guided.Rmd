@@ -768,6 +768,20 @@ typeof(first_element)
 is.vector(first_element)
 ```
 
+A vector can also have named elements. These may help future you or another reader of the code to understand the intended meaning of the data. These names can be assigned when creating the vector or later with the unary function `names`. Here are examples for you to try.
+
+
+```{r examples-named-vectors, exercise=T, exercise.lines=9}
+x <- c(5, -1, 10)
+temperature_labels = c("current_temp", "low_forecast", "high_forecast")
+# assign the names after creation of the vector
+names(x) <- temperature_labels
+# assign names while creating the vector
+y <- c(current_temp = 5, low_forecast = -1, high_forecast = 10)
+# now print out the x and y vectors, do you see any differences?
+
+```
+
 
 ### Constructing vectors
 
@@ -872,7 +886,7 @@ val_gt_mean_2 <- run_2 > mean(run_2)
 ```
 
 
-The doble ampersand operator `&&` always returns a single value, thus when used on two vectors it returns the result of comparing only the first element of each of the two vectors.
+The double ampersand operator `&&` always returns a single value, thus when used on two vectors it returns the result of comparing only the first element of each of the two vectors.
 
 
 ```{r double-ampersand-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1}
@@ -976,6 +990,15 @@ y <-  append(letters[24], y)
 
 ### An eye-opener to type coersion in R
 
+Let's assign integers and a string of characters to a vector and check the result.
+
+```{r vector-coersion-example, exercise=T, exercise.lines=3}
+number_vec <- c(10, 25, 46, "four")
+number_vec
+typeof(number_vec)
+```
+
+
 We can ask vectors what type of values they carry with the function `typeof`. We can also ask if they have a specific type of value. Run this code and figure out what the vector of answers mean.
 
 ```{r type-numeric-vector, exercise=TRUE}
@@ -984,10 +1007,10 @@ c(is.integer(v_dbl), is.numeric(v_dbl), is.double(v_dbl))
 typeof(v_dbl)
 ```
 
-Can you explain why both `is.numeric` and `is.double` are `TRUE`. Woild a plain `integer` type be numeric?
+Why does R think `is.numeric` and `is.double` are `TRUE` while `is.integer` is `FALSE`?
 Read on to answer that question.
 
-The characters that represent integers are automatically interpreted as doubles or numeric, the more general concept. In order to enforce their interpretation as integers (in case it is absolutely necessary) use `L` as a suffix on each number. Run the following and compare the results:
+The characters that represent integers are automatically interpreted as doubles or numeric, the more general concept. In order to ask R to be more specific, in case it is absolutely necessary for your program, use `L` as a suffix on each number. Run the following and compare the results:
 
 ```{r type-int-vetor, exercise=TRUE}
 v_int <- c(0L, 1L, 3L)
