@@ -1067,46 +1067,39 @@ In general R will try to coerce the elements of a vector to the most general typ
 
 Vectors can also be interrogated for their class and their attributes.
 
-```{r vectors-class, echo=TRUE}
+```{r vectors-class, exercise=T, exercise.lines=10}
 # a vector of four truth values
 v <- c(T, T, F, T)
 # the same as typeof for this object
 class(v)
 # are there any attributes?
 attributes(v)
-```
-
-Now let's create the vector with names. The names become an attribute of the vector object. Pay close attention to the results of running this code.
-
-```{r vectors-names, echo=TRUE}
-# a vector of four truth value for four logical propositions
-v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
+# now give names to the elements of the vector
+names(v) <- c("p1", "p2", "p3", "p4")
 # check the attributes of the object
 attributes(v)
 ```
 
-There are three default attributes of a vector: names, class, and dimension. Each can be accessed via a specific function. Dimnesion has the `NULL` value by default for vectors, it will be different for matrices and arrays though.
+Only the attribute `names` is visible when using the function `attributes`. However, there are three default attributes of a vector: names, class, and dimension. Each can be accessed via a specific function. Dimension has the `NULL` value by default for vectors, it will be different for matrices and arrays though.
 
-```{r vector-attributes-by-accessor, echo=TRUE}
+```{r vector-attributes-by-accessor, exercise=TRUE, exercise.lines=4}
 v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
 names(v)
 class(v)
 dim(v)
 ```
 
-Names can be changed in place with the assignment operator. Run this code and compare the two vectors of names from `v` after creation and after the reassignment.
+<!-- Names can be changed in place with the assignment operator. Run this code and compare the two vectors of names from `v` after creation and after the reassignment. -->
 
-```{r assigning-vector-names, exercise=TRUE}
-v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
-# check the original names
-names(v)
-# reassigned names
-names(v) <- c("val1", "val2", "val3", "val4")
-# new names
-names(v)
-# finally check the names of the vector with the sum of all the values
-names(sum(v))
-```
+<!-- ```{r assigning-vector-names, exercise=TRUE} -->
+<!-- v <- c(p1 = T, p2 = T, p3 = F, p4 = T) -->
+<!-- # check the original names -->
+<!-- names(v) -->
+<!-- # reassigned names -->
+<!-- names(v) <- c("val1", "val2", "val3", "val4") -->
+<!-- # new names -->
+<!-- names(v) -->
+<!-- ``` -->
 
 
 <!-- ======================== -->
@@ -1156,11 +1149,23 @@ quiz(
     answer("x[5] = 5", correct = T),
     answer("x[length(x)] <- 5", correct = T),
     answer("x(5) <- 5", correct = F),
-    answer("c(x, x[4] + 1) ", correct = T),
+    answer("append(x, 5) ", correct = T),
     allow_retry = T,
     random_answer_order = T,
     correct = "I bet you had heard that R was versatile and expressive but this was a (nice) surprise for you, right?",
     incorrect = "There are either missing 'correct' answers or wrong ones among your selection."),
+  question_checkbox("How would you append 5 to the head of this vector?
+                    
+    x <- 1:4",
+    answer("c(5, x)", correct = T),
+    answer("append(5, x)", correct = T),
+    answer("x[0] <- 5", correct = F),
+    answer("x(0) <- 5", correct = F),
+    answer("c(c(5), x) ", correct = T),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "The difference with the previous question is that you can't assignt a value at the head!",
+    incorrect = "There are either missing 'correct' answers or wrong ones among your selection."),  
   question("How would you concatenate these two vectors in R?
       
       group_1 = c(\"Rob\", \"Tina\", \"Sue\")
