@@ -804,8 +804,33 @@ rep(seq(1,9), times = 2)
 rep(seq(1:9), each = 2)
 ```
 
+
+### More operations on vectors
+
+As you might have guessed from the previous exercise, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. You can add logical values as if they were zeros and ones. This is useful to count the number of positive or TRUE values in a vector:
+
+```{r logical-sum, exercise= TRUE, exercise.lines=3}
+is_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F, F, F, F, T), each = 2), times = 7)
+# how many TRUE values are there in is_positive?
+
+```
+
+```{r logical-sum-hint}
+sum(is_positive)
+```
+
+
+The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
+
+```{r short-version-of-seq, exercise=TRUE, exercise.lines=1}
+1:50
+```
+
+*Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefore the second line of output begins with the 23rd element of the vector, which happens to be the number 23 in the sequence.
+
+
 <!-- ======================== -->
-### Test your understanding
+### Time to practice
 <!-- ======================== -->
 
 ```{r quiz-constructing-vectors, echo=FALSE, cache=FALSE}
@@ -845,34 +870,23 @@ quiz(
     answer("[1] 5 9 13 14 19 20", correct = FALSE, message = "That last 20 doesn't quite match the pattern!"),
     allow_retry = TRUE,
     random_answer_order = TRUE,
-    correct = "It would  have been easier if the arguments had been named but you still figured it out, nicely done!")
+    correct = "It would  have been easier if the arguments had been named but you still figured it out, nicely done!"),
+  question("The function 'sample' takes a vector and returns a random sample of its elements. What would  this expression return?
+  
+    sample(c(letters, LETTERS), size = 4, replace = F)
+    
+  The named argument  'size' gives the number of elements in the sample and the 'replace' is a logical value wheather the items from the vector can appear more than once in the sample.",
+  answer("[1] \"w\" \"i\" \"D\" \"F\"", correct = T),
+  answer("[1] \"a\" \"L\" \"a\" \"D\"", correct = F, message = "The sample was requested without replacement so this answer is not the one!"),
+  answer("[1] \"E\" \"A\" \"q\" \"K\" \"e\"", correct = F, message = "This sample is too big, the requested sample size was 4!"),
+  answer("[1] \"!\" \"B\" \"Q\" \"V\"", correct = F, message = "The vector we are sampling from does not contain punctuation symbols."),
+  answer("[1] \"s\" \"1\" \"M\" \"i\" ", correct = F, message = "The original vector to sample from does not contain digits."),
+  allow_retry = T,
+  random_answer_order = T,
+  correct = "Wow, that was impressive, you are really beginning to get a kick out of R!")
 )
 ```
 
-
-
-### More operations on vectors
-
-As you might have guessed from the previous exercise, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. You can add logical values as if they were zeros and ones. This is useful to count the number of positive or TRUE values in a vector:
-
-```{r logical-sum, exercise= TRUE, exercise.lines=3}
-is_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), times = 7)
-# how many TRUE values are there in is_positive?
-
-```
-
-```{r logical-sum-hint}
-sum(is_positive)
-```
-
-
-The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
-
-```{r short-version-of-seq, exercise=TRUE, exercise.lines=1}
-1:50
-```
-
-*Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefore the second line of output begins with the 23rd element of the vector, which happens to be the number 23 in the sequence.
 
 ### Comparing vectors
 
