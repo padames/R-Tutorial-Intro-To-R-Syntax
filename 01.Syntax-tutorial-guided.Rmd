@@ -1063,40 +1063,6 @@ typeof(v_logicals2)
 In general R will try to coerce the elements of a vector to the most general type possible, usually _double_ or _character_.
 
 
-<!-- ======================== -->
-### Time to practice
-<!-- ======================== -->
-
-```{r quiz-more-on-vectors, echo=FALSE, cache=FALSE}
-quiz(
-    question_checkbox("Consider the following result of executing an R expression: 
-  
-            [1] \"a\" \"b\" \"c\" \"d\" \"e\"
-  
-  What expression(s) produce this output? (Select all that apply)",
-    answer("letters[1:4]", correct = FALSE),
-    answer("c('a', 'b', 'c', 'd', 'e')", correct = TRUE),
-    answer("letters[1] + letters[2] + letters[3] + letters[4] + letters[5]", correct = FALSE),
-    answer("c(letters[1:4], letters[5])", correct = TRUE),
-    answer("LETTERS[1:5]", correct = FALSE),
-    allow_retry = TRUE,
-    random_answer_order = TRUE,
-    correct = "Well done, that must have required a lot of research on your part!",
-    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
-  ),
-  question_radio(
-    "The result of the following expression is \"character\":
-    
-      typeof(c(FALSE, 0, \"TRUE\"))",
-    answer("yes", correct = TRUE),
-    answer("no", correct= FALSE, message = 'In R type "character" is even more general than "double"'),
-    correct = 'Well done, you have a natural talent for R!',
-    random_answer_order = TRUE,
-    allow_retry = TRUE
-  )
-)
-```
-
 ### Vector attributes
 
 Vectors can also be interrogated for their class and their attributes.
@@ -1142,6 +1108,75 @@ names(v)
 names(sum(v))
 ```
 
+
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
+
+```{r quiz-more-on-vectors, echo=FALSE, cache=FALSE}
+quiz(
+    question_checkbox("Consider the following result of executing an R expression: 
+  
+            [1] \"a\" \"b\" \"c\" \"d\" \"e\"
+  
+  What expression(s) produce this output? (Select all that apply)",
+    answer("letters[1:4]", correct = FALSE),
+    answer("c('a', 'b', 'c', 'd', 'e')", correct = TRUE),
+    answer("letters[1] + letters[2] + letters[3] + letters[4] + letters[5]", correct = FALSE),
+    answer("c(letters[1:4], letters[5])", correct = TRUE),
+    answer("LETTERS[1:5]", correct = FALSE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "Well done, that must have required a lot of research on your part!",
+    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  ),
+  # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Sort the following R types from more specific to more general",
+    correct = "Well, repetition does help but you are outstanding at this, that's undeniable!",
+    incorrect = "Hmm, not quite accurate, try again!",
+    allow_retry = TRUE,
+    random_answer_order = TRUE, 
+    options = sortable::sortable_options(),
+    learnr::answer(c("logical", "integer", "double", "character"), correct = TRUE)
+  ),
+  question_radio(
+    "The result of the following expression is \"character\":
+    
+      typeof(c(FALSE, 0, \"TRUE\"))",
+    answer("yes", correct = TRUE),
+    answer("no", correct= FALSE, message = 'In R type "character" is even more general than "double"'),
+    correct = 'Well done, you have a natural talent for R!',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question_checkbox("How would you append 5 to the end of this vector?
+                    
+    x <- 1:4",
+    answer("c(x, c(5))", correct = T),
+    answer("x[5] = 5", correct = T),
+    answer("x[length(x)] <- 5", correct = T),
+    answer("x(5) <- 5", correct = F),
+    answer("c(x, x[4] + 1) ", correct = T),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "I bet you had heard that R was versatile and expressive but this was a (nice) surprise for you, right?",
+    incorrect = "There are either missing 'correct' answers or wrong ones among your selection."),
+  question("How would you concatenate these two vectors in R?
+      
+      group_1 = c(\"Rob\", \"Tina\", \"Sue\")
+      group_2 = c(\"Sam\", \"Ken\") 
+           
+      ",
+    answer("c(group_1, group_2)", correct = T),
+    answer("group_1 + group_2", correct = F, message = 'The binary operator \'+\' takes numeric types as arguments.'),
+    answer("sum(group_1, group_2)", correct = F, message = '\'sum\' takes numeric types or types that can be coerced to numeric'),
+    answer("[group_1, group_2]", correct = F, message = 'The subset oeprator \'[\' does not work like this in R.'),
+    answer("c(group_1[3], group_2)", correct = F, message = 'This would give [1] \"Sue\" \"Sam\" \"Ken\".'),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "Amazing, you have a solid understanding of the vector data structure now!")
+)
+```
 
 
 ## Factors
