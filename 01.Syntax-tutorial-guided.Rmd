@@ -810,7 +810,7 @@ rep(seq(1:9), each = 2)
 
 ```{r quiz-constructing-vectors, echo=FALSE, cache=FALSE}
 quiz(
-    question_checkbox("Consider the result of executing an R expression: 
+    question_checkbox("Consider the following result of executing an R expression: 
   
             [1] \"a\" \"b\" \"c\" \"d\" \"e\"
   
@@ -834,7 +834,18 @@ quiz(
     correct = 'Correct, the named argument \'times\' appends the vectors',
     random_answer_order = TRUE,
     allow_retry = TRUE
-  )
+  ),
+  question("What is the result of executing the following expression:
+           
+    seq(5, 20, 4)",
+    answer("[1] 4 9 14 19", correct = FALSE,  message = "Maybe review the order of the arguments to 'seq'?"),
+    answer("[1] 5 9 13 17", correct = TRUE),
+    answer("[1] 4 5 20", correct = FALSE, message = "Check the meaning of the arguments to 'seq'."),
+    answer("[1] 5 20 5 20 5 20 5 20", correct = FALSE, message = "Good try, you might be confused with 'rep'"),
+    answer("[1] 5 9 13 14 19 20", correct = FALSE, message = "That last 20 doesn't quite match the pattern!"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "It would  have been easier if the arguments had been named but you still figured it out, nicely done!")
 )
 ```
 
@@ -851,7 +862,7 @@ is_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F,F, F, F, T), each = 2), ti
 ```
 
 ```{r logical-sum-hint}
-sum(is_a_positive)
+sum(is_positive)
 ```
 
 
