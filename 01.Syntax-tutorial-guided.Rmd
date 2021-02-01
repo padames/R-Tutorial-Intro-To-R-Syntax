@@ -178,7 +178,7 @@ kable( data.frame(relation1, value1, and, relation2, value2, equals, result,
        caption = 'Truth table for OR')
 ```
 
-Finally the negation or NOT logical operator is represented in R by the exclamation mark `!`. It negates or turns the logical value into its oposite.
+Finally the negation or NOT logical operator is represented in R by the exclamation mark `!`. It negates or turns the logical value into its opposite.
 
 ```{r negation-logical-operator, exercise=TRUE}
 !TRUE
@@ -904,7 +904,29 @@ quiz(
     answer("[1] \"s\" \"1\" \"M\" \"i\" ", correct = F, message = "The original vector to sample from does not contain digits."),
     allow_retry = T,
     random_answer_order = T,
-    correct = "Wow, that was impressive, you are really beginning to get a kick out of R!")
+    correct = "Wow, that was impressive, you are really beginning to get a kick out of R!"),
+  question("What would the result of executing the following expression be?
+          
+          times_each <- c(9,2,7)
+          x <- rep(x = 0:2, times = times_each)
+          
+          length(x)
+          
+  Hint: remember that R vectorized operations act element-wise.",
+    answer("[1] 18", correct = T),
+    answer("[1] 3", correct = F, message = "Maybe you are not counting on the effect of the function rep?"),
+    answer("[1] 27", correct = F, message = "Something is amiss!"),
+    answer("[1] 2", correct = F, message = "Too short... perhaps go over the material again?"),
+    answer("[1] Error", correct = F, message = "How possible?"),
+    answer("[1] 0", correct = F, message = "I did not see this one coming!"),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "This is x:
+  
+  [1] 0 0 0 0 0 0 0 0 0 1 1 2 2 2 2 2 2 2
+  
+  That was awesome, did you use pen and paper or the R command line?",
+    incorrect = "Oops")
 )
 ```
 
@@ -1258,21 +1280,22 @@ quiz(
 
 These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a play list may be described by:
 
-```{r music-sample-genres, echo=TRUE}
+```{r music-sample-genres, exercise=T, exercise.lines=3}
 # The genres on an eclectic play list 
-music_sample <- c("Indie", "Electronic", "Country")
+music_sample <- c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic")
 class(music_sample)
 ```
 
-Now, what if we created a new type of vector that could only be populated with these genres, assuming that these are the only ones we will ever listen to.
+What if we wanted a vector that recognized the distinct genres, furthermore what if we wanted it to provide automatic tracking of the number of songs of each genre on our play list. Introducing the factor object.
 
-```{r music-sample-genres-setup, echo=TRUE}
+```{r music-sample-genres-setup}
 # The genres on an eclectic play list 
-music_sample <- c("Indie", "Electronic", "Country")
+music_sample <- c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic")
 ```
 
+First let's turn the character vector into an actual factor object, an object of a different class.
 
-```{r music-sample-genres-as-factors, exercise.setup="music-sample-genres-setup", echo=T}
+```{r music-sample-genres-as-factors, exercise=T, exercise.lines=2, exercise.setup="music-sample-genres-setup"}
 music_sample_2 <- factor(music_sample)
 class(music_sample_2)
 ```
@@ -1281,7 +1304,7 @@ class(music_sample_2)
 Check out the levels available to populate the play list:
 
 ```{r music-sample-genres-as-factors-setup}
-music_sample_2 <- factor(c("Indie", "Electronic", "Country"))
+music_sample_2 <- factor(c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic"))
 ```
 
 Adding a new element has to be done on the levels, the underlying vector.
