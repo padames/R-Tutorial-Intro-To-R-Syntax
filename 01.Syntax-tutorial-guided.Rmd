@@ -725,14 +725,14 @@ A vector of six integer values would be represented graphically as a long struct
 knitr::include_graphics("images/vector.png", dpi = 86)
 ```
 
-And as code:
+And as code you would use the function `c()`:
 ```{r vector-construction, exercise = TRUE, exercise.lines=1}
 c(5, -1, 3, 0, -4, 1)
 ```
 
-A vector is constructed with the function `c()` that takes a variable number of arguments. Once a vector has been constructed and assigned to a variable `x`, its elements can be extracted with the sub-setting operator `[]`. `x[1]` subsets the vector represented by the name `x` returning another vector with the first  element only.
+The function `c()` takes a variable number of arguments with or without names. Once a vector has been constructed and assigned to a variable `x`, its elements can be extracted with the sub-setting operator `[]`. `x[1]` subsets the vector represented by the name `x` returning another vector with the element from the first position.
 
-Try to answer the questions with your code.
+Try to answer the questions with your code, use the hint if necessary.
 
 ```{r vector-example, exercise = TRUE, exercise.lines=10}
 x <- c(5, -1, 3, 0, -4, 1)
@@ -757,7 +757,7 @@ x[length(x)] - x[1]
 
 ### A vector in disguise
 
-Did you notice the language used to explain sub-setting? `x[1]` returns a vector with only the first element of `x`. In R the sub-setting function returns another vector. Let's verify these statements with R itself:
+Did you notice the language used to explain sub-setting? `x[1]` returns a vector with the first element of `x`. In R the sub-setting function returns another vector. Let's verify these statements with R itself:
 
 ```{r verify-data-structure-subsetting-a-vector, exercise=TRUE, exercise.lines=6}
 x <- c(5, -1, 3, 0, -4, 1)
@@ -771,7 +771,7 @@ is.vector(first_element)
 
 ### Naming the elements of a vector
 
-A vector can also have named elements. These may help future you or another reader of the code to understand the intended meaning of the data. These names can be assigned when creating the vector or later with the unary function `names`. Here are examples for you to try.
+A vector can also have named elements. These may help future you or another reader of the code to understand the intended meaning of the data. These names can be assigned when creating the vector or later with the _unary_ function `names`. Here are examples for you to try.
 
 
 ```{r examples-named-vectors, exercise=T, exercise.lines=9}
@@ -835,21 +835,6 @@ The binary operator `:` can be used with integer values as a short version of `s
 
 ```{r quiz-constructing-vectors, echo=FALSE, cache=FALSE}
 quiz(
-    question_checkbox("Consider the following result of executing an R expression: 
-  
-            [1] \"a\" \"b\" \"c\" \"d\" \"e\"
-  
-  What expression(s) produce this output? (Select all that apply)",
-    answer("letters[1:4]", correct = FALSE),
-    answer("c('a', 'b', 'c', 'd', 'e')", correct = TRUE),
-    answer("letters[1] + letters[2] + letters[3] + letters[4] + letters[5]", correct = FALSE),
-    answer("c(letters[1:4], letters[5])", correct = TRUE),
-    answer("LETTERS[1:5]", correct = FALSE),
-    allow_retry = TRUE,
-    random_answer_order = TRUE,
-    correct = "Well done, that must have required a lot of research on your part!",
-    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
-  ),
   question_radio(
     "rep(1:5, times = 2) will print out
     
@@ -885,6 +870,37 @@ quiz(
   random_answer_order = T,
   correct = "Wow, that was impressive, you are really beginning to get a kick out of R!")
 )
+```
+
+
+
+
+### Sub-setting vectors
+
+Combining the binary operator `:` and the sub-setting operator one can extract ranges of elements of a vector.
+
+```{r subsetting-a-vector, echo=TRUE}
+x <- c(5, -1, 3, 0, -4, 1)
+# subset the range of elements from the third to the fifth one
+x[3:5]
+```
+There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the index is in the reverse order (starting from the tail instead of from the head).
+
+```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=9}
+x <- c(5, -1, 3, 0, -4, 1)
+# subset all but the first element of the vector 'x'
+
+# extract the last element
+
+# create a vector of logical types
+mask <- x>2
+# subset (filter)
+x[mask]
+```
+
+```{r subset-from-a-point-to-the-end-hint}
+x[-1]
+x[length(x)]
 ```
 
 
@@ -949,36 +965,6 @@ week_days[gt_mean_mornings | gt_mean_afternoons]
 
 
 
-### Sub-setting vectors
-
-Combining the binary operator `:` and the sub-setting operator one can extract ranges of elements of a vector.
-
-```{r subsetting-a-vector, echo=TRUE}
-x <- c(5, -1, 3, 0, -4, 1)
-# subset the range of elements from the third to the fifth one
-x[3:5]
-```
-There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the index is in the reverse order (starting from the tail instead of from the head).
-
-```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=9}
-x <- c(5, -1, 3, 0, -4, 1)
-# subset all but the first element of the vector 'x'
-
-# extract the last element
-
-# create a vector of logical types
-mask <- x>2
-# subset (filter)
-x[mask]
-```
-
-```{r subset-from-a-point-to-the-end-hint}
-x[-1]
-x[length(x)]
-```
-
-
-
 ### Vectors within vectors
 
 When a vector is created within another vector the result is a longer one.
@@ -989,7 +975,7 @@ y <- 1:3
 c(0, y, 4)
 ```
 
-In other words a vector is always a linear structure, you cannot create branches on a vector. The technique just shown is what is used to concatenate or join two or more vectors.
+In other words a vector is always a linear structure, **you cannot create branches on a vector**. The technique just shown is what is used to concatenate or join two or more vectors.
 
 ```{r concatenate-vectors, exercise=TRUE, exercise.lines=3}
 vx <- c("Rob", "Dori", "Nick")
@@ -1076,6 +1062,40 @@ typeof(v_logicals2)
 
 In general R will try to coerce the elements of a vector to the most general type possible, usually _double_ or _character_.
 
+
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
+
+```{r quiz-more-on-vectors, echo=FALSE, cache=FALSE}
+quiz(
+    question_checkbox("Consider the following result of executing an R expression: 
+  
+            [1] \"a\" \"b\" \"c\" \"d\" \"e\"
+  
+  What expression(s) produce this output? (Select all that apply)",
+    answer("letters[1:4]", correct = FALSE),
+    answer("c('a', 'b', 'c', 'd', 'e')", correct = TRUE),
+    answer("letters[1] + letters[2] + letters[3] + letters[4] + letters[5]", correct = FALSE),
+    answer("c(letters[1:4], letters[5])", correct = TRUE),
+    answer("LETTERS[1:5]", correct = FALSE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "Well done, that must have required a lot of research on your part!",
+    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  ),
+  question_radio(
+    "The result of the following expression is \"character\":
+    
+      typeof(c(FALSE, 0, \"TRUE\"))",
+    answer("yes", correct = TRUE),
+    answer("no", correct= FALSE, message = 'In R type "character" is even more general than "double"'),
+    correct = 'Well done, you have a natural talent for R!',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  )
+)
+```
 
 ### Vector attributes
 
