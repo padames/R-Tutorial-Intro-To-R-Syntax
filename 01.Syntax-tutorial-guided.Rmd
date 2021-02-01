@@ -1278,7 +1278,7 @@ quiz(
 
 ## Factors
 
-These are vectors that can only be populated with predefined values which correspond to categories or levels. For example the vector of musical genres for a sample of music titles from a play list may be described by:
+These are vectors used to model categorical variables that are better described by their discrete values. This is an example of a vector whose attribute `class` has been redefined to alter its behaviour. For example the vector of musical genres for a sample of music titles from a play list may be described by:
 
 ```{r music-sample-genres, exercise=T, exercise.lines=3}
 # The genres on an eclectic play list 
@@ -1286,55 +1286,66 @@ music_sample <- c("Indie", "Electronic", "Country", "Country", "Indie", "Indie",
 class(music_sample)
 ```
 
-What if we wanted a vector that recognized the distinct genres, furthermore what if we wanted it to provide automatic tracking of the number of songs of each genre on our play list. Introducing the factor object.
+What if we wanted this vector to recognize the distinct musical genres, furthermore what if we wanted it to automatically track the number of songs of each genre on our play list. Introducing the factor class:
 
 ```{r music-sample-genres-setup}
 # The genres on an eclectic play list 
 music_sample <- c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic")
 ```
 
-First let's turn the character vector into an actual factor object, an object of a different class.
+First let's turn the character vector into an actual factor.
 
 ```{r music-sample-genres-as-factors, exercise=T, exercise.lines=2, exercise.setup="music-sample-genres-setup"}
 music_sample_2 <- factor(music_sample)
-class(music_sample_2)
+attributes(music_sample_2)
 ```
-
-
-Check out the levels available to populate the play list:
+What if we get a recommendation to listen to a new genre so we add it to the play list before actually listening to any new song. That can be achieved in R by adding a new character string to the vector of levels.
 
 ```{r music-sample-genres-as-factors-setup}
 music_sample_2 <- factor(c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic"))
 ```
 
-Adding a new element has to be done on the levels, the underlying vector.
+```{r music-sample-adding_new-level, exercise=T, exercise.setup="music-sample-genres-as-factors-setup", exercise.lines=3}
+# add a new musical genre (a new level of the categorical variable)
+levels(music_sample_2) <- c(levels(music_sample_2), "Classical")
+table(music_sample_2)
+```
+
+When we start listening to songs of that new genre they will get reckoned appropriately. In R adding a new element to a factor has to be done on original vector because factors cannot be combined or concatenated.
 
 ```{r music-sample-genres-levels, exercise=T, exercise.setup="music-sample-genres-as-factors-setup", exercise.lines=4}
-levels(music_sample_2)
-# add a new entry 
-music_sample_3 <- append(levels(music_sample_2), "Indie")
-music_sample_3
+# add new entries
+music_sample_3 <- factor(c(music_sample, c("Classical", "Indie")))
+table(music_sample_3)
 ```
+
 
 Why is this important? Let's see an example of how to tally the number of elements in each category of a factor vector.
 
 ```{r tally-factor, exercise=T}
 # build the factors for your play list, remember the convenient 'rep' function?
-genres <- factor(c(rep("Indie", times = 5), 
+genre_data <- c(rep("Indie", times = 5), 
                 rep("Electronic", times = 9), 
-                rep("Country", times = 27)))
+                rep("Country", times = 27))
+music_sample_genres <- factor(genre_data)
 # whoa, do I sense a certain trend here? let's check with R
-table(genres)
+table(music_sample_genres)
+```
+```{r tally-factor-setup}
+genre_data <- c(rep("Indie", times = 5),
+                rep("Electronic", times = 9), 
+                rep("Country", times = 27))
+music_sample_genres <- factor(genre_data)
 ```
 
-If you need to add a new level to the factor vector then there is a form of level assignment to do it, using simple vector linear concatenation with the `c()` function, remember 'nesting vectors'?:
 
-```{r adding-level-to-factor, echo=T}
-music_sample_genres <- factor(c("Country", "Indie", "Electronic", "Indie", "Country"))
+If you need to add a new level to the factor object then there is a form of level assignment to do it, using simple vector linear concatenation with the `c()` function, remember 'nesting vectors'?:
+
+```{r adding-level-to-factor, exercise=T, exercise.lines=8, exercise.setup="tally-factor-setup"}
 # add a new level for newly discovered musical genre "Classical":
 levels(music_sample_genres) <- c(levels(music_sample_genres), "Classical")
 # now add a few entries, here we only add their genres
-music_sample_genres <- append(levels(music_sample_genres), c("Classical", "Indie", "Indie"))
+music_sample_genres <- factor(c(genre_data, c("Classical", "Indie", "Indie", "Indie")))
 # see the tally
 table(music_sample_genres)
 ```
