@@ -85,7 +85,7 @@ There are many more operators. We will now go over some of the most important an
 
 These operators have R compute numerical equality or inequality between objects. Don't get intimidated by the word objects: in R everything is an object, although some appear to be just numeric values. 
 
-The basic relational operators compute equality or the lack of it:  "is equal" `==`, "is not equal"; and inequality in either direction with "is less than" `<` and "is greater than" `>`. 
+The basic relational operators compute equality or the lack of it:  "is equal" `==`, "is not equal" `!=`; and inequality in either direction with "is less than" `<` and "is greater than" `>`. 
 
 ```{r relational-operators, exercise = TRUE}
 18 == 3 * 6
@@ -890,51 +890,62 @@ quiz(
 
 ### Comparing vectors
 
-Suppose you have two vectors with values related to the same experiment repeated five consecutive times on two different days. Let's supposed you wanted to know if each of the results from day 1 are greater than or equal those of day 2 in the same order they were obtained. 
+Suppose you have two vectors with values related to the same experiment repeated on  each day of the work week, one run in the morning and the other in the afternoon. Let's supposed you wanted to know if each of the results from the mornings are greater than or equal those in the afternoon throughout the week. 
 
 ```{r comparing-two-vectors, exercise=TRUE, exercise.lines=3}
-run_1 <- c(34.2, 28.7, 31.0, 30.7, 29.1)
-run_2 <- c(28.5, 35.1, 27.7, 29.1, 29.6)
-run_1 >= run_2
+morning <- c(Mon=34.2, Tue=28.7, Wed=31.0, Thu=30.7, Fri=29.1)
+afternoon <- c(Mon=28.5, Tue=35.1, Wed=27.7, Thu=29.1, Fri=29.6)
+morning >= afternoon
 ```
 
 R is a vectorized language so operators work natively on vector objects.
 
-Logical operators work similarly, remember the AND and OR operators represemted by the `&` and `|` symbols? They have the double ampersand and double pipe versions.
+Let's find out on what days we got both morning and afternoon results below or above their weekly mean:
 
-```{r AND-on-vectors-setup}
-run_1 <- c(34.2, 28.7, 31.0, 30.7, 29.1)
-run_2 <- c(35.1, 28.5, 27.7, 29.1, 29.6)
-```
-
-```{r logical-AND-on-vectors, exercise=T, exercise.lines=4, exercise.setup = "AND-on-vectors-setup"}
-(val_gt_mean_1 <- run_1 > mean(run_1))
-(val_gt_mean_2 <- run_2 > mean(run_2))
-val_gt_mean_1 & val_gt_mean_2
-val_gt_mean_1 | val_gt_mean_2
-```
-
-```{r double-ampersand-on-vectors-setup}
-run_1 <- c(34.2, 28.7, 31.0, 30.7, 29.1)
-run_2 <- c(35.1, 28.5, 27.7, 29.1, 29.6)
-val_gt_mean_1 <- run_1 > mean(run_1)
-val_gt_mean_2 <- run_2 > mean(run_2)
+```{r equal-on-vectors-setup}
+morning <- c(Mon=34.2, Tue=28.7, Wed=31.0, Thu=30.7, Fri=29.1)
+afternoon <- c(Mon=28.5, Tue=35.1, Wed=27.7, Thu=29.1, Fri=29.6)
 ```
 
 
-The double ampersand operator `&&` always returns a single value, thus when used on two vectors it returns the result of comparing only the first element of each of the two vectors.
-
-
-```{r double-ampersand-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1}
-val_gt_mean_1 && val_gt_mean_2
+```{r equal-on-vectors, exercise=T, exercise.lines=6, exercise.setup = "equal-on-vectors-setup"}
+week_days <- c("Mon", "Tue", "Wed", "Thu", "Fri")
+print(paste0("morning   mean = ", format(mean(morning), nsmall = 2)))
+print(paste0("afternoon mean = ", format(mean(afternoon), nsmall = 2)))    
+gt_mean_mornings <- morning > mean(morning)
+gt_mean_afternoons <- afternoon > mean(afternoon)
+week_days[gt_mean_mornings == gt_mean_afternoons]
 ```
 
-Similarly with the double pipe operator `||` or logical OR.
 
+If we wanted to answer the question on what days the experiments gave higher than weekly mean results on either morning or afternoon we can use the logical 'OR' operator `|`:
 
-```{r double-pipe-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1}
-val_gt_mean_1 || val_gt_mean_2
+```{r ampersand-on-vectors-setup}
+week_days <- c("Mon", "Tue", "Wed", "Thu", "Fri")
+morning <- c(Mon=34.2, Tue=28.7, Wed=31.0, Thu=30.7, Fri=29.1)
+afternoon <- c(Mon=28.5, Tue=35.1, Wed=27.7, Thu=29.1, Fri=29.6)
+gt_mean_mornings <- morning > mean(morning)
+gt_mean_afternoons <- afternoon > mean(afternoon)
 ```
+
+```{r ampersand-on-vectors, exercise=T, exercise.setup="ampersand-on-vectors-setup", exercise.lines=2}
+week_days[gt_mean_mornings | gt_mean_afternoons]
+```
+
+
+<!-- The double ampersand operator `&&` always returns a single value, thus when used on two vectors it returns the result of comparing only the first element of each of the two vectors. -->
+
+
+<!-- ```{r double-ampersand-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1} -->
+<!-- gt_mean_mornings && gt_mean_afternoons -->
+<!-- ``` -->
+
+<!-- Similarly with the double pipe operator `||` or logical OR. -->
+
+
+<!-- ```{r double-pipe-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1} -->
+<!-- gt_mean_mornings || gt_mean_afternoons -->
+<!-- ``` -->
 
 
 
