@@ -896,7 +896,7 @@ quiz(
   
     sample(c(letters, LETTERS), size = 4, replace = F)
     
-  The named argument  'size' gives the number of elements in the sample and the 'replace' is a logical value wheather the items from the vector can appear more than once in the sample.",
+  The named argument  'size' gives the number of elements in the sample and the 'replace' is a logical value to indicate whether the items from the vector can appear more than once in the sample.",
     answer("[1] \"w\" \"i\" \"D\" \"F\"", correct = T),
     answer("[1] \"a\" \"L\" \"a\" \"D\"", correct = F, message = "The sample was requested without replacement so this answer is not the one!"),
     answer("[1] \"E\" \"A\" \"q\" \"K\" \"e\"", correct = F, message = "This sample is too big, the requested sample size was 4!"),
@@ -1351,7 +1351,7 @@ quiz(
 
 Matrices are the two-dimensional extensions of vectors. They must store elements of the same type, so coercion rules will apply if they do not meet this requirement. 
 
-### Matrix constructor
+### Constructing a matrix
 
 A matrix of six integer values would be represented graphically as:
 
@@ -1523,7 +1523,8 @@ quiz(
 
 ## Arrays
 
-Arrays are the natural extension of vector and matrices to n-dimensions. 
+Arrays are the natural extension of vector and matrices to n-dimensions.
+
 ```{r array, echo=FALSE, results='asis'}
 knitr::include_graphics("images/array.png", dpi = 86)
 ```
@@ -1539,17 +1540,24 @@ Here we  created a tensor of 2 rows by 3 columns by 3 frames with the numbers 1 
 Let's leave this data structure for deep learning practice and move on now.
 
 
+<!-- ====================== -->
 ## Lists
+<!-- ====================== -->
 
-Lists are one-dimensional data structures that can store information of heterogeneous type. R's well-known linear model object, with constructor `lm()`, is a list. Let's create a list  with the general constructor.
+
+Lists are one-dimensional data structures object that can store information of heterogeneous type, even other lists. R's well-known linear model object, with constructor `lm()`, is a list. Lists are very versatile and are at the center of R's data handling strength.
+
+
+### Constructing lists
 
 Here is a graphical representation of a list with three components.
 
+
 ```{r list, echo=FALSE, results='asis'}
-knitr::include_graphics("images/list.png", dpi = 126)
+knitr::include_graphics("images/list2.png", )
 ```
 
-And here is your turn to create it in R code. Try to complete the exercise before looking at the hint.
+And here is your turn to create it in R code using the constructor `list()`. Try to complete the exercise before looking at the hint.
 
 ```{r list-constructor, exercise=TRUE, exercise.lines=7}
 l <- list(some_strings = c("hello", "world"), 
@@ -1757,7 +1765,7 @@ result <- df[filter,]
 result
 ```
 
-Now only show the column for country and wheather the data is from the 2019 census:
+Now only show the column for country and whether the data is from the 2019 census:
 
 ```{r explain-logical-mask-3-setup, echo = F}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
