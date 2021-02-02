@@ -1282,73 +1282,69 @@ These are vectors used to model categorical variables that are better described 
 
 ```{r music-sample-genres, exercise=T, exercise.lines=3}
 # The genres on an eclectic play list 
-music_sample <- c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic")
-class(music_sample)
+genre_sample <- c(rep("Indie", times = 5), 
+                rep("Electronic", times = 9), 
+                rep("Country", times = 27))
+class(genre_sample)
 ```
 
 What if we wanted this vector to recognize the distinct musical genres, furthermore what if we wanted it to automatically track the number of songs of each genre on our play list. Introducing the factor class:
 
 ```{r music-sample-genres-setup}
 # The genres on an eclectic play list 
-music_sample <- c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic")
+genre_sample <- c(rep("Indie", times = 5), 
+                rep("Electronic", times = 9), 
+                rep("Country", times = 27))
+music_genres <- factor(genre_sample)
 ```
 
 First let's turn the character vector into an actual factor.
 
 ```{r music-sample-genres-as-factors, exercise=T, exercise.lines=2, exercise.setup="music-sample-genres-setup"}
-music_sample_2 <- factor(music_sample)
-attributes(music_sample_2)
+music_genres <- factor(genre_sample)
+attributes(music_genres)
 ```
-What if we get a recommendation to listen to a new genre so we add it to the play list before actually listening to any new song. That can be achieved in R by adding a new character string to the vector of levels.
+What if we get a recommendation to listen to a new genre but we have not actually listened to any song belonging to that category, this can be expressed with factors by adding a new character string to the vector of levels  without adding any element to the factor class.
 
-```{r music-sample-genres-as-factors-setup}
-music_sample_2 <- factor(c("Indie", "Electronic", "Country", "Country", "Indie", "Indie", "Electronic"))
-```
-
-```{r music-sample-adding_new-level, exercise=T, exercise.setup="music-sample-genres-as-factors-setup", exercise.lines=3}
+```{r music-sample-adding_new-level, exercise=T, exercise.setup="music-sample-genres-setup", exercise.lines=3}
 # add a new musical genre (a new level of the categorical variable)
-levels(music_sample_2) <- c(levels(music_sample_2), "Classical")
-table(music_sample_2)
+levels(music_genres) <- c(levels(music_genres), "Classical")
+table(music_genres)
 ```
 
-When we start listening to songs of that new genre they will get reckoned appropriately. In R adding a new element to a factor has to be done on original vector because factors cannot be combined or concatenated.
+When we start listening to songs of that new genre they will get reckoned appropriately. In R adding a new element to a factor has to be done on the original vector because factors <span style="color:red">cannot be combined or concatenated</span>.
 
-```{r music-sample-genres-levels, exercise=T, exercise.setup="music-sample-genres-as-factors-setup", exercise.lines=4}
+```{r music-sample-genres-levels, exercise=T, exercise.setup="music-sample-genres-setup", exercise.lines=4}
 # add new entries
-music_sample_3 <- factor(c(music_sample, c("Classical", "Indie")))
-table(music_sample_3)
+music_genres_2 <- factor(c(genre_sample, c("Classical", "Indie", "Indie", "Indie")))
+table(music_genres_2)
 ```
 
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
 
-Why is this important? Let's see an example of how to tally the number of elements in each category of a factor vector.
-
-```{r tally-factor, exercise=T}
-# build the factors for your play list, remember the convenient 'rep' function?
-genre_data <- c(rep("Indie", times = 5), 
-                rep("Electronic", times = 9), 
-                rep("Country", times = 27))
-music_sample_genres <- factor(genre_data)
-# whoa, do I sense a certain trend here? let's check with R
-table(music_sample_genres)
+```{r quiz-factors, echo=FALSE, cache=FALSE}
+quiz(
+    question_checkbox("Consider the following output: 
+  
+              FALSE  TRUE 
+                 38   456
+  
+  What expression(s) produce this output? (Select all that apply)",
+    answer("table(factor(c(rep(T, 456), rep(F,38))))", correct = TRUE),
+    answer("table(factor(c(\"TRUE\"=456, \"FALSE\"=38)))", correct = FALSE),
+    answer("table(c(rep(T, 456), rep(F,38)))", correct = FALSE),
+    answer("c(\"FALSE\"=38, \"TRUE\"=456)", correct = TRUE),
+    answer("table(factor(c(rep(F, 456), rep(T,38))))", correct = FALSE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "The two right answers look very alike, I will give you that!",
+    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  )
+)
 ```
-```{r tally-factor-setup}
-genre_data <- c(rep("Indie", times = 5),
-                rep("Electronic", times = 9), 
-                rep("Country", times = 27))
-music_sample_genres <- factor(genre_data)
-```
 
-
-If you need to add a new level to the factor object then there is a form of level assignment to do it, using simple vector linear concatenation with the `c()` function, remember 'nesting vectors'?:
-
-```{r adding-level-to-factor, exercise=T, exercise.lines=8, exercise.setup="tally-factor-setup"}
-# add a new level for newly discovered musical genre "Classical":
-levels(music_sample_genres) <- c(levels(music_sample_genres), "Classical")
-# now add a few entries, here we only add their genres
-music_sample_genres <- factor(c(genre_data, c("Classical", "Indie", "Indie", "Indie")))
-# see the tally
-table(music_sample_genres)
-```
 
 
 ## Matrices
@@ -1365,7 +1361,7 @@ And as code:
 matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
 ```
 
-A matrix is constructed with the function `matrix()` that takes vector with a variable number of arguments and a number of other parameters that inform the function how to construct the matrix from the vector. R by default populates the matrix _column-wise_, thus the argument `byrow = T` efectively instructs to fill in the matrix _row-wise_.
+A matrix is constructed with the function `matrix()` that takes vector with a variable number of arguments and a number of other parameters that inform the function how to construct the matrix from the vector. R by default populates the matrix _column-wise_, thus the argument `byrow = T` effectively instructs to fill in the matrix _row-wise_.
 
 Try to answer the questions with your code.
 
