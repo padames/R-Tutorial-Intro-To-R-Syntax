@@ -1349,32 +1349,40 @@ quiz(
 
 ## Matrices
 
-Just like vectors are one-dimensional data structures that contain objects of the same type, matrices are their two-dimensional equivalents. A matrix of six integer values would be represented graphically as:
+Matrices are the two-dimensional extensions of vectors. They must store elements of the same type, so coercion rules will apply if they do not meet this requirement. 
+
+### Matrix constructor
+
+A matrix of six integer values would be represented graphically as:
 
 
 ```{r matrix, echo=FALSE, results='asis'}
 knitr::include_graphics("images/matrix.png", dpi = 106)
 ```
 
-And as code:
+And in code it would be constructed with:
 ```{r matrix-construction, exercise=T, exercise.lines=1}
 matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
 ```
 
-A matrix is constructed with the function `matrix()` that takes vector with a variable number of arguments and a number of other parameters that inform the function how to construct the matrix from the vector. R by default populates the matrix _column-wise_, thus the argument `byrow = T` effectively instructs to fill in the matrix _row-wise_.
+
+The function `matrix()` takes a vector with a variable number of arguments and a number of other parameters that inform the function how to construct the matrix from the vector. R by default populates the matrix _column-wise_, thus the argument `byrow = TRUE` effectively instructs it  to fill in the elements _row-wise_.
+
+
+### Matrix manipulation
 
 Try to answer the questions with your code.
 
 ```{r matrix-example, exercise = TRUE, exercise.lines=10}
 x <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+# extract the element on the first row and third column of x
 
-# extract the element on the first row and thrid column of x
-
-# subtract the first element from the frist row from the first element of the second row
+# subtract the first element from the first row from the first element of the second row
 
 # find the dimensions of x
 
 # display the contents of x
+
 ```
 
 ```{r matrix-example-hint}
@@ -1386,11 +1394,11 @@ x
 
 If the argument `T` had not been given to the named parameter `byrow` above R would have constructed the matrix on a column first order. Verify this for yourself:
 
-```{r matrix-example-bycolumn, exercise = TRUE, exercise.lines=10}
+```{r matrix-example-bycolumn, exercise = TRUE, exercise.lines=9}
 y <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2)
-# extract the element on the first row and thrid column of x
+# extract the element on the first row and third column of x
 y[1,3]
-# subtract the first element from the frist row from the first element of the second row
+# subtract the first element from the first row from the first element of the second row
 y[1,1] - y[1,2]
 # find the dimensions of x
 dim(y)
@@ -1400,15 +1408,34 @@ dim(y)
 
 As a task, find out how to name rows and columns in a matrix.
 
+### Sub-setting a matrix
+
+The `[]` operator can be used on the two dimensions of the matrix. For example sub-set the first row and the second column:
+
+```{r sub-setting-matrix-rows, exercise=T, exercise.lines=3}
+(m <- matrix(rep(c(rep(1:2,2), rep(3:4, 2)),2), byrow = T, nrow = 4))
+m[1,]
+m[,2]
+```
+```{r, setup-sub-setting-matrices}
+m <- matrix(rep(c(rep(1:2,2), rep(3:4, 2)),2), byrow = T, nrow = 4)
+```
+
+Now extract a sub-matrix defined by the first two rows and the third and fourth columns of the original matrix:
+
+```{r, subsetting-matrix-from-within-matrix, exercise=T, exercise.lines=1}
+m[1:2, 3:4]
+```
+
 ### Useful matrix functions
 
 There are very useful functions to deal with matrices. Let's just mention a few here. 
 
 ```{r sum-rows-cols-matrix, exercise=TRUE}
 m <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
-# add each row
+# add elements row-wise
 rowSums(m)
-# add each column
+# add elements column-wise
 colSums(m)
 ```
 
@@ -1420,18 +1447,78 @@ m <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
 
 ```{r add-row-to-matrix, exercise=TRUE, exercise.setup="matrix-m"}
 # append a  row with the number 6 to matrix 'm' from the previous exercise
-rbind(m, c(6,6,6))
+rbind(m, rep(6, 3))
 # append the new row at the top instead
-rbind(c(6,6,6), m)
+rbind(rep(6, 3), m)
+# insert a row in between first and second row
+rbind(m[1,], rep(6,3), m[2,])
 ```
 
 ```{r add-column-to-matrix, exercise=TRUE, exercise.setup="matrix-m"}
 # append a column with the number 6 to matrix 'm' from the previous exercise
-cbind(m, c(6,6))
+cbind(m, rep(6, 2))
 # append the new column at the beginning instead
-cbind(c(6,6), m)
+cbind(rep(6, 2), m)
+# insert a column in between first and second columns
+cbind(m[,1], rep(6,2), m[,2:3])
 ```
 
+If you remember the rules of recycling and the fact that by default matrices are traversed element-wise along the columns from top to bottom, let's multiply a matrix by a vector:
+
+```{r, multiply-matrix-times-vector, exercise=TRUE, exercise.lines=8}
+# the following will make the pseudo random number generation produce the same result for reproducibility
+set.seed(673912) # this is an arbitrary number, nothing special about it
+# sample 16 integers from 1 to 99 
+values <- sample.int(n = 99, size = 16, replace = TRUE) 
+(m <- matrix(values, nrow = 4)) 
+# a mask to eliminate the 4th row of the matrix
+zero_to_4th_row <- c(1,1,1,0)
+m * zero_to_4th_row
+```
+
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
+
+```{r quiz-matrices, echo=FALSE, cache=FALSE}
+quiz(
+    # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Sort the rows of the matrix resulting from the following operation: 
+  
+               m <- matrix(rep(-1, 12), ncol = 3)
+               m * matrix(rep(c(-1,2,1,0),3), ncol = 3)
+  
+  As long as the matrices are of the same size the operation will be element-wise by column.",
+    correct = "Correct, you nailed it. Matrix multiplication is your thing!",
+    incorrect = "Perhaps if you picture the vector used in the second matrix as a column and try again?",
+    allow_retry = TRUE,
+    random_answer_order = TRUE, 
+    options = sortable::sortable_options(),
+    learnr::answer(c("1 1 1", "-2 -2 -2","-1 -1 -1","0 0 0"), correct = TRUE)
+  ),
+  question_checkbox("What is the result of the following operation?:
+
+               m <- matrix(rep(-1, 9), ncol = 3)
+               m + 1
+
+  Select all that apply.",
+    answer("The null matrix", correct = TRUE),
+    answer("     [,1] [,2] [,3]
+                 [1,]    0    0    0
+                 [2,]    0    0    0
+                 [3,]    0    0    0", correct = TRUE),
+    answer("Error in m + matrix(c(1), nrow = 4) : non-conformable arrays", correct = FALSE, message = 'R can deal with this better than you think.'),
+    answer("Error in m + c(1) : non-conformable arrays", correct = FALSE, message = 'R would know the difference!'),
+    answer("     [,1] [,2] [,3]
+                 [1,]    1    0    0
+                 [2,]    0    0    0
+                 [3,]    0    0    0", correct = FALSE, message = 'R can do this, keep trying!'),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "You figured out that R turns the 1 into a matrix of the required size!"
+  )
+)
+```
 
 
 ## Arrays
@@ -1454,7 +1541,7 @@ Let's leave this data structure for deep learning practice and move on now.
 
 ## Lists
 
-Lists are one-dimensional data structures that can store information of heterogenious type. R's well-known linear model object, with constructor `lm()`, is a list. Let's creat a list  with the general constructor.
+Lists are one-dimensional data structures that can store information of heterogeneous type. R's well-known linear model object, with constructor `lm()`, is a list. Let's create a list  with the general constructor.
 
 Here is a graphical representation of a list with three components.
 
