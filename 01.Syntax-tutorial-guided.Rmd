@@ -1545,7 +1545,7 @@ Let's leave this data structure for deep learning practice and move on now.
 <!-- ====================== -->
 
 
-Lists are one-dimensional data structures object that can store information of heterogeneous type, even other lists. R's well-known linear model object, with constructor `lm()`, is a list. Lists are very versatile and are at the center of R's data handling strength.
+Lists are one-dimensional data structures objects that can store information of heterogeneous type, a list can even contain other lists. R's linear model object, with constructor `lm()`, is a list. Lists are very versatile and are at the center of R's model and data handling strengths.
 
 
 ### Constructing lists
@@ -1554,42 +1554,66 @@ Here is a graphical representation of a list with three components.
 
 
 ```{r list, echo=FALSE, results='asis'}
-knitr::include_graphics("images/list2.png", )
+knitr::include_graphics("images/list2.png", dpi = 96)
 ```
 
-And here is your turn to create it in R code using the constructor `list()`. Try to complete the exercise before looking at the hint.
+And here is your turn to create it with R code using the constructor `list()`. Try to complete the exercise before looking at the hint.
 
 ```{r list-constructor, exercise=TRUE, exercise.lines=7}
-l <- list(some_strings = c("hello", "world"), 
-          some_numbers = 10:15, 
-          some_booleans = c(T,T,T,F))
+my_list <- list(some_strings = c("hello", "world"), 
+                some_numbers = 10:15, 
+                some_booleans = c(T,T,T,F))
 # check the names
 
 # extract the first element of the list
 ```
 
 ```{r list-constructor-hint}
-attributes(l)
-names(l)
-l[[1]]
+attributes(my_list)
+names(my_list)
+my_list[[1]]
 ```
+
+### Accessing the elements of a list
+
+Did you notice the use of double square brackets, `[[]]` to access the vectors stored in the list of the previous section? Had you chosen to use single brackets `[]` the result would have been a  named list of one vector as its only element, try it now if you did not before:
+
+```{r, sub-setting-lists-single-bracket-setup}
+my_list <- list(some_strings = c("hello", "world"), 
+          some_numbers = 10:15, 
+          some_booleans = c(T,T,T,F))
+```
+
+```{r, sub-setting-lists-single-bracket, exercise=T, exercise.lines=4, exercise.setup="sub-setting-lists-single-bracket-setup"}
+class(my_list[1])
+my_list[1]
+class(my_list[[1]])
+my_list[[1]]
+```
+The list class is kind of a super set of the vector class, thus R's coercion philosophy will be to coerce vectors into lists whenever confronted  with the dilemma. In the following case, attempting to create a vector given a list and a vector,  first coerces the vector into a list (a list is a more general concept than a vector) and then merges the two lists into a single one.
+
+```{r, coercion-of-vector-to-list, exercise=T, exercise.lines=2}
+new_object <- c(list(1,"a"), c(0,2,4))
+new_object
+```
+In general, passing two or more lists as arguments to `c()` merges them all into a single list.
 
 ### Lists can be nested
 
-Try the following simple code to make sure you grasp the concept. This will become very important to do amazing data analysis later. Lists are very versatile that way.
+When passing lists as argument to the `list()` constructor there is no need for coercion of any kind. Try the following code to make sure you grasp the concept. This will become very important to do amazing data analysis later.
 
-Would would have thought that R would come in handy for that party you are planning for friends and family. The list of items for the party can be nested within the list of party items, how convenient! 
+Would would have thought that R would come in handy for that party you are planning for friends and family? The list of items for the party can be nested within the list of party items, how convenient! 
 
-```{r list-nesting, exercise=TRUE, exercise.lines=15}
+```{r list-nesting, exercise=TRUE, exercise.lines=14}
 # get organized for that party you are throwing for friends and family
 party_items = list( drinks = c("pop", "wine", "beer", "water"),
                     furniture = c(chairs = 8, tables = 2, hammocks = 1))
 
-to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+(to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
                    invited = c(F,F,T),
-                   items = party_items)
+                   items = party_items))
 
-# extract the party items and display the drinks to buy
+# extract the party items from the 'to_do_list' and display the drinks to buy
 
 ```
 
@@ -1597,9 +1621,40 @@ to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
 to_do_list[[3]][[1]]
 # equivalent but using the dollar operator
 to_do_list[[3]]$drinks
+# using the dollar operator all the way
+to_do_list$items$drinks
 ```
 
-Another way to reference list elemenst by name uses the $ operator.
+### Referencing elements of a list by name
+
+From the exercise of the previous section we saw that either the `[[1]]` positional or the `$drinks` name syntax extract the vector stored at the list returned by `to_do_list[[3]]`.
+
+The `$` operator can be used to reference named elements of a list.
+
+
+Compare the effect of using single square brackets as opposed to the double square brackets on a list.
+
+```{r, setup-list-of-lists}
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items)
+```
+
+
+```{r, example-list-from-a-list, exercise=T, exercise.lines=8, exercise.setup="setup-list-of-lists"}
+# these two options are equivalent and return single element lists
+to_do_list[2]
+to_do_list["invited"]
+class(to_do_list[2])
+class(to_do_list["invited"])
+# compare to the class of the object returned by
+class(to_do_list[[2]])
+class(to_do_list$invited)
+```
+
 
 ```{r list-dollar}
 party_items = list( drinks = c("pop", "wine", "beer", "water"),
@@ -1610,9 +1665,9 @@ to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
                    items = party_items)
 ```
 
-Check out the use of the `$` operator to extract the elemenst by name and printing the drinks for the party. 
+Thanks to the `$` and assignment operators one can simplify printing the drinks for the party. 
 
-```{r list-dollar-show, exercise=TRUE, exercise.setup="list-dollar" }
+```{r list-dollar-show, exercise=TRUE, exercise.setup="list-dollar", exercise.lines=2 }
 to_buy <- to_do_list$items
 to_buy$drinks
 ```
