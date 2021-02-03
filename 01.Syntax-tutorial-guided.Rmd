@@ -1705,10 +1705,23 @@ to_buy$drinks
 
 ```{r quiz-lists, echo=FALSE, cache=FALSE}
 quiz(
-  question("",
-           answer("", correct = TRUE, message = ''),
+  question_checkbox("Your rent went up by 3%.
+                    
+          to_do <- list(errands = c(\"Doctor's appointment\",
+                                    \"pick up milk\", \"Call dad\"),
+                        tasks = c(\"laundry\", \"walk Freckles\"),
+                        payments = c(rent=500, insurance=70))
+                    
+  How could you reflect that in R? (select all that apply)",
+           answer("to_do$payments['rent'] = to_do$payments['rent'] * 1.03", correct = TRUE),
+           answer("to_do$payments[1] <- to_do$payments[1] * 1.03", correct = TRUE),
+           answer("new_rent <- to_do * 1.03", correct = FALSE, message = 'The binary operator * accepts only numeric arguments, here you are passing a list and a double, only the second is a numeric.'),
+           answer("to_do$payments[1] <- to_do$payments['rent'] * 0.03", correct = FALSE, message = "If I were you I would double check the arithmetic in one of the selections you have made before retrying."),
+           answer("to_do$payments <- to_do$payments['rent'] * 1.03", correct = FALSE, message = "I have to mention also that you could loose a reminder to pay insurance this month if you continue with the current selection(s)."),
            random_answer_order = TRUE,
-           allow_retry = TRUE)
+           allow_retry = TRUE,
+           correct = 'This is getting complex but you are doing just fine!',
+           incorrect = "One or more incorrect selections or you are missing one or more right answer(s)? Don't get discouraged, you have come a long way at this point in your R Syntax journey!")
 
 )
 ```
