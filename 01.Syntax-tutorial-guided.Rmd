@@ -712,6 +712,7 @@ R was designed to manipulate data using these structures, they don't come from l
 
 This is important because a computer language has to allow the manipulation of values in memory using a certain recipe called an _algorithm_. These algorithms rely on the properties of the data structures and the data types themselves. They are intimately related. A computer language will allow a human to write a solution to a problem in terms of the data structures and types that  it provides. R has the fundamental data structures and types that we just discussed. Let's see how to start using them to represent information.
 
+**Note:** To reveal the data structure of R objects the built-in function `str()` may be handy although the output for complex objects may be difficult to interpret. 
 
 ## Vectors
 
@@ -1736,47 +1737,64 @@ quiz(
     answer("No", correct = TRUE, message = "By definition in R, a vector that contains a list already has decided to store  heterogeneous objects so it must be a list. This allows code optimizations on vectors and matrices that aren't possible on lists."),
     allow_retry = TRUE,
     random_answer_order = TRUE
-  )
+  ),
+  question_checkbox("What piece of code inserts a2 into answers?
+           
+           a1 <- list(\"a\", 10, F\")
+           a2 <- list(\"g\", 23, F\")
+           answers <- list(a1)
+    
+  Select all that apply.",
+    answer("answers <- list(answers, a2)", correct = TRUE),
+    answer("answers[[2]] <- a2", correct = TRUE),
+    answer("answers <- c(answers, a2)", correct = FALSE, message = "c() combines several lists into one by breaking them up so it effectively flattens them, I think this doesn't achieve what the question asks."),
+    answer("answers[2] <- a2", correct = FALSE, message = "Syntax moment: assignment of new elements of a list requires the use of the [[ operator."),
+    answer("answers <- list(answers, list(a2))", correct = FALSE, message = "R will follow your command dutifully but somewhere you may be getting overzelous with the use of the list constructor and ended up nesting a list within another list unnecessarily!"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "You have achieved List mastery my friend!",
+    incorrect = "Something is missing and/or you selected wrong answers.")
+    
 )
 ```
 
 
 ## Dataframes
 
-If you have followed the data structure section then this section should be relatively easy. Like a list, data frames store information of heterogeneous type, however there are some rules.
+If you have followed the data structure section then this section should be relatively easy. Like a list, data frames store information of heterogeneous type, however there are some rules:
 
   - Two dimensional only, like a table.
   - Any number of rows or columns
-  - The columns have to be of the same type
+  - The columns have to be of the same type and length
 
 
-Follow these rules and dataframes are an almost ideal data structure to manipulate data for data analysis. There are other more suitable data structures for long term data storage of multidimensional nature but R does not deal with that problem, a data base might be more suitable for this or specialized data warehousing applications.
+Follow these rules and dataframes are an almost ideal data structure to manipulate data for data analysis, as convenient but safer than spreadsheet files, whether in memory or saved as a file to a disk locally or in the cloud. 
 
-Dataframes are similar to tables of a sophisticated relational data base, where you can store procedures and even other tables in the cells.
+Dataframes are similar to tables of a sophisticated relational data base, where you can store procedures (like R expressions) and even other tables in the cells.
 
-Under the hood a data frame is implemented as a list of vectors of the same length.
+### Why is a dataframe different?
+
+Under the hood a data frame is implemented as a list of vectors of the same length. The table-like geometry and the constraint of columns consisting of vectors of equal length allow for code optimization on the algorithms to search and select items. Vectors are stored in contiguous memory of constant and fixed size, this gives a dataframe some advantages, and they are natively implemented so the `$` and `[` syntax you have already seen can be safely reused for dataframes.
 
 
-```{r dataframe, echo=FALSE, results='asis', dpi=76}
+### Constructing a dataframe
+
+```{r dataframe, echo=FALSE, results='asis', dpi=96}
 knitr::include_graphics("images/dataframe.png")
 ```
 
 Let's create this data frame using code using the constructor function `data.frame`.
 
-```{r dataframe-constructor, exercise=T}
+```{r dataframe-constructor, exercise=T, exercise.lines=6}
 # for better documentation name the vectors
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
 # the dot in names means nothing special in R, see note below for explanation
-df <- data.frame(country,
-                 population,
-                 census2019)
-# Display the data frame
-df
+(df <- data.frame(country, population, census2019))
 ```
 
-*Note:* In R the dot for names has no special meaning, it is like `_`. The dot for formulas and in generic object dispatch has special meaning, bit those are topics for later.
+*Note:* In R the dot for names has no special meaning, it is like `_`. The dot syntax for formulas and in generic object dispatch has special meaning, but those are topics for more advanced material.
 
 If any of the vectors has a different length there will be error messages, R will not be happy about it. Try it for yourself in the previous exercise.
 
