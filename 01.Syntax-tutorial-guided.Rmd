@@ -1628,7 +1628,36 @@ new_object
 ```
 In general, passing two or more lists as arguments to `c()` merges them all into a single list.
 
-### Lists can be nested
+### Appending a new element
+
+In order to append a new element to an existing list the `c()` operator works well. The caveat is to use the `list()` constructor around the new element. This is useful to prevent the flattening of a vector into individual list elements when appended. It creates a new object leaving the original list unchanged. 
+
+```{r, new-element-appending-in-new-list, exercise=T, exercise.lines=9, exercise.setup="sub-setting-lists-single-bracket-setup"}
+length(my_list)
+# this creates a new list
+new_list <- c(my_list, list(rep(-1,3)))
+# check the length of the original list
+length(my_list)
+# check the length of the new list
+length(new_list)
+# check that the last element is the vector we wanted to insert
+new_list[[length(new_list)]]
+```
+The `[[]]` operator allows insertion of new elements of any type into a list, that means no coercion will be used. This is the similar functionality of the operator `[]` for vectors.
+
+```{r, new-element-of-list-appending-in-place, exercise=T, exercise.lines=7, exercise.setup="sub-setting-lists-single-bracket-setup"}
+length(my_list)
+# this modifies in place
+my_list[[length(my_list) + 1]] <- rep(-1,3)
+# check the new length of the list
+length(my_list)
+# check that the last element is the vector we wanted to insert
+my_list[[length(my_list)]]
+```
+
+
+
+### Accessing nested lists
 
 When passing lists as argument to the `list()` constructor there is no need for coercion of any kind. Try the following code to make sure you grasp the concept. This will become very important to do amazing data analysis later.
 
@@ -1738,16 +1767,16 @@ quiz(
     allow_retry = TRUE,
     random_answer_order = TRUE
   ),
-  question_checkbox("What piece of code inserts a2 into answers?
+  question_checkbox("What piece of code inserts a2 at the tail of answers?
            
            a1 <- list(\"a\", 10, F\")
            a2 <- list(\"g\", 23, F\")
            answers <- list(a1)
     
   Select all that apply.",
-    answer("answers <- list(answers, a2)", correct = TRUE),
+    answer("answers <- c(answers, a2)", correct = TRUE),
     answer("answers[[2]] <- a2", correct = TRUE),
-    answer("answers <- c(answers, a2)", correct = FALSE, message = "c() combines several lists into one by breaking them up so it effectively flattens them, I think this doesn't achieve what the question asks."),
+    answer("answers <- list(answers, a2)", correct = FALSE, message = "list() creates a new list with two elements, this is not what was intended."),
     answer("answers[2] <- a2", correct = FALSE, message = "Syntax moment: assignment of new elements of a list requires the use of the [[ operator."),
     answer("answers <- list(answers, list(a2))", correct = FALSE, message = "R will follow your command dutifully but somewhere you may be getting overzelous with the use of the list constructor and ended up nesting a list within another list unnecessarily!"),
     allow_retry = TRUE,
