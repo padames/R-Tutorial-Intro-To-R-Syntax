@@ -1827,21 +1827,30 @@ census2019 <- c(T,T,T,T,F,T)
 
 If any of the vectors has a different length there will be error messages, R will not be happy about it. Try it for yourself in the previous exercise.
 
+In the above example the vector of country names, of type `charcter`, was converted to factors by a default named argument `stringsAsFactors = T` in the constructor `data.frame()`. Be aware of this default behaviour because it may not always be what you desire for your data.
+
 ### Subsetting a dataframe
 
-Similarly to sub-setting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention. 
+Similarly to sub-setting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention and the `[]` syntax or the `$` syntax.
 
 ```{r slice-n-dice-df-setup}
 # for better documentation name the vectors
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
-df <- data.frame(country, population, census2019, stringsAsFactors = T)
+df <- data.frame(country, population, census2019, stringsAsFactors = F)
 ```
 
-```{r slice-n-dice-df, exercise=T, exercise.setup="slice-n-dice-df-setup", exercise.lines=4}
-# get the country names
+```{r slice-n-dice-df, exercise=T, exercise.setup="slice-n-dice-df-setup", exercise.lines=9}
+# get the $ operator
 df$country
+df$"country"
+# using the [] operator
+df[,1]
+df[,"country"]
+# using the fact that a dataframe is a list under the hood
+df[[1]]
+df[["country"]]
 ```
 
 Let's  extract all the information for Canada. 
@@ -1851,10 +1860,10 @@ Let's  extract all the information for Canada.
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
-df <- data.frame(country, population, census2019, stringsAsFactors = T)
+df <- data.frame(country, population, census2019, stringsAsFactors = F)
 ```
 
-```{r subset-df-by-row, exercise=T, exercise.setup="subset-df-by-row-setup", exercise.lines=4}
+```{r subset-df-by-row, exercise=T, exercise.setup="subset-df-by-row-setup", exercise.lines=1}
 df[df$country == "Canada",]
 ```
 
@@ -1888,7 +1897,7 @@ Now subset the dataframe by rows using this logical mask. A `TRUE` at a given po
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
-df <- data.frame(country, population, census2019, stringsAsFactors = T)
+df <- data.frame(country, population, census2019, stringsAsFactors = F)
 filter <- df$population > 80
 ```
 
@@ -1905,7 +1914,7 @@ Now only show the column for country and whether the data is from the 2019 censu
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
-df <- data.frame(country, population, census2019, stringsAsFactors = T)
+df <- data.frame(country, population, census2019, stringsAsFactors = F)
 filter <- df$population > 80
 result <- df[filter,]
 ```
@@ -1930,22 +1939,22 @@ country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 # strings as factors is the default
 country_stats <- data.frame( country,
-                             population)
+                             population, stringsAsFactors = F)
 # the function 'str()' shows us the structure of the object
 str(country_stats)
 ```
-The R constructor for dataframes interpreted the strings as 6 factors. Perhaps not what you expected, compare with this case.
+<!-- The R constructor for dataframes interpreted the strings as 6 factors. Perhaps not what you expected, compare with this case. -->
 
-```{r example-dataframe-strings-as-is-setup}
-country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
-population <- c(37, 331, 67, 83, 60, 39)
-```
+<!-- ```{r example-dataframe-strings-as-is-setup} -->
+<!-- country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland") -->
+<!-- population <- c(37, 331, 67, 83, 60, 39) -->
+<!-- ``` -->
 
 
-```{r example-dataframe-strings-as-is, exercise.setup="example-dataframe-strings-as-is-setup", echo=T}
-country_stats <- data.frame( country, population, stringsAsFactors = FALSE)
-str(country_stats)
-```
+<!-- ```{r example-dataframe-strings-as-is, exercise.setup="example-dataframe-strings-as-is-setup", echo=T} -->
+<!-- country_stats <- data.frame( country, population, stringsAsFactors = FALSE) -->
+<!-- str(country_stats) -->
+<!-- ``` -->
 
 
 
