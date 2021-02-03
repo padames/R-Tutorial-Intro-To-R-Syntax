@@ -51,7 +51,7 @@ You will know how to search for built-in R functions to help you process the dat
 
 
 <!-- ======================== -->
-## Operators -- R as a calculator
+## Operators in R
 <!-- ======================== -->
 
 R has a console to interact with it. Let's use it as a calculator to add two numbers. 
@@ -338,7 +338,7 @@ quiz(
 
 
 <!-- ======================== -->
-## Variables -- Storing results
+## Variables in R
 <!-- ======================== -->
 
 Just like in mathematics and statistics, the concept of variables is that of a placeholder for values. In R or any other programming language it is a good idea to store results in variables so we can keep them around to use them in other expressions. Here is an exercise to declare and assign values to variables.
@@ -1184,7 +1184,36 @@ dim(v)
 
 ```{r quiz-more-on-vectors, echo=FALSE, cache=FALSE}
 quiz(
-    question_checkbox("Consider the following result of executing an R expression: 
+  question("Given the following vector:
+    
+                  v <- c('Anne', 'Simon', 'Alice', 'Carl', 'Tom')      
+    
+How would one obtain the last two names for any length of 'v'?",
+    answer("v[c(length(v)-1,length(v))]", correct = TRUE, message = "This answer works for any length of 'v' indeed."),
+    answer("v[-1:-3]", message = "This actually works by excluding the first three names, however it is not general for any length of 'v'."),
+    answer("v[-2]", message = "In R this returns all but the second before last element."),
+    answer("v[c('Carl', 'Tom')]", message = "Use a vector of indices or booleans to subset a vector."),
+  answer("v[-c(1,2,3)]", message = "Selecting the first three names and then removing them leaves the last two, however this answer does not generalizes to any length of 'v'"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Construct a vector of doubles from 80 to 20 by decrements of 10",
+    answer("c(80, 70, 60, 50, 40, 30)", message = "Missing the last value."),
+    answer("seq(80, 20, by = -10)", correct = TRUE, message = "Well done!"),
+    answer("seq(20, 80, by=10)", message = "Not quite, the specification is descending order for the elements of the vector"),
+    answer("seq(20, 80, by=-10)", message = "This one would generate an error because the sign of the increment contradicts the direction of the 'to' and 'from' arguments."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+  ),
+  question("Select all applicable answers that construct a vector of characters",
+           answer("c(1,2,'c')", correct = T, message = "The last option you ticked is also correct. "),
+           answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coerced into numeric, the most general type."),
+           answer("c(1, c(2L, 4L))", correct = F, message = "Did  you select an answer that has only numeric elements? Remember integers are a subset of numeric."),
+           answer("c(\"hi\", 'there', 'c')", correct = T, message = "Well done!"),
+           type = "multiple",
+           allow_retry = TRUE,
+           random_answer_order = TRUE),
+  question_checkbox("Consider the following result of executing an R expression: 
   
             [1] \"a\" \"b\" \"c\" \"d\" \"e\"
   
@@ -1672,39 +1701,15 @@ to_buy <- to_do_list$items
 to_buy$drinks
 ```
 
-## Test your knowledge
+### Test your knowledge
 
-```{r quiz-2-a, echo=FALSE, cache=FALSE}
+```{r quiz-lists, echo=FALSE, cache=FALSE}
 quiz(
-  question("Given the following vector:
-    
-    v <- c('Anne', 'Simon', 'Alice', 'Carl', 'Tom')      
-    
-How would one obtain the last two names for any length of 'v'?",
-    answer("v[c(length(v)-1,length(v))]", correct = TRUE, message = "This answer works for any length of 'v' indeed."),
-    answer("v[-1:-3]", message = "This actually works by excluding the first three names, however it is not general for any length of 'v'."),
-    answer("v[-2]", message = "In R this returns all but the second before last element."),
-    answer("v[c('Carl', 'Tom')]", message = "Use a vector of indices or booleans to subset a vector."),
-  answer("v[-c(1,2,3)]", message = "Selecting the first three names and then removing them leaves the last two, however this answer does not generalizes to any length of 'v'"),
-    allow_retry = TRUE,
-    random_answer_order = TRUE
-  ),
-  question("Construct a vector of doubles from 80 to 20 by decrements of 10",
-    answer("c(80, 70, 60, 50, 40, 30)", message = "Missing the last value."),
-    answer("seq(80, 20, by = -10)", correct = TRUE, message = "Well done!"),
-    answer("seq(20, 80, by=10)", message = "Not quite, the specification is descending order for the elements of the vector"),
-    answer("seq(20, 80, by=-10)", message = "This one would generate an error because the sign of the increment contradicts the direction of the 'to' and 'from' arguments."),
-  allow_retry = TRUE,
-  random_answer_order = TRUE
-  ),
-  question("Select all applicable answers that construct a vector of characters",
-           answer("c(1,2,'c')", correct = T, message = "The last option you ticked is also correct. "),
-           answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coerced into numeric, the most general type."),
-           answer("c(1, c(2L, 4L))", correct = F, message = "Did  you select an answer that has only numeric elements? Remember integers are a subset of numeric."),
-           answer("c(\"hi\", 'there', 'c')", correct = T, message = "Well done!"),
-           type = "multiple",
-           allow_retry = TRUE,
-           random_answer_order = TRUE)
+  question("",
+           answer("", correct = TRUE, message = ''),
+           random_answer_order = TRUE,
+           allow_retry = TRUE)
+
 )
 ```
 
