@@ -1733,7 +1733,7 @@ quiz(
   question_radio(
     "Is it possible to construct a vector of class list in R?",
     answer("Yes", correct = FALSE, message = "The result of applying c() to a list would be to coerced the result to a list automatically."),
-    answer("No", correct = TRUE, message = "Correct! Not possible  in R by definition."),
+    answer("No", correct = TRUE, message = "By definition in R, a vector that contains a list already has decided to store  heterogeneous objects so it must be a list. This allows code optimizations on vectors and matrices that aren't possible on lists."),
     allow_retry = TRUE,
     random_answer_order = TRUE
   )
