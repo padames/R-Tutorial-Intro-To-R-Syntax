@@ -937,9 +937,9 @@ quiz(
 
 ### Subsetting vectors
 
-Subsetting can be done by position or by value, @BaseR-Cheatsheet. 
+Subsetting can be done by position or by value, @BaseR-Cheatsheet. Subsetting is akin to filtering some elements a vector of that we want to select while leaving the rest out.
 
-The following are ways of subsetting a vector by selecting elements by **position**.
+The following are ways of subsetting a vector by selecting elements according to their **position**.
 
 Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
 
@@ -948,6 +948,7 @@ x <- c(5, -1, 3, 0, -4, 1)
 # subset the range of elements from the third to the fifth one
 x[3:5]
 ```
+
 There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the element at that index is to be removed from the subset of the vector.
 
 ```{r, "setup-vector-to-subset-examples"}
@@ -957,7 +958,7 @@ x <- c(5, -1, 3, 0, -4, 1)
 ```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
 # subset all but the first element of the vector 'x'
 
-# extract the last element
+# extract the last element using the function 'length()' to give the desired position
 
 ```
 
@@ -967,7 +968,7 @@ x[-1]
 x[length(x)]
 ```
 
-You can subset the elements  at specific locations using a vector of positions.
+You can subset the elements at specific locations using a vector of positions.
 
 ```{r, subsetting-vectors-with-vectos-of-positions, exercise=T, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
 # create a vector of positions
@@ -976,18 +977,22 @@ pos <- c(1, 5)
 x[pos]
 ```
 
+Subsetting selected elements can be done depending not only of position but on the values of the elements at any position in the vector. This is appropriately called  subsetting by **value**.
 
+The first example is using logical masks to extract a subset of the vector. The logical mask can be created with the target vector and the logical operators applied to satisfy a condition like elements equal to or less than a given value. R is vectorized so the syntax is straight forward:
 
-
-Another way to recycle is using logical masks that can be created with vectors and the logical operators, R is vectorized so the syntax is straight forward:
-
-```{r, subsetting-vectors-with-logical-masks, exercise=T, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
+```{r, subsetting-vectors-with-logical-masks, exercise=T, exercise.lines=10, exercise.setup="setup-vector-to-subset-examples"}
 # create a vector of logical types
 mask = x > 2
 # subset (filter)
 x[mask]
+# another mask
+mask2 <- x == 0 
+# compute how many zeros were  found in 'x'
+ length(x[mask2])
+ # another way is to use the mask by itself
+ sum(mask2)
 ```
-
 
 Remember vector recycling? What if we used a logical mask that was shorter than the vector `x` from the previous exercise? `x` has 6 elements.
 
@@ -995,12 +1000,14 @@ Remember vector recycling? What if we used a logical mask that was shorter than 
 mask_short <- c(TRUE, FALSE, TRUE, FALSE)
 x[mask_short] 
 ```
+
 Behind the scenes R recycled the mask to look like this c(TRUE, FALSE, TRUE, FALSE, <span style="color:blue">TRUE, FALSE</span>) so the two vector lengths were 6.
 
 **Note:** In some cases this may be a useful feature, but if not done with careful attention, it may be source of unexpected and confusing results! R will give a warning if the lengths of the vectors are not multiple of each other as a minimum.
 
 
 ### Comparing vectors
+
 
 Suppose you have two vectors with values related to the same experiment repeated on  each day of the work week, one run in the morning and the other in the afternoon. Let's supposed you wanted to know if each of the results from the mornings are greater than or equal those in the afternoon throughout the week. 
 
@@ -1019,7 +1026,6 @@ morning <- c(Mon=34.2, Tue=28.7, Wed=31.0, Thu=30.7, Fri=29.1)
 afternoon <- c(Mon=28.5, Tue=35.1, Wed=27.7, Thu=29.1, Fri=29.6)
 ```
 
-
 ```{r equal-on-vectors, exercise=T, exercise.lines=6, exercise.setup = "equal-on-vectors-setup"}
 week_days <- c("Mon", "Tue", "Wed", "Thu", "Fri")
 print(paste0("morning   mean = ", format(mean(morning), nsmall = 2)))
@@ -1028,7 +1034,6 @@ gt_mean_mornings <- morning > mean(morning)
 gt_mean_afternoons <- afternoon > mean(afternoon)
 week_days[gt_mean_mornings == gt_mean_afternoons]
 ```
-
 
 If we wanted to answer the question on what days the experiments gave higher than weekly mean results on either morning or afternoon we can use the logical 'OR' operator `|`:
 
@@ -1391,6 +1396,23 @@ quiz(
     random_answer_order = TRUE,
     correct = "The two right answers look very alike, I will give you that!",
     incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  ),
+    question_checkbox(
+    "What code answers the question: how many grades got more than a B+ given the following code:
+    
+    grades = ordered(c(rep(c(\"C\", \"B+\", \"A\"), 5), rep(c(\"A\", \"B\"), 4), rep(\"A+\", 3), rep(\"A-\", 6), rep(\"B+\", 10), rep(\"C\", 2)))
+    grades = factor(grades, levels = c(\"F\", \"C\", \"B-\", \"B\", \"B+\", \"A-\", \"A\", \"A+\"))
+   
+  Select all that apply.",
+  answer("sum(grades>\"B+\")", correct = TRUE),
+  answer("length(grades[grades>\"B+\"])", correct = TRUE),
+  answer("sum(grades[grades>\"B+\"])", correct = FALSE, message = "Sometimes it is hard to visualize what the result of two or more nested functions will be."),
+  answer("length(grades>\"B+\")", correct = FALSE, message = "May I suggest you check the documentation for the length function at this point?"),
+  answer("length(grades>\"B\")", correct = FALSE, message = "Perhaps reading the question again could highlight what is worng with your latest selection(s)."),
+  answer("length(grades[grades %in% \"B+\"])", correct = FALSE, message = "I also like the %in% operator, however it is usually uised with a sequence of values."),
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  correct = "You are amazing! Factors offer a convenient way to deal with categorical data!"
   )
 )
 ```
