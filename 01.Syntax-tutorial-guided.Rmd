@@ -994,6 +994,25 @@ mask2 <- x == 0
  sum(mask2)
 ```
 
+Another way of subsetting a vector by selecting values is using the `%in%` operator. It checks if any of the elements of the vector  is present in the sequence provided as second argument to `%in%`. An exercise will clarify its use:
+
+```{r, subsetting-by-value-with-in-operator, exercise=T, exercise.lines=7, exercise.setup="setup-vector-to-subset-examples"}
+x
+# create a logical mask
+include_these <- seq(-4,0) 
+# create a filter to retain values in the subset of the target vector 'x'
+filter <- x %in% include_these
+# filter and sort in ascending order
+sort(x[filter])
+```
+
+The names of the elements can be used as values to create subsets. The exercise below will illustrate this use.
+
+```{r, subsetting-by-value-with-element-name, exercise=T, exercise.lines=2}
+y <- c(fruit="pears, bananas, apples", vegetables="lettuce, carrots")
+y["vegetables"]
+```
+
 Remember vector recycling? What if we used a logical mask that was shorter than the vector `x` from the previous exercise? `x` has 6 elements.
 
 ```{r recycling-a-logical-mask, exercise=T, exercise.lines=2, exercise.setup="setup-vector-to-subset-examples"}
@@ -1045,7 +1064,7 @@ gt_mean_mornings <- morning > mean(morning)
 gt_mean_afternoons <- afternoon > mean(afternoon)
 ```
 
-```{r ampersand-on-vectors, exercise=T, exercise.setup="ampersand-on-vectors-setup", exercise.lines=2}
+```{r ampersand-on-vectors, exercise=T, exercise.setup="ampersand-on-vectors-setup", exercise.lines=1}
 week_days[gt_mean_mornings | gt_mean_afternoons]
 ```
 
@@ -1930,12 +1949,12 @@ And here is a step by step description:
 
   1. Build the mask using a logical operator expressing a condition over one of the columns of the dataframe.
 
-```{r explain-logical-mask-1, exercise.setup="subset-df-by-row-setup", echo=T}
+```{r explain-logical-mask-1, exercise=T, exercise.lines=1, exercise.setup="subset-df-by-row-setup"}
 (filter <- df$population > 80)
 ```
   2. Subset the dataframe by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the dataframe pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
 
-```{r explain-logical-mask-setup, echo = F}
+```{r explain-logical-mask-setup}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
@@ -1944,7 +1963,7 @@ filter <- df$population > 80
 ```
 
 
-```{r explain-logical-mask-2, exercise.setup="explain-logical-mask-setup", echo=T}
+```{r explain-logical-mask-2, exercise=T, exercise.lines=3, exercise.setup="explain-logical-mask-setup"}
 # apply the same filter to every column of the data frame by
 result <- df[filter,]
 result
@@ -1998,7 +2017,22 @@ country_stats <- data.frame( country, population, stringsAsFactors = FALSE)
 str(country_stats)
 ```
 
+### Test your knowledge
 
+```{r quiz-dataframes, echo=FALSE, cache=FALSE}
+quiz(
+  question_checkbox("Select all that apply)",
+           answer("a", correct = TRUE),
+           answer("b", correct = TRUE),
+           answer("c", correct = FALSE, message = ''),
+           answer("d", correct = FALSE, message = "."),
+           answer("e", correct = FALSE, message = ")."),
+           random_answer_order = TRUE,
+           allow_retry = TRUE,
+           correct = '!',
+           incorrect = "!!")
+)
+```
 
 
 
