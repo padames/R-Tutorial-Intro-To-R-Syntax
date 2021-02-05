@@ -43,7 +43,7 @@ Let's get started.
 
 The main goal of this tutorial is to teach patterns of the R language basic syntax. We believe that this knowledge will set you on a positive trajectory at any point in your R language journey. R has specific properties that set it apart from other languages and can make it easier to learn for a beginner. However, those same differences can make it confusing at first for people with experience.
 
-By the end of this tutorial, you will know what data structures to use to store your data in memory. You will select the data type according to the data you have for your specific problem. You will know the syntax to use R as a powerful calculation tool to generate statistical and data insights by sub-setting, filtering, and computing in R native data structures.
+By the end of this tutorial, you will know what data structures to use to store your data in memory. You will select the data type according to the data you have for your specific problem. You will know the syntax to use R as a powerful calculation tool to generate statistical and data insights by subsetting, filtering, and computing in R native data structures.
 
 You will know how to build complex expressions that compute using R data structures with simplicity, whether they are vectors, lists, or data frames.
 
@@ -731,7 +731,7 @@ And as code you would use the function `c()`:
 c(5, -1, 3, 0, -4, 1)
 ```
 
-The function `c()` takes a variable number of arguments with or without names. Once a vector has been constructed and assigned to a variable `x`, its elements can be extracted with the sub-setting operator `[]`. `x[1]` subsets the vector represented by the name `x` returning another vector with the element from the first position.
+The function `c()` takes a variable number of arguments with or without names. Once a vector has been constructed and assigned to a variable `x`, its elements can be extracted with the subsetting operator `[]`. `x[1]` subsets the vector represented by the name `x` returning another vector with the element from the first position.
 
 Try to answer the questions with your code, use the hint if necessary.
 
@@ -758,7 +758,7 @@ x[length(x)] - x[1]
 
 ### A vector in disguise
 
-Did you notice the language used to explain sub-setting? `x[1]` returns a vector with the first element of `x`. In R the sub-setting function returns another vector. Let's verify these statements with R itself:
+Did you notice the language used to explain subsetting? `x[1]` returns a vector with the first element of `x`. In R the subsetting function returns another vector. Let's verify these statements with R itself:
 
 ```{r verify-data-structure-subsetting-a-vector, exercise=TRUE, exercise.lines=6}
 x <- c(5, -1, 3, 0, -4, 1)
@@ -848,6 +848,7 @@ Two vectors are operated element-wise as well. The bakery needs to plan raw mate
 special_cake_contract_week <- c(1.2, 1.3, 1.2, 1)
 weekly_values * special_cake_contract_week
 ```
+
 ### Vector recycling
 
 Continuing on from the previous examples, what would happen if the multiplier vector provided by the kitchen had had only estimates for two materials and we had multiplied it by the weekly estimates?
@@ -934,27 +935,30 @@ quiz(
 
 
 
-### Sub-setting vectors
+### Subsetting vectors
 
-Combining the binary operator `:` and the sub-setting operator one can extract ranges of elements of a vector.
+Subsetting can be done by position or by value, @BaseR-Cheatsheet. 
 
-```{r subsetting-a-vector, echo=TRUE}
+The following are ways of subsetting a vector by selecting elements by **position**.
+
+Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
+
+```{r subsetting-a-vector, exercise=T, exercise.lines=3}
 x <- c(5, -1, 3, 0, -4, 1)
 # subset the range of elements from the third to the fifth one
 x[3:5]
 ```
-There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the element at that index is to be removed from t he subset of the vector.
+There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the element at that index is to be removed from the subset of the vector.
 
-```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=9}
+```{r, "setup-vector-to-subset-examples"}
 x <- c(5, -1, 3, 0, -4, 1)
+```
+
+```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
 # subset all but the first element of the vector 'x'
 
 # extract the last element
 
-# create a vector of logical types
-mask <- x>2
-# subset (filter)
-x[mask]
 ```
 
 
@@ -963,15 +967,31 @@ x[-1]
 x[length(x)]
 ```
 
+You can subset the elements  at specific locations using a vector of positions.
 
-```{r recycling-a-logical-mask-setup}
-x <- c(5, -1, 3, 0, -4, 1)
+```{r, subsetting-vectors-with-vectos-of-positions, exercise=T, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
+# create a vector of positions
+pos <- c(1, 5)
+# subset (filter)
+x[pos]
+```
+
+
+
+
+Another way to recycle is using logical masks that can be created with vectors and the logical operators, R is vectorized so the syntax is straight forward:
+
+```{r, subsetting-vectors-with-logical-masks, exercise=T, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
+# create a vector of logical types
+mask = x > 2
+# subset (filter)
+x[mask]
 ```
 
 
 Remember vector recycling? What if we used a logical mask that was shorter than the vector `x` from the previous exercise? `x` has 6 elements.
 
-```{r recycling-a-logical-mask, exercise=T, exercise.lines=2, exercise.setup="recycling-a-logical-mask-setup"}
+```{r recycling-a-logical-mask, exercise=T, exercise.lines=2, exercise.setup="setup-vector-to-subset-examples"}
 mask_short <- c(TRUE, FALSE, TRUE, FALSE)
 x[mask_short] 
 ```
@@ -1438,16 +1458,16 @@ dim(y)
 
 As a task, find out how to name rows and columns in a matrix.
 
-### Sub-setting a matrix
+### Subsetting a matrix
 
-The `[]` operator can be used on the two dimensions of the matrix. For example sub-set the first row and the second column:
+The `[]` operator can be used on the two dimensions of the matrix. For example subset the first row and the second column:
 
-```{r sub-setting-matrix-rows, exercise=T, exercise.lines=3}
+```{r subsetting-matrix-rows, exercise=T, exercise.lines=3}
 (m <- matrix(rep(c(rep(1:2,2), rep(3:4, 2)),2), byrow = T, nrow = 4))
 m[1,]
 m[,2]
 ```
-```{r, setup-sub-setting-matrices}
+```{r, setup-subsetting-matrices}
 m <- matrix(rep(c(rep(1:2,2), rep(3:4, 2)),2), byrow = T, nrow = 4)
 ```
 
@@ -1608,13 +1628,13 @@ my_list[[1]]
 
 Did you notice the use of double square brackets, `[[]]` to access the vectors stored in the list of the previous section? Had you chosen to use single brackets `[]` the result would have been a  named list of one vector as its only element, try it now if you did not before:
 
-```{r, sub-setting-lists-single-bracket-setup}
+```{r, subsetting-lists-single-bracket-setup}
 my_list <- list(some_strings = c("hello", "world"), 
           some_numbers = 10:15, 
           some_booleans = c(T,T,T,F))
 ```
 
-```{r, sub-setting-lists-single-bracket, exercise=T, exercise.lines=4, exercise.setup="sub-setting-lists-single-bracket-setup"}
+```{r, subsetting-lists-single-bracket, exercise=T, exercise.lines=4, exercise.setup="subsetting-lists-single-bracket-setup"}
 class(my_list[1])
 my_list[1]
 class(my_list[[1]])
@@ -1632,7 +1652,7 @@ In general, passing two or more lists as arguments to `c()` merges them all into
 
 In order to append a new element to an existing list the `c()` operator works well. The caveat is to use the `list()` constructor around the new element. This is useful to prevent the flattening of a vector into individual list elements when appended. It creates a new object leaving the original list unchanged. 
 
-```{r, new-element-appending-in-new-list, exercise=T, exercise.lines=9, exercise.setup="sub-setting-lists-single-bracket-setup"}
+```{r, new-element-appending-in-new-list, exercise=T, exercise.lines=9, exercise.setup="subsetting-lists-single-bracket-setup"}
 length(my_list)
 # this creates a new list
 new_list <- c(my_list, list(rep(-1,3)))
@@ -1645,7 +1665,7 @@ new_list[[length(new_list)]]
 ```
 The `[[]]` operator allows insertion of new elements of any type into a list, that means no coercion will be used. This is the similar functionality of the operator `[]` for vectors.
 
-```{r, new-element-of-list-appending-in-place, exercise=T, exercise.lines=7, exercise.setup="sub-setting-lists-single-bracket-setup"}
+```{r, new-element-of-list-appending-in-place, exercise=T, exercise.lines=7, exercise.setup="subsetting-lists-single-bracket-setup"}
 length(my_list)
 # this modifies in place
 my_list[[length(my_list) + 1]] <- rep(-1,3)
@@ -1831,7 +1851,7 @@ In the above example the vector of country names, of type `character`, was conve
 
 ### Subsetting a dataframe
 
-Similarly to sub-setting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention and the `[]` syntax or the `$` syntax.
+Similarly to subsetting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention and the `[]` syntax or the `$` syntax.
 
 ```{r slice-n-dice-df-setup}
 # for better documentation name the vectors
@@ -1876,7 +1896,7 @@ df[df$population > 80, 'country']
 df[df$population > 80,]
 ```
 
-This way of subsetting a dataframe uses what is called a **_logical mask_**. This is nothing more than a boolean vector used for subsetting into another vector (recall that the columns of a dataframe are vectors). This is similar to what we have studied before. 
+This way of subsetting a dataframe uses what is called a **_logical mask_**. The mask is nothing but a boolean vector generated using a logical operator. The boolean vector is then used to subsetting another vector using the `[]` operator selecting the elements of the vector at the positions where the mask is `TRUE`. Since the columns of a data frame are vectors, this is a natural way of subsetting. 
 
 This image helps explain it.
 
@@ -1886,12 +1906,12 @@ knitr::include_graphics("images/dataframe-row-filter.png", dpi = 126)
 
 And here is a step by step description:
 
+  1. Build the mask using a logical operator expressing a condition over one of the columns of the dataframe.
+
 ```{r explain-logical-mask-1, exercise.setup="subset-df-by-row-setup", echo=T}
-# build the logical mask with a vector of logical values
-filter <- df$population > 80
-filter
+(filter <- df$population > 80)
 ```
-Now subset the dataframe by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the dataframe pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
+  2. Subset the dataframe by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the dataframe pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
 
 ```{r explain-logical-mask-setup, echo = F}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
