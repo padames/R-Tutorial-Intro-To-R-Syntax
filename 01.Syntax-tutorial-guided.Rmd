@@ -1595,15 +1595,15 @@ quiz(
   Select all that apply.",
     answer("The null matrix", correct = TRUE),
     answer("     [,1] [,2] [,3]
-                 [1,]    0    0    0
-                 [2,]    0    0    0
-                 [3,]    0    0    0", correct = TRUE),
+     [1,]    0    0    0
+     [2,]    0    0    0
+     [3,]    0    0    0", correct = TRUE),
     answer("Error in m + matrix(c(1), nrow = 4) : non-conformable arrays", correct = FALSE, message = 'R can deal with this better than you think.'),
     answer("Error in m + c(1) : non-conformable arrays", correct = FALSE, message = 'R would know the difference!'),
     answer("     [,1] [,2] [,3]
-                 [1,]    1    0    0
-                 [2,]    0    0    0
-                 [3,]    0    0    0", correct = FALSE, message = 'R can do this, keep trying!'),
+     [1,]    1    0    0
+     [2,]    0    0    0
+     [3,]    0    0    0", correct = FALSE, message = 'R can do this, keep trying!'),
     allow_retry = TRUE,
     random_answer_order = TRUE,
     correct = "You figured out that R turns the 1 into a matrix of the required size!"
@@ -1950,7 +1950,7 @@ And here is a step by step description:
   1. Build the mask using a logical operator expressing a condition over one of the columns of the dataframe.
 
 ```{r explain-logical-mask-1, exercise=T, exercise.lines=1, exercise.setup="subset-df-by-row-setup"}
-(filter <- df$population > 80)
+(row_filter <- df$population > 80)
 ```
   2. Subset the dataframe by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the dataframe pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
 
@@ -1959,19 +1959,17 @@ country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
 df <- data.frame(country, population, census2019)
-filter <- df$population > 80
+row_filter <- df$population > 80
 ```
 
 
-```{r explain-logical-mask-2, exercise=T, exercise.lines=3, exercise.setup="explain-logical-mask-setup"}
+```{r explain-logical-mask-2, exercise=T, exercise.lines=2, exercise.setup="explain-logical-mask-setup"}
 # apply the same filter to every column of the data frame by
-result <- df[filter,]
-result
+(result <- df[row_filter,])
 ```
+  3. Show the column for country from the 2019 census:
 
-Now only show the column for country and whether the data is from the 2019 census:
-
-```{r explain-logical-mask-3-setup, echo = F}
+```{r explain-logical-mask-3-setup}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 census2019 <- c(T,T,T,T,F,T)
@@ -1981,21 +1979,30 @@ result <- df[filter,]
 ```
 
 
-```{r explain-logical-mask-3, exercise.setup="explain-logical-mask-3-setup", echo=T}
+```{r explain-logical-mask-3, exercise=T, exercise.lines=2, exercise.setup="explain-logical-mask-3-setup"}
 # apply the filter to all the vectors of the data frame
 result[c("country", "population")]
 ```
 
+### Reusing your knowledge of R Syntax
+
+At this point in your R Syntax journey you may start to appreciate that some patterns. Here is an image taken from @BaseR-Cheatsheet that might show some of these patterns.
+
+```{r, dataframe-sheat-sheet-example, echo=FALSE, results='asis'}
+  knitr::include_graphics("images/Dataframe_shortcuts_from_BaseR_Cheat_Sheet.png", dpi = 96)
+```
+
+As a very special case of a list, you would expect to be able to reuse some of your list manipulation knowledge, right? In a similar way, with the _table-like_ shape you would expect to be able to re-use some of your knowledge of `cbind` and `rbind`, correct?
 
 ### Factors or strings
 
-Did you notice that in the previous section we got the countries as a vector of factors with 6 levels. Remember that section on factors when we studied vectors? Well here we go again. 
+Did you notice that in the previous section we got the countries as a vector of factors with 6 levels? Remember that special case of vectors called factors specialized on manipulating categorical variables? Well here we go again. 
 
-When you construct a dataframe from vectors their class will be interpreted by the constructor. R will try to coerce all the elements of the vector to the most general data type to be able to work with them. An ordering of types from more general to less `character` > `integer` > `numeric` > `complex` > `logical`. 
+When you construct a dataframe from vectors the type, or class, of  each vector will be interpreted by the dataframe constructor. R will try to coerce all the elements of the vector to the most general data type to be able to work with them. An ordering of types from more  general to more specific is `character` > `complex` > `double` > `integer` > `logical`. 
 
 You can give R hints, though, for instance you can tell it to interpret the strings in vectors as factors or not, base R will do it by default.
 
-```{r example-dataframe-strings-as-factors, echo=T}
+```{r example-dataframe-strings-as-factors, exercise=T, exercise.lines=7}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 # strings as factors is the default
@@ -2012,7 +2019,7 @@ population <- c(37, 331, 67, 83, 60, 39)
 ```
 
 
-```{r example-dataframe-strings-as-is, exercise.setup="example-dataframe-strings-as-is-setup", echo=T}
+```{r example-dataframe-strings-as-is, exercise=T, exercise.lines=2, exercise.setup="example-dataframe-strings-as-is-setup"}
 country_stats <- data.frame( country, population, stringsAsFactors = FALSE)
 str(country_stats)
 ```
