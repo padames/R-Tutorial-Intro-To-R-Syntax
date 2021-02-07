@@ -1085,7 +1085,7 @@ week_days[gt_mean_mornings | gt_mean_afternoons]
 
 
 
-### Vectors within vectors
+### Vectors within vectors?
 
 When a vector is created within another vector the result is a longer one.
 
@@ -1102,6 +1102,9 @@ vx <- c("Rob", "Dori", "Nick")
 vy <- c("Anne", "Sam", "Jen")
 c(vx, vy)
 ```
+
+Vectors of type `"character"`, `"numeric"`, `"logical"`, `"complex"`, or `"raw"` are always <span style="color:red">flat structures</span>, they can't have branches. They are called atomic  vectors.
+
 
 ### Appending elements to a vector
 
@@ -1182,6 +1185,54 @@ typeof(v_logicals2)
 You can force coercion with the family of built-in functions `as.integer`, `as.character`, `as.numeric`, etc.
 
 In general R will try to coerce the elements of a vector to the most general type possible, usually _double_ or _character_.
+
+
+
+### Introducing NAs
+
+
+There are cases when special logical values, called `NA` will be  introduced by R to indicate that the intended value does not exist. 
+
+In R, `NA` is a logical vector of length 1, (the fact that is a vector although it looks like a single isolated element should not be a surprise to you anymore at this point).
+
+```{r, type-of-NAs, exercise=T, exercise.length=1}
+typeof(NA)
+```
+
+Here are two important cases where `NA`s can be introduced and that you need to be aware of to use R effectively:
+
+  * When subsetting with a position that is larger than the size of the vector.
+  * When coercing non-numeric symbols to a numeric type.
+  
+
+```{r, examples-introducing-NAs-coercing-non-numeric-symbols, exercise=TRUE, exercise.lines=10}
+# supposed we read these values from a text file with results from an experiment
+read_from_text_file <- c(".", "1", "0.5")
+# we expect all the results to be numbers
+(numbers_expected <- as.numeric(read_from_text_file))
+# check the assumption
+typeof(numbers_expected)
+# if it were a large vector, too difficult to inspect by eye, use of 'is.na'
+is.na(numbers_expected)
+# can you think of a  way to test if there were more than 1 NA on a long vector?
+
+```
+
+```{r, examples-introducing-NAs-coercing-non-numeric-symbols-hint}
+# if adding the elements of the logical vector returned by 'is.na' is greater than 0
+# then there was at least one NA among the numbers
+sum(is.na(numbers_expected)) > 0
+```
+
+The other case happens subsetting by a position that is out of the range of positions in the vector.
+
+```{r, examples-introducing-NAs-position-out-of-range, exercise=TRUE, exercise.lines=5}
+control_variables <- c("temperature", "humidity", "daylight_hours", "light_wave_length")
+# subset the manipulated variables by position
+(manipulated <- control_variables[c(1,4,6)])
+# if true then we know NAs were introduced by mistake:
+sum(is.na(manipulated)) > 0
+```
 
 
 ### Vector attributes
