@@ -1103,7 +1103,7 @@ vy <- c("Anne", "Sam", "Jen")
 c(vx, vy)
 ```
 
-Vectors of type `"character"`, `"numeric"`, `"logical"`, `"complex"`, or `"raw"` are always <span style="color:red">flat structures</span>, they can't have branches. They are called atomic  vectors.
+Vectors of type `"character"`, `"numeric"`, `"logical"`, `"complex"`, or `"raw"` are always <span style="color:red">flat structures</span>, they can't have branches. They are called atomic  vectors. Another type of vectors, called  `list` can have branches and cannot be described by any of the types of atomic vectors. More on this later.
 
 
 ### Appending elements to a vector
@@ -1224,7 +1224,7 @@ is.na(numbers_expected)
 sum(is.na(numbers_expected)) > 0
 ```
 
-The other case happens subsetting by a position that is out of the range of positions in the vector.
+The other common case for `NA` to be introduced generated happens subsetting by a position that is out of the range of positions in the vector.
 
 ```{r, examples-introducing-NAs-position-out-of-range, exercise=TRUE, exercise.lines=5}
 control_variables <- c("temperature", "humidity", "daylight_hours", "light_wave_length")
@@ -1701,7 +1701,7 @@ Let's leave this data structure for deep learning practice and move on now.
 <!-- ====================== -->
 
 
-Lists are one-dimensional data structures objects that can store information of heterogeneous type, a list can even contain other lists. R's linear model object, with constructor `lm()`, is a list. Lists are very versatile and are at the center of R's model and data handling strengths.
+Lists are one-dimensional vector objects that can store information of heterogeneous type, a list can even contain other lists. R's linear model object, with constructor `lm()`, is a list. Lists are very versatile and are at the center of R's model and data handling strengths.
 
 
 ### Constructing lists
@@ -1977,6 +1977,9 @@ If any of the vectors has a different length there will be error messages, R wil
 
 In the above example the vector of country names, of type `character`, was converted to factors by a default named argument `stringsAsFactors = T` in the constructor `data.frame()`. A special note about this later in this section.
 
+Try the `str()` function on the dataframe we just created. R has a special vocabulary for the rows and columns of a dataframe. Each of the vectors in the list are mapped to a variable while each row represents an observation.
+
+
 ### Subsetting a dataframe
 
 Similarly to subsetting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention and the `[]` syntax or the `$` syntax.
@@ -2111,11 +2114,20 @@ country_stats <- data.frame( country, population, stringsAsFactors = FALSE)
 str(country_stats)
 ```
 
+### NAs and NaN in a dataframe
+
+Because each row on a data frame is associated with an experimental observation of some sort, sometimes they may genuinely miss values for some of the variables considered. We already considered the automatic introduction of the logical value `NA`, 
+
+
 ### Test your knowledge
 
 ```{r quiz-dataframes, echo=FALSE, cache=FALSE}
 quiz(
-  question_checkbox("Select all that apply)",
+  question_checkbox("
+    
+                    
+                    
+  Select all that apply)",
            answer("a", correct = TRUE),
            answer("b", correct = TRUE),
            answer("c", correct = FALSE, message = ''),
