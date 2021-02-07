@@ -1776,7 +1776,7 @@ class(to_do_list$invited)
 ```
 
 
-```{r list-dollar}
+```{r list-dollar-setup}
 party_items = list( drinks = c("pop", "wine", "beer", "water"),
                     furniture = c(chairs = 8, tables = 2, hammocks = 1))
 
@@ -1787,15 +1787,37 @@ to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
 
 Thanks to the `$` and assignment operators one can simplify printing the drinks for the party. 
 
-```{r list-dollar-show, exercise=TRUE, exercise.setup="list-dollar", exercise.lines=2 }
+```{r list-dollar-show, exercise=TRUE, exercise.setup="list-dollar-setup", exercise.lines=2 }
 to_buy <- to_do_list$items
 to_buy$drinks
 ```
+
+### Conversion of lists to vectors
+
+A list can be coerced into a vector using the `unlist()` function. It uses the sale coercion rules that `c()` uses to create homogeneous types for each element.
+
+
+```{r, using-unlist-to-convert-list-to-vector, exercise=T, exercise.lines=5}
+set.seed(6728)
+a_list <- list(labels=LETTERS[1:5], runs=1:5, outcomes=sample(1:10, size = 5))
+str(a_list)
+vector_version <- unlist(a_list)
+str(vector_version)
+```
+
 
 ### Test your knowledge
 
 ```{r quiz-lists, echo=FALSE, cache=FALSE}
 quiz(
+  question_radio(
+    "The subsetting operator [ always returns a list when applied to a list.",
+    answer("True", correct = TRUE),
+    answer("False", correct = FALSE, message = "Well, mayve you were thinking of [[, that one gives you the actual elelment(s) of the list."),
+    random_answer_order = TRUE,
+    allow_retry = TRUE,
+    correct = "You are on a roll! This is an important characteristic of lists."
+  ),
   question_checkbox("Your rent went up by 3% this month. I know, this is a crazy neighbourhood.
                     
           to_do <- list(errands = c(\"Doctor's appointment\",
