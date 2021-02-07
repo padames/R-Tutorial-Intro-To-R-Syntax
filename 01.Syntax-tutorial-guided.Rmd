@@ -1396,7 +1396,21 @@ How would one obtain the last two names for any length of 'v'?",
       answer(" x[-2] * y", correct = F, message = "The first vector has three elements, youa re removing only one!"),
       allow_retry = T,
       random_answer_order = T,
-      correct = "Amazing results you are getting with element wise operations and subsetting vectors!")
+      correct = "Amazing results you are getting with element wise operations and subsetting vectors!"),
+  # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Order the elements of the vector that result from executing  this code:
+    
+        v = c('1.', '4.25', '$2.0', '.1')
+        as.numeric(v)
+        
+    ",
+    correct = "Detecting NAs is your thing! They can sneak up on you if you don't check your data well.",
+    incorrect = "Oops, check the order again.",
+    allow_retry = TRUE,
+    random_answer_order = TRUE, 
+    options = sortable::sortable_options(),
+    learnr::answer(c("1.00", "4.25","NA","0.10"), correct = TRUE)
+  )
 )
 ```
 
