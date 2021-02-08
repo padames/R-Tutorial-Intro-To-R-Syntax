@@ -2223,15 +2223,17 @@ The 'runif' functions computes n random values from a uniformly distributed vari
 
 If you start writing a lot of R code, sooner or later you will find the need to reuse the same functionality over and over. Functions help you package that functionality in a single scope and reuse it in a convenient form.
 
-A user function behaves like a built-in function, although their scopes (the environments where they live) are different.
+A user function behaves like a built-in function, although their scopes (the environments where they operate) are different.
 
-The values that the function receives are called parameters in the definition of the function. The values actually passed to the function  when called are called arguments.
+The values that the function receives are called <span style=color:blue">parameters</span>  in the definition of the function. The values actually passed to the function  when called are called <span style=color:blue">arguments</span>.
+
+### How to write a user-defined function
 
 In R the body of a function is written between curly braces and the last statement is the returned value.
 
 Now write a function that adds any two numbers and then call it.
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
+```{r add-function, exercise=TRUE, exercise.lines = 3}
 add2numbers <- function(a, b) {
   
 }
@@ -2242,6 +2244,29 @@ add2numbers <- function(a, b) {
   return(a + b)
 }
 ```
+
+An R user-defined function is called exactly the way you would call a built-in function.
+
+```{r, calling-a-user-defined-function-setup}
+add2numbers <- function(a, b) {
+  return(a + b)
+}
+```
+
+```{r, calling-a-user-defined-funciton, exercise=T, exercise.lines=1, exercise.setup="calling-a-user-defined-function-setup"}
+(result <- add2numbers(5, 4))
+```
+
+The value returned by a function is the one defined by the last expression within the function body. The `return` is not necessary.
+
+```{r, calling-a-user-defined-funciton-simple, exercise=T, exercise.lines=4}
+add_2_numbers <- function(a, b) {
+  a + b
+}
+(result_2 <- add_2_numbers(5, 4))
+```
+
+
 
 ## References
 
