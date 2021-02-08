@@ -701,7 +701,7 @@ They can also be categorized according to the dimensions they can store: 1d, 2d 
 library(knitr)
 Dimensions <- c("One", "Two", "Three or more")
 Homogeneous <- c("Vector", "Matrix", "Array")
-Heterogeneous <- c("List", "Dataframe", "")
+Heterogeneous <- c("List", "Data frame", "")
 
 kable( data.frame(Dimensions, Homogeneous, Heterogeneous, 
                  stringsAsFactors = FALSE),
@@ -1936,7 +1936,7 @@ quiz(
 ```
 
 
-## Dataframes
+## Data frames
 
 If you have followed the data structure section then this section should be relatively easy. Like a list, data frames store information of heterogeneous type, however there are some rules:
 
@@ -1945,24 +1945,24 @@ If you have followed the data structure section then this section should be rela
   - The columns have to be of the same type and length
 
 
-Follow these rules and dataframes are an almost ideal data structure to manipulate data for data analysis, as convenient but safer than spreadsheet files, whether in memory or saved as a file to a disk locally or in the cloud. 
+Follow these rules and data frames are an almost ideal data structure to manipulate data for data analysis, as convenient but safer than spreadsheet files, whether in memory or saved as a file to a disk locally or in the cloud. 
 
-Dataframes are similar to tables of a sophisticated relational data base, where you can store procedures (like R expressions) and even other tables in the cells.
+Data frames are similar to tables of a sophisticated relational data base, where you can store procedures (like R expressions) and even other tables in the cells.
 
-### Why is a dataframe different?
+### Why is a data frame different?
 
-Under the hood a data frame is implemented as a list of vectors of the same length. The table-like geometry and the constraint of columns consisting of vectors of equal length allow for code optimization on the algorithms to search and select items. Vectors are stored in contiguous memory of constant and fixed size, this gives a dataframe some advantages, and they are natively implemented so the `$` and `[` syntax you have already seen can be safely reused for dataframes.
+Under the hood a data frame is implemented as a list of vectors of the same length. The table-like geometry and the constraint of columns consisting of vectors of equal length allow for code optimization on the algorithms to search and select items. Vectors are stored in contiguous memory of constant and fixed size, this gives a data frame some advantages, and they are natively implemented so the `$` and `[` syntax you have already seen can be safely reused for data frames.
 
 
-### Constructing a dataframe
+### Constructing a data frame
 
-```{r dataframe, echo=FALSE, results='asis', dpi=96}
+```{r, data-frame, echo=FALSE, results='asis', dpi=96}
 knitr::include_graphics("images/dataframe.png")
 ```
 
 Let's create this data frame using code using the constructor function `data.frame`.
 
-```{r dataframe-constructor, exercise=T, exercise.lines=6}
+```{r, data-frame-constructor, exercise=T, exercise.lines=6}
 # for better documentation name the vectors
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
@@ -1977,12 +1977,12 @@ If any of the vectors has a different length there will be error messages, R wil
 
 In the above example the vector of country names, of type `character`, was converted to factors by a default named argument `stringsAsFactors = T` in the constructor `data.frame()`. A special note about this later in this section.
 
-Try the `str()` function on the dataframe we just created. R has a special vocabulary for the rows and columns of a dataframe. Each of the vectors in the list are mapped to a variable while each row represents an observation.
+Try the `str()` function on the data frame we just created. R has a special vocabulary for the rows and columns of a data frame. Each of the vectors in the list are mapped to a variable while each row represents an observation.
 
 
-### Subsetting a dataframe
+### Subsetting a data frame
 
-Similarly to subsetting vectors, we can slice and extract sections of the dataframe as we please following the row, column convention and the `[]` syntax or the `$` syntax.
+Similarly to subsetting vectors, we can slice and extract sections of the data frame as we please following the row, column convention and the `[]` syntax or the `$` syntax.
 
 ```{r slice-n-dice-df-setup}
 # for better documentation name the vectors
@@ -1999,7 +1999,7 @@ df$"country"
 # using the [] operator
 df[,1]
 df[,"country"]
-# using the fact that a dataframe is a list under the hood
+# using the fact that a data frame is a list under the hood
 df[[1]]
 df[["country"]]
 ```
@@ -2027,22 +2027,22 @@ df[df$population > 80, 'country']
 df[df$population > 80,]
 ```
 
-This way of subsetting a dataframe uses what is called a **_logical mask_**. The mask is nothing but a boolean vector generated using a logical operator. The boolean vector is then used to subsetting another vector using the `[]` operator selecting the elements of the vector at the positions where the mask is `TRUE`. Since the columns of a data frame are vectors, this is a natural way of subsetting. 
+This way of subsetting a data frame uses what is called a **_logical mask_**. The mask is nothing but a boolean vector generated using a logical operator. The boolean vector is then used to subsetting another vector using the `[]` operator selecting the elements of the vector at the positions where the mask is `TRUE`. Since the columns of a data frame are vectors, this is a natural way of subsetting. 
 
 This image helps explain it.
 
-```{r dataframe-row-filter, echo=FALSE, results='asis', fig.height=1}
+```{r data-frame-row-filter, echo=FALSE, results='asis', fig.height=1}
 knitr::include_graphics("images/dataframe-row-filter.png", dpi = 126)
 ```
 
 And here is a step by step description:
 
-  1. Build the mask using a logical operator expressing a condition over one of the columns of the dataframe.
+  1. Build the mask using a logical operator expressing a condition over one of the columns of the data frame.
 
 ```{r explain-logical-mask-1, exercise=T, exercise.lines=1, exercise.setup="subset-df-by-row-setup"}
 (row_filter <- df$population > 80)
 ```
-  2. Subset the dataframe by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the dataframe pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
+  2. Subset the data frame by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the data frame pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result.
 
 ```{r explain-logical-mask-setup}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
@@ -2078,7 +2078,7 @@ result[c("country", "population")]
 
 At this point in your R Syntax journey you may start to appreciate that some patterns. Here is an image taken from @BaseR-Cheatsheet that might show some of these patterns.
 
-```{r, dataframe-sheat-sheet-example, echo=FALSE, results='asis'}
+```{r, data-frame-sheat-sheet-example, echo=FALSE, results='asis'}
   knitr::include_graphics("images/Dataframe_shortcuts_from_BaseR_Cheat_Sheet.png", dpi = 96)
 ```
 
@@ -2088,11 +2088,11 @@ As a very special case of a list, you would expect to be able to reuse some of y
 
 Did you notice that in the previous section we got the countries as a vector of factors with 6 levels? Remember that special case of vectors called factors specialized on manipulating categorical variables? Well here we go again. 
 
-When you construct a dataframe from vectors the type, or class, of  each vector will be interpreted by the dataframe constructor. R will try to coerce all the elements of the vector to the most general data type to be able to work with them. An ordering of types from more  general to more specific is `character` > `complex` > `double` > `integer` > `logical`. 
+When you construct a data frame from vectors the type, or class, of  each vector will be interpreted by the data frame constructor. R will try to coerce all the elements of the vector to the most general data type to be able to work with them. An ordering of types from more  general to more specific is `character` > `complex` > `double` > `integer` > `logical`. 
 
 You can give R hints, though, for instance you can tell it to interpret the strings in vectors as factors or not, base R will do it by default.
 
-```{r example-dataframe-strings-as-factors, exercise=T, exercise.lines=7}
+```{r example-data-frame-strings-as-factors, exercise=T, exercise.lines=7}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 # strings as factors is the default
@@ -2101,27 +2101,36 @@ country_stats <- data.frame( country,
 # the function 'str()' shows us the structure of the object
 str(country_stats)
 ```
-The R constructor for dataframes interpreted the strings as 6 factors. Perhaps not what you expected, compare with this case.
+The R constructor for data frames interpreted the strings as 6 factors. Perhaps not what you expected, compare with this case.
 
-```{r example-dataframe-strings-as-is-setup}
+```{r example-data-frame-strings-as-is-setup}
 country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland")
 population <- c(37, 331, 67, 83, 60, 39)
 ```
 
 
-```{r example-dataframe-strings-as-is, exercise=T, exercise.lines=2, exercise.setup="example-dataframe-strings-as-is-setup"}
+```{r example-data-frame-strings-as-is, exercise=T, exercise.lines=2, exercise.setup="example-data-frame-strings-as-is-setup"}
 country_stats <- data.frame( country, population, stringsAsFactors = FALSE)
 str(country_stats)
 ```
 
-### NAs and NaN in a dataframe
+### NAs in a data frame
 
-Because each row on a data frame is associated with an experimental observation of some sort, sometimes they may genuinely miss values for some of the variables considered. We already considered the automatic introduction of the logical value `NA`, 
+Because each row on a data frame is associated with an experimental observation of some sort, sometimes an observation may genuinely have missing entries for some of the variables that were simply not measured or are not available in the data set. The function `is.na()` can be used on the whole data frame or on a specific column to return a data frame of logical vectors or a single vector indicating whether an `NA` exists at that position or not: indicated by a `TRUE` or`FALSE`. An exercise will clarify this use:
+
+
+```{r, detect-NAs-in-a-data-frame, exercise=T, exercise.lines=5}
+df <- 
+```
+
+
+
+Another case is when calculated values do not produce a  valid number, represented in R as  of type `NaN`. 
 
 
 ### Test your knowledge
 
-```{r quiz-dataframes, echo=FALSE, cache=FALSE}
+```{r quiz-data-frames, echo=FALSE, cache=FALSE}
 quiz(
   question_checkbox("
     
