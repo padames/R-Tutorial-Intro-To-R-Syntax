@@ -2123,7 +2123,8 @@ Some mathematical operations may create values that are not amenable to be furth
 An exercise will clarify the identification of all these values.
 
 
-```{r, detect-NAs-in-a-data-frame, exercise=T, exercise.lines=14}
+```{r, detect-NAs-in-a-data-frame, exercise=T, exercise.lines=15}
+set.seed(7777)
 (df <- data.frame(experiment=rep(LETTERS[1:3], each=3), 
                   run=rep(1:3,3), 
                   results=round(runif(n = 9, min = 0.0, max = 10.0), digits = 2)))
@@ -2161,7 +2162,24 @@ quiz(
            random_answer_order = TRUE,
            allow_retry = TRUE,
            correct = 'This has been the most complicated subsetting question you have solved today, pat yourself in the back!',
-           incorrect = "One or more correct answers may be missing and/or you have selected wrong answers, in the former case more information follows.")
+           incorrect = "One or more correct answers may be missing and/or you have selected wrong answers, in the former case more information follows."),
+  question(
+    "How many variables and observations are there in this data frame?
+      
+      n <- 10
+      df <- data.frame(x=1:n, y = runif(n))
+      df <- cbind(df, pass = df$y > 0.9)
+    
+The 'runif' functions computes n random values from a uniformly distributed variable between 0 and 1.0",
+  answer("3 variables and 10 observations", correct = TRUE),
+  answer("10 observations and 3 variables", correct = FALSE, message = 'I would reconsider this option.'),
+  answer("10 variables and 2 observations", correct = FALSE, message = 'Have you tried to run the code on an exercise sandbox?'),
+  answer("2 variables, 10 observations, 1 condition", correct = FALSE, message = 'Something is not right with this answer, I would leave the way variables are calculated out of it.'),
+  answer("2 variables and 11 observations", correct = FALSE, message = 'May I suggest you identify how many columns this data frame will have after the two lines are executed?'),
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  correct = 'Bravo! I see you are starting to speak R quite fluently.'
+  )
 )
 ```
 
