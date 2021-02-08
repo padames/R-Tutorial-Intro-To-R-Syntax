@@ -2266,6 +2266,133 @@ add_2_numbers <- function(a, b) {
 (result_2 <- add_2_numbers(5, 4))
 ```
 
+### Named parameters
+
+Just like with built-ins you can name parameters. You can also use default values.
+
+```{r, named-parameters-in-user-defined-functions, exercise=T, exercise.lines=9}
+add_2_vectors <- function(x, y) {
+  sum(x, y)
+}
+# now use the function
+set.seed(1234)
+(a <- sample(c(1:100), size = 10, replace = T))
+(b <- c(sample(c(1:100), 4, T), NA, c(sample(c(1:100), 5, T))))
+add_2_vectors(x = a, 
+              y = b)
+```
+We might want to fix this hiccup by adding a default parameter to indicate that if `NA`s are found they can be safely ignored.
+
+```{r, named-parameters-in-user-defined-functions-NAs-addressed-setup}
+set.seed(1234)
+a <- sample(c(1:100), size = 10, replace = T)
+b <- c(sample(c(1:100), 4, T), NA, c(sample(c(1:100), 5, T)))
+```
+
+```{r, named-parameters-in-user-defined-functions-NAs-addressed, exercise=T, exercise.lines=4, exercise.setup="named-parameters-in-user-defined-functions-NAs-addressed-setup"}
+add_2_vectors <- function(x, y, remove.na = TRUE) {
+  sum(x, y, na.rm = remove.na)
+}
+add_2_vectors(x = a, y = b)
+```
+
+Most R functions have parameters to ignore the presence of missing values.
+
+## Control of execution
+
+For a program or a function to do interesting calculations it is necessary to operate repetitively over data structures like vectors and lists to generate new values or a single one representing the desired target. 
+
+The line by line flow of execution of an R program can be altered with the use of functions or statements. Both methods are available in R.  Using functions leads to a functional style of programming while using statements leads to procedural style.
+
+### The procedural statements
+
+The procedural style syntax for looping or iterating uses the following structures:
+
+```{r, if-statement,  eval=FALSE, echo=TRUE, include=TRUE}
+if (condition) {
+  Do something
+} else {
+  Do something different
+}
+```
+
+```{r while-statement, eval=FALSE,  echo=TRUE, include=TRUE}
+while (condition) {
+  Do something
+}
+```
+
+```{r for-statement, eval=FALSE,  echo=TRUE, include=TRUE}
+for (variable in sequence) {
+  Do something
+}
+```
+
+### The functional style
+
+The functional forms of these structures can be formulated depending on the object that the user-function is applied to. For a vector the applications are straight forward.
+
+The functional and procedural styles of writing programs are  equivalent, however for the majority of the applications in statistics and linear algebra R is optimized to use the functional style. More recently packages like `purr` from the `tidyverse` syntax have added all the functional tools that make it extremely succinct to express standard transformations on vectorized data structures like lists, matrices, arrays, and data frames.
+
+Let's have a look at concrete examples.
+
+### Iterating  over a vector
+
+
+ First illustrate the  `sapply` function to square all the elements of a numeric vector.
+
+```{r, sapply-example-on-vector, exercise=T, exercise.lines=4}
+set.seed(456)
+v <- runif(5, 1, 5)
+# now iterate over the vector applying your operation to square each element
+(squares2 <- sapply(v, function(a) {a*a}))
+```
+
+```{r, sapply-vs-for-loop-comparison-setup}
+set.seed(456)
+v <- runif(5, 1, 5)
+```
+
+Now use the for-loop to achieve the same transformation.
+
+```{r, for-loop-example-on-vector, exercise=T, exercise.lines=9, exercise.setup="r, sapply-vs-for-loop-comparison-setup"}
+# pre-allocate space in the vector
+square_vals <- rep(0, length(v))
+i = 1
+for (a in v) {
+  square_vals[i] = a*a
+  i = i + 1
+}
+# display the answer
+square_vals
+```
+### Conditionally removing values from a vector
+
+In functional style this is done via subsetting. In procedural style  a combination of a for-loop and the conditional-statements with if-else can achieve the same result. Let us have a look at the air fare to sun destinations at or below $1200.
+
+```{r, conditionally-removing-with-filter, exercise=T, exercise.lines=2}
+air_fares <- c(Habana=1200, Cancun=1150, Los_cabos=960, Costa_Rica=1250)
+(results <- air_fares[air_fares <= 1200])
+```
+Now let's do it in procedural style.
+```{r, conditionally-removing-with-for-loop-and-if-statement-setup}
+air_fares <- c(Habana=1200, Cancun=1150, Los_cabos=960, Costa_Rica=1250)
+```
+
+
+```{r, conditionally-removing-with-for-loop-and-if-statement, exercise=T, exercise.lines=9, exercise.setup="conditionally-removing-with-for-loop-and-if-statement-setup"}
+results <- c()
+if (length(air_fares) > 0) {
+  n <- length(air_fares)
+  for (i in 1:n) {
+    if (air_fares[i] <= 1200) {
+      results <- c(results, air_fares[i])
+    }
+  }
+}
+results
+```
+
 
 
 ## References
