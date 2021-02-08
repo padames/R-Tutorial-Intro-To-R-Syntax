@@ -1977,7 +1977,7 @@ If any of the vectors has a different length there will be error messages, R wil
 
 In the above example the vector of country names, of type `character`, was converted to factors by a default named argument `stringsAsFactors = T` in the constructor `data.frame()`. A special note about this later in this section.
 
-Try the `str()` function on the data frame we just created. R has a special vocabulary for the rows and columns of a data frame. Each of the vectors in the list are mapped to a variable while each row represents an observation.
+Try the `str()` function on the data frame we just created. R has a special vocabulary for the rows and columns of a data frame. Each of the <span style="color:blue">vectors</span> in the list are mapped to a <span style="color:blue">variable</span> while each <span style="color:red">row</span> represents an <span style="color:red">observation</span>.
 
 
 ### Subsetting a data frame
@@ -2116,16 +2116,30 @@ str(country_stats)
 
 ### NAs in a data frame
 
-Because each row on a data frame is associated with an experimental observation of some sort, sometimes an observation may genuinely have missing entries for some of the variables that were simply not measured or are not available in the data set. The function `is.na()` can be used on the whole data frame or on a specific column to return a data frame of logical vectors or a single vector indicating whether an `NA` exists at that position or not: indicated by a `TRUE` or`FALSE`. An exercise will clarify this use:
+Because each row on a data frame is associated with an experimental observation of some sort, sometimes an observation may genuinely have missing entries for some of the variables that were simply not measured or are not available in the data set. The function `is.na()` can be used on the whole data frame to return a data frame of logical vectors with `TRUE`  if an `NA` exists at that position or `FALSE` otherwise. The function `complete.cases()` identifies the observations with missing values. 
+
+Some mathematical operations may create values that are not amenable to be further processed, for example dividing 0/0 or any number by 0, in the first case the result is `NaN` and in the second `Inf`. 
+
+An exercise will clarify the identification of all these values.
 
 
-```{r, detect-NAs-in-a-data-frame, exercise=T, exercise.lines=5}
-df <- 
+```{r, detect-NAs-in-a-data-frame, exercise=T, exercise.lines=14}
+(df <- data.frame(experiment=rep(LETTERS[1:3], each=3), 
+                  run=rep(1:3,3), 
+                  results=round(runif(n = 9, min = 0.0, max = 10.0), digits = 2)))
+# introduce some NA, NaN, Inf
+df$results[c(3,5,8)] <- c(NA, NaN, Inf) 
+# find if there are any missing values
+any(is.na(df) | is.infinite(df$results))
+# Find what observations are missing values. 
+# First get a logical vector to be used as filter for the rows with incomplete cases
+missing_values <- !complete.cases(df) 
+# then get a filter for the cases with infinite values
+infinites <- is.infinite(df$results)
+# now filter out those observations
+df[(missing_values | infinites),]
 ```
 
-
-
-Another case is when calculated values do not produce a  valid number, represented in R as  of type `NaN`. 
 
 
 ### Test your knowledge
@@ -2133,19 +2147,21 @@ Another case is when calculated values do not produce a  valid number, represent
 ```{r quiz-data-frames, echo=FALSE, cache=FALSE}
 quiz(
   question_checkbox("
-    
-                    
+  What code subsets the rows with missing values from this data frame?  
+  
+      df <- data.frame(obs=LETTERS[1:5],
+                       results=as.numeric(c(\"3.5\", \"1.9\", \"3.9\", \"5..4\", \"3.8\")))
                     
   Select all that apply)",
-           answer("a", correct = TRUE),
-           answer("b", correct = TRUE),
-           answer("c", correct = FALSE, message = ''),
-           answer("d", correct = FALSE, message = "."),
-           answer("e", correct = FALSE, message = ")."),
+           answer("df[is.na(df$results),]", correct = TRUE),
+           answer("df[!complete.cases(df),]", correct = TRUE),
+           answer("df[,is.na(df)]", correct = FALSE, message = 'Filtering columns, that is variables, might not be a good approach here!'),
+           answer("!df[[complete.cases(df)]]", correct = FALSE, message = "I must admit some of these options are just gibberish, be warned."),
+           answer("df[complete.cases(df),]", correct = FALSE, message = "The answer has to answer the exact question, a second read might clarify the target."),
            random_answer_order = TRUE,
            allow_retry = TRUE,
-           correct = '!',
-           incorrect = "!!")
+           correct = 'This has been the most complicated subsetting question you have solved today, pat yourself in the back!',
+           incorrect = "One or more correct answers may be missing and/or you have selected wrong answers, in the former case more information follows.")
 )
 ```
 
