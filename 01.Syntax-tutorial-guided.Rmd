@@ -2179,7 +2179,41 @@ The 'runif' functions computes n random values from a uniformly distributed vari
   random_answer_order = TRUE,
   allow_retry = TRUE,
   correct = 'Bravo! I see you are starting to speak R quite fluently.'
-  )
+  ),
+  question_radio(
+    "Data frames were designed as a list of atomic vectors.",
+  answer("True", correct = FALSE, message = 'The correct answer is a list of any vectors, atomic or lists'),
+  answer("False", correct = TRUE, message = 'Is this is your first choice and you feel sure about it, I must admit you are solid on data frame theory principles.'),
+  random_answer_order = TRUE,
+  allow_retry = TRUE),
+  question_radio(
+    "Can a data frame store lists in its columns?",
+  answer("Yes", correct = TRUE, message = 'As a followup to the previous question, if data frames can store vectors of heterogeneous elements, those are precisely lists, congratulations!'),
+  answer("No", correct = FALSE, message = 'Remember that a vector can be of  type atomic or list and a data frame can store any vector.'),
+  random_answer_order = TRUE,
+  allow_retry = TRUE),
+  question_radio(
+    "Can a data frame store other data frames in its columns?",
+  answer("Yes", correct = TRUE, message = 'By definition lists are recursive data structures, meaning they can store instances of its own type as elements, so this is the right answer because data frames are lists of vectors of the same length.'),
+  answer("No", correct = FALSE, message = 'Data frames are based upon a list of vectors and lists by definition can store other lists, therefore  this is the incorrect answer.'),
+  random_answer_order = TRUE,
+  allow_retry = TRUE),
+  question(
+    "Select the code that subsets the population of the countries with the smallest population that were included by the 2019 census:
+    
+      country <- c(\"Canada\", \"EEUU\", \"UK\", \"Germany\", \"Italy\", \"Poland\")
+      population <- c(37, 331, 67, 83, 60, 39)
+      census2019 <- c(T,T,T,T,F,T)
+      df <- data.frame(country, population, census2019)
+  
+  ",
+  answer("df[df$population == min(df$population) & census2019==TRUE,]$population", correct = TRUE),
+  answer("df[df$population == min(df$population) & census2019==TRUE,]", correct = FALSE, message = 'The question is very specific, perhaps you are missing an extra bit of code.'),
+  answer("df[min(df$population) & census2019==TRUE,]", correct = FALSE, message = 'This would not work as intended because the function min returns a vector of length 1 that gets recycled as a TRUE value to match the length of the census2019 vector, try it.'),
+  answer("df[,df$population<min(df$population) & census2019==TRUE]]", correct = FALSE, message = 'We are subsetting by rows so the conditions should be placed on rows, the first parameter to the [ operator, just like in matrix subsetting.'),
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  correct = "You got it, the R subsetting syntax of vectors and matrices nicely extends to data frames!")
 )
 ```
 
