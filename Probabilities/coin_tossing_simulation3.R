@@ -1,6 +1,7 @@
 #!/usr/bin/Rscript
 
-library(here)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load("here")
 
 suppressWarnings(my_proj_path <- here("Probabilities"))
 
@@ -39,6 +40,9 @@ for (i in 1:30){
   
 }
 dev.off()
+
+# This section is machine dependent. 
+# It assumes we are in an Ubuntu installation with the program convert from ImageMagick
 
 # converting .png file in .gif using ImageMagick
 system("/usr/bin/convert -delay 40 *.png coin_toss_sim.gif")
