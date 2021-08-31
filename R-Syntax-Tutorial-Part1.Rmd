@@ -1,0 +1,2676 @@
+---
+title: "Introduction to R Syntax Part 1"
+pagetitle: "Introduction to R Syntax, Part 1"
+output:
+  learnr::tutorial:
+    theme: spacelab
+    ace_theme: cobalt
+    progressive: true
+    allow_skip: true
+    highlight: pygments
+    toc: yes
+    toc_depth: 2
+    code_folding: hide
+runtime: shiny_prerendered
+bibliography: bib.bib
+description: "Basic R Syntax and data structures"
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<!-- ======================== -->
+## About this tutorial
+<!-- ======================== -->
+
+This introductory tutorial about the R syntax is designed to be guided by an instructor. It contains explanations, code exercises, and quizzes that make it very interactive. If time allows during the guided session the student can execute some of the code and try variations of its own. The instructor may also ask short questions regarding the material. Should you fall behind or need more time to go over code or concepts, please do so after the live session. Actually this is very important in order to cement the concepts and test your understanding.
+
+
+The emphasis will be on why R works the way it does and less on being a reference manual or a source of recipes. In doing so we hope to get you excited about this useful and expressive language. R was designed from the ground up to be vectorized and object oriented. Its aim is to be useful for both experts and beginners with the need to do computational statistics, data analysis and data visualization tasks.
+
+Dr. Amelia McNamara describes three types of R Syntax [@RSyntax-Cheatsheet]: the dollar sign, the formula, and the Tidyverse. These syntax are interchangeable, the important thing is to be consistent when using them. The formula syntax tends to be more compact but less readable while the Tidyverse syntax is more readable but also more verbose. We will focus here on the dollar sign syntax in order to meet our time goal for these two sessions. However, the student will have enough fundamental concepts to tackle the other two syntax on his own by the end of this tutorials.
+
+This tutorial was built using an R package called `learnr` and was deployed using an Rstudio solution on a ShinyR server. You can also do these things if you move forward in your R journey.
+
+Finally, if you are following this material on a browser, every time you reopen this page the tutorial will be in the previous state you left it the last time you worked on it. If you want to reset your answers and the code  you've run on the exercises, erasing all of your previous history, press the `Start Over` option at the bottom left on the main panel. 
+
+Let's get started.
+
+
+<!-- ======================== -->
+## Learning outcomes
+<!-- ======================== -->
+
+The main goal of this tutorial is to teach patterns of the R language basic syntax. We believe that this knowledge will set you on a positive trajectory at any point in your R language journey. R has specific properties that set it apart from other languages and can make it easier to learn for a beginner. However, those same differences can make it confusing at first for people with experience.
+
+By the end of this tutorial, you will know what data structures to use to store your data in memory. You will select the data type according to the data you have for your specific problem. You will know the syntax to use R as a powerful calculation tool to generate statistical and data insights by subsetting, filtering, and computing in R native data structures.
+
+You will know how to build complex expressions that compute using R data structures with simplicity, whether they are vectors, lists, or data frames.
+
+You will know how to search for built-in R functions to help you process the data and achieve your goals. You will also create your own if no other from the built-ins or publicly available R packages meets your needs.
+
+
+<!-- ======================== -->
+## Operators in R
+<!-- ======================== -->
+
+R has a console to interact with it. Let's use it as a calculator to add two numbers. 
+
+Here is an example of a line of code to add two plus two and the resulting output:
+
+```{r two-plus-two, echo=TRUE}
+2 + 2
+```
+
+Note the output, there is a [1] and the result of the calculation. We will address the meaning of the number between square brackets when discussing `Vectors`. For now pretend it tells you the position of the single answer provided: a `[1]` indicates that the number `4` is the first value in the answer.
+
+
+### Mathematical operators in R
+
+Please try running the following lines of code, each representing a different mathematical operation.   
+
+```{r operators-1, exercise=TRUE, exercise.lines=5}
+# white space between operands and operator does not matter below, try it!
+450 - 100 # subtraction
+3 * 10 # multiplication
+35 / 7 # division
+5^2 #exponentiation
+```
+
+Each result appears on its own line after running the code. The `#` symbol precedes a comment that is ignored by the interpreter of the code. This is the same behaviour you would see on a command line if you entered the four lines of code. Go back and prove to yourself that white space between the numbers and the operators has no effect on the result.
+
+There are many more operators. We will now go over some of the most important and show how to search for all of the ones that R offers so you can find them when you need them.
+
+### Relational operators
+
+These operators have R compute numerical equality or inequality between objects. Don't get intimidated by the word objects: in R everything is an object, although some appear to be just numeric values. 
+
+The basic relational operators compute equality or the lack of it:  "is equal" `==`, "is not equal" `!=`; and inequality in either direction with "is less than" `<` and "is greater than" `>`. 
+
+```{r relational-operators, exercise = TRUE}
+18 == 3 * 6
+6 < 10
+12 > 5
+9 != 3 * 3
+```
+
+What about text comparisons? Text is written between double quotes, it contain letters, numbers, white space, and other special characters like punctuation. Execute the following lines of code.
+
+```{r relational-operators-with-text, exercise=TRUE}
+"Calgary Flames" == "Edmonton Oilers"
+"Susan" > "Anne"
+"a" < "b"
+"Airport" != "Bus station"
+```
+The previous comparisons work because R uses the ASCII values of the characters on the text to compute numbers. The `a` comes before the `b` so its value is lower and thus the result observed above.
+
+Can you go back and transform the arguments, not the operators, in the code above to reverse the results?
+For example `"d" < "b"` for line 3 to produce `FALSE`.
+
+<!-- roundoff error using the equality operator deferred for later when we have covered functions --> 
+
+### Logical operators
+
+These operators are used to combine the results of two or more relational operators into a single result. Here is the AND operator represented in R by the ampersand symbol `&`:
+
+```{r logical-AND-exercise, exercise=TRUE, collapse=TRUE}
+5 > 3 & 5 < 8
+5 > 3 & 5 != 5
+5 < 4 & 5 > 1
+5 < 4 & 5 > 7
+```
+Can you make a table with the truth values of the relational operators before they were combined with the logical operator AND?
+
+```{r logical-table-AND, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
+library(knitr)
+and = c("&", "&", "&", "&")
+equals = c("=", "=", "=" , "=")
+relation1 <- c("5 > 3", "5 > 3", "5 < 4", "5 < 4") 
+value1 <- c(paste0("(", 5 > 3, ")"), 
+            paste0("(", 5 > 3, ")"),
+            paste0("(", 5 < 4, ")"),
+            paste0("(", 5 < 4, ")"))
+relation2 <- c("5 < 8", "5 != 5", "5 > 1", "5 > 7")
+value2 <- c(paste0("(", 5 < 8, ")"),
+            paste0("(", 5 != 5, ")"),
+            paste0("(", 5 > 1, ")"),
+            paste0("(", 5 > 7, ")"))
+result = c(5 > 3 & 5 < 8,
+           5 > 3 & 5 != 5, 
+           5 < 4 & 5 > 1, 
+           5 < 4 & 5 > 7)
+
+kable( data.frame(relation1, value1, and, relation2, value2, equals, result, 
+                 stringsAsFactors = FALSE),
+       col.names = c("rel1", "(value)", "", "rel2", "(value)", "", "result"),
+       align = 'rlcrlcl',
+       caption = 'Truth table for AND')
+```
+
+
+For the logical OR operator, represented in R by the pipe symbol `|`, the table would look as follows:
+
+```{r logical-table-OR, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
+library(knitr)
+and = c("|", "|", "|", "|")
+equals = c("=", "=", "=" , "=")
+relation1 <- c("5 > 3", "5 > 3", "5 < 4", "5 < 4") 
+value1 <- c(paste0("(", 5 > 3, ")"), 
+            paste0("(", 5 > 3, ")"),
+            paste0("(", 5 < 4, ")"),
+            paste0("(", 5 < 4, ")"))
+relation2 <- c("5 < 8", "5 != 5", "5 > 1", "5 > 7")
+value2 <- c(paste0("(", 5 < 8, ")"),
+            paste0("(", 5 != 5, ")"),
+            paste0("(", 5 > 1, ")"),
+            paste0("(", 5 > 7, ")"))
+result = c(5 > 3 | 5 < 8,
+           5 > 3 | 5 != 5, 
+           5 < 4 | 5 > 1, 
+           5 < 4 | 5 > 7)
+
+kable( data.frame(relation1, value1, and, relation2, value2, equals, result, 
+                 stringsAsFactors = FALSE),
+       col.names = c("rel1", "(value)", "", "rel2", "(value)", "", "result"),
+       align = 'rlcrlcl',
+       caption = 'Truth table for OR')
+```
+
+Finally the negation or NOT logical operator is represented in R by the exclamation mark `!`. It negates or turns the logical value into its opposite.
+
+```{r negation-logical-operator, exercise=TRUE, exercise.lines=2}
+!(4 > 1)
+!TRUE
+```
+Notice the presence of the parenthesis around the last expression. What do you think would have been the meaning of `!4 > 6`?
+
+Try it.
+
+```{r negation-precedence, exercise=TRUE}
+!4 < 1
+# furthermore try just the first element
+!4
+```
+As it turns out R coerces the values of `TRUE` to 1 and `FALSE` to 0. By the same token, any non-zero value is interpreted as `TRUE`, thus the last expression `!4` translates into `!TRUE` or `0`, which makes `!4 < 1` `TRUE` as opposed to `FALSE` for `!(4 < 1)`.
+
+The change in final result depending on the order of evaluation brings us into the subject of operator precedence.
+
+### Operator precedence
+
+Operators that act on a single value are _unary_ while those that receive two arguments are _binary_. The execution order of an expression containing several operators follows the rules of operator precedence. These rules determine the  priority of execution given to some operators over others. Let's look at an example:
+
+```{r op-precendence-A, exercise=TRUE, exercise.lines=2}
+# predict the result computed by R before pressing the Run Code button
+1 + 5 * 5
+```
+
+Did you predict the result correctly? For R, multiplication takes precedence over addition. 
+
+You can force the execution of addition over multiplication by use of parenthesis as illustrated below:
+
+```{r op-precendence-B, exercise=TRUE, exercise.lines=2}
+# predict the new result using parenthesis around the addition operator
+(1 + 5) * 5
+```
+
+To learn about the rules of precedence built into R you can use its help system. 
+Here is a list of all the _unary_ and _binary_ operators and their precedence order from highest to lowest from top to bottom and from left to right within groups:
+
+
+```{r op-precedence-2, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
+library(knitr)
+kable(data.frame(operator_groups = c(":: :::",
+                               "$ @",
+                               "[ [[",
+                               "^",
+                               "- +",
+                               ":",
+                               "%any%",
+                               "* /",
+                               "+ -",
+                               "< > <= >= == !=",
+                               "!",
+                               "& &&",
+                               "| ||",
+                               "~",
+                               "-> ->>",
+                               "<- <<-",
+                               "=",
+                               "?"),
+description = c("access variables in a namespace",
+                "component / slot extraction",
+                "indexing",
+                "exponentiation (right to left)",
+                "unary minus and plus",
+                "sequence operator",
+                "special operators (including %% and %/%)",
+                "multiply, divide",
+                "(binary) add, subtract",
+                "ordering and comparison",
+                "negation",
+                "and",
+                "or",
+                "as in formulae",
+                "rightwards assignment",
+                "assignment (right to left)",
+                "assignment (right to left)",
+                "help (unary and binary)")))
+```
+
+You can get documentation like this from the R help at the command line by typing `?Syntax` or `help("Syntax")`, a full set of help functions appears on the table below. 
+
+
+```{r help-commands, exercise=TRUE, exercise.lines=1}
+# Run Code to see the table"
+library(knitr)
+long_form <- c("help.start()", "help(\"funABC\")", "help.search(\"funABC\")", "example(\"funABC\")", "RSiteSearch()","apropos(\"funABC\", mode = \"function\")", "data()", "vignette()", "vignette(\"ABC\")") 
+short_form <- c("", "?funABC", "??funABC", "", "", "", "", "", "")
+description = c("General help system",
+                "Help on function \"funABC\" (quotations optional)",
+                "Searches help for string \"funABC\"",
+                "Finds examples for \"funABC\"",
+                "Opens a browser search for \"funABC\" on R online manuals and archived mailing lists",
+                "List of all avaliable functions with \"funABC\" in their name",
+                "List all data sets in loaded packages",
+                "List vignettes for currently installed packages",
+                "Displays content of vignette for package \"ABC\"")
+
+kable( data.frame(long_form, short_form, description, 
+                 stringsAsFactors = FALSE),
+       caption = 'Help commands explained [@KabacoffRobert2015Ria, p.11]')
+```
+
+<!-- ======================== -->
+### Test your understanding
+<!-- ======================== -->
+
+```{r quiz-operator-precedence, echo=FALSE, cache=FALSE}
+quiz(
+  question_radio(
+    "The NOT operator is represented in R by the symbol ~", 
+    answer("yes", correct = FALSE, message = 'This is a good question though!'),
+    answer("no", correct= TRUE),
+    correct = 'Correct, it is actually the exclamation mark so !TRUE will give FALSE',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question_checkbox(
+    " !(5 > 2) == (5 < 2)
+    
+    Select all that apply.",
+    answer("Evaluates to TRUE", correct = TRUE),
+    answer("Evaluates to TRUE because == has higher precendence that all other operators in the expression", correct = FALSE),
+    answer("Evaluates to FALSE", correct = FALSE),
+    answer("Evaluates to FALSE because ! has higher precendence than ==", correct = FALSE),
+    answer("Evaluates to TRUE because negating the first inequality flips its order, making it identical to the inequality on the right", correct = TRUE),
+    random_answer_order = TRUE,
+    allow_retry = TRUE,
+    correct = "Well done, you have achieved a good understanding of relational and logical operators.",
+    incorrect = "Not all true answers selected or maybe you have chosen good and bad answers."
+  ),
+  question("What is the result of executing
+           
+           10 - 6 / 2 ?",
+    answer("2", message = "division has precedence over subtraction"),
+    answer("7", correct = TRUE, message = "division has higher precedence than subtraction"),
+    answer("8", message = "Good try, redo the calculation"),
+    answer("-4"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE    
+  ), 
+  # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Sort the following operators by precendence  in descending order",
+                          correct = "You must have memorized that table from the documentation, you are a star!",
+                          incorrect = "Not quite right, try again!",
+                          allow_retry = TRUE,
+                          random_answer_order = TRUE, 
+                          options = sortable::sortable_options(),
+                          learnr::answer(c("$", "[", "+", "&", "->"), correct = TRUE)
+  )
+)
+
+```
+
+
+
+
+<!-- ======================== -->
+## Variables in R
+<!-- ======================== -->
+
+Just like in mathematics and statistics, the concept of variables is that of a placeholder for values. In R or any other programming language it is a good idea to store results in variables so we can keep them around to use them in other expressions. Here is an exercise to declare and assign values to variables.
+
+```{r storing-values, exercise.lines=7, exercise=TRUE}
+# store a value
+a <- 10
+# store the result of an operation
+b <- a + 5
+# print the contents 'a' and 'b' one on separate lines
+a
+b
+```
+
+The `<-` binary operator indicates assignment. The value on the right is assigned to the variable on the left. After line 1 is executed by R the variable `a` stores the value 10. When the second line is executed, `b` is assigned the result of applying the operator `+` to the value of the variable `a`, `10`, and the value `5`. As a result of this, `b` will be assigned the value `15`.
+
+The operator assignment has subtleties in R that we will cover when addressing the subject of functions and their arguments.
+
+
+<!-- ======================== -->
+### Test your understanding
+<!-- ======================== -->
+
+```{r quiz-simple-assignment, echo=FALSE, cache=FALSE}
+quiz(
+  question("What is the value of b after executing the following R code?
+  
+          a <- 5
+  
+          b <- a * (34 - 22) / 1 + 1",
+  answer("12"),
+  answer("30"),
+  answer("61", correct = TRUE),
+  answer("149"),
+  allow_retry = TRUE,
+  random_answer_order = TRUE,
+  try_again = "Check the operator precedence table and try again."
+  )
+)
+```
+
+### Variables and objects
+
+In R the name used to label a variable is an object itself [@RLangDef.objects], in fact everything is an object in R and in this tutorial we will refer to objects and variables interchangeably.
+
+Variables have a type and a mode. To find out the type and the mode of R variables one needs to use built-in functions `typeof()` and `mode()`. Let's then go into the subject in the next section.
+
+
+## Built-in functions
+
+R offers predefined functions. When you use an R package you also use functions to get many complex tasks done with ease. It is important to familiarize yourself with their syntax. This requires that we start simple and build up the concepts gradually. The goal is to learn how to pass information to them and how to obtain results in two forms: as direct returned objects or as side effects. A side effect would be something like a file being written to the local disk or to a file service in the cloud.
+
+### Finding the type of a variable
+
+Functions in general may take arguments and return computed values when executed. Let's revisit the type and mode of variables.
+
+```{r type-of-variables, exercise=TRUE, exercise.lines=8}
+i <- 54
+typeof(i)
+j <- 54L
+typeof(j)
+x <- 3.1416
+typeof(x)
+first_name <- "Rob"
+typeof(first_name)
+```
+
+R stores variables using other, related, categories. These can be queried via the `mode` function:
+
+```{r mode-of-variables, exercise=TRUE, exercise.lines=8}
+i <- 54
+mode(i)
+j <- 54L
+mode(j)
+x <- 3.1416
+mode(x)
+first_name <- "Rob"
+mode(first_name)
+```
+
+Let's investigate the type and mode of the R function `mode` itself.
+
+```{r mode-of-mode, exercise=TRUE, exercise.lines=2}
+typeof(mode)
+mode(mode)
+```
+
+In computer language _lingo_ a closure is a function and an environment to evaluate it, let's leave it at that for now. R is a unique language in more ways than one, let's move on with more basic concepts.
+
+
+### Assignment of values returned from built-ins 
+
+Some expressions may be made up of a function with its arguments and the assignment operator to store the returned value from the function in a new variable. Let's look at the result of running the following lines:
+
+```{r executing-function, exercise.lines=4, exercise=TRUE}
+# assign the result of the function call to the variable 'e'
+e <- exp(1)
+# print the contents of 'e' to the output
+e
+```
+
+The first line executes the expression on the right of the assignment operator, itself a function call to `exp()` with argument `1` and assigns the returned value to the variable `e`. The second line prints the value stored in `e` as `2.718282`.
+
+Try running the line 1 by itself below.
+
+```{r executing-function-oneline, exercise.lines=1, exercise=TRUE}
+e <- exp(1)
+```
+
+There should be no output. The value of the function `exp` with the argument `1` was computed and stored in the variable `e`. The assignment operation leaves no trace on the output. Another way of saying this is _the assignment operator produces no side effects in the console_. Its only effect is to create a name-value pair, (e, 2.718282) in the global environment, so the value can be recalled later by its assigned name.
+
+*Note:* As it is usually the case in R, there is more than one way of getting things done. You can get a two-for-one effect by printing and doing assignment in a single expression on the console by surrounding the assignment with parenthesis. Try it!
+
+```{r two-for-one,  exercise = TRUE, exercise.lines=2}
+# this accomplishes the assignment and prints the value of the variable in one line
+(e <- exp(1))
+```
+
+### Other built-in functions
+
+To compute logarithms, R offers the following predefined functions:
+
+```
+     log(x, base = exp(1))
+     logb(x, base = exp(1))
+     log10(x)
+     log2(x)
+     
+     log1p(x)
+```
+
+The most fundamental R built-in functions come bundled in the `base` package.
+To read about an R package use the function call `library(help = "base")` at the command line. Packages are loaded by issuing the function `libray("base")`  but the `base` package is loaded by default when an R session is started. Try it below.
+
+```{r functions-base-package, exercise=TRUE, exercise.lines=1}
+library(help = "base")
+```
+
+The language R provides a standard work-flow to build packages that contain functions, variables, and data targeting a specific problem. Contributors write R packages and share them mainly via the CRAN repository. To find out what comes built-in with the `base` package we can call the 
+`builtins()` function to produce the list of `r length(builtins())` objects that are loaded in the base environment when you start R the first time.
+
+```{r number-functions-base-package, exercise=TRUE, exercise.lines=5}
+# get the number of objects loaded from the base R package
+length(builtins())
+# test if a object (a function) is part of the built-ins in the base environment
+"exp" %in% builtins()
+```
+
+
+<!-- ======================== -->
+### Test your understanding
+<!-- ======================== -->
+
+```{r quiz-complex-expressions, echo=FALSE, cache=FALSE}
+quiz(
+    question("Consider the expression: 
+  
+            a <- 1 + log10(10)
+  
+  What is the result of executing the line above in the R console?",
+    answer("the value 2 gets assigned to _a_ and printed to the console", message = "the operaror _assignment_ has no side effects so nothing should be printed to the console"),
+    answer("error, _log10_ of 10 is undefined", message = "That's not quite right, check your the definition of a logarithm and try again"),
+    answer("nothing gets printed", correct = TRUE, message = "The operator _assignment_ has no side effects so nothing gest printed after the value 2 gets associated with the variable _a_"),
+    answer("the value of _a_ gets printed", message = "The operator _assignment_ has no other effect than to associate a value with a variable name"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  )
+)
+```
+
+
+
+### The assignment operators and their uses
+
+Experiment now to compute logarithms in base 10 and natural logarithms (base _e_). Try to answer the following: 
+
+ - What is the logarithm of 10 in base 10?
+ - What is the natural logarithm of _e_?
+ - What is the logarithm of 512 in base 2?
+ 
+Try using the two variables already predefined in the first two lines. Add as many lines of code as you need to experiment.
+
+```{r other-operators, exercise=TRUE, exercise.lines=12}
+a <- 10
+e = exp(1)
+
+print(paste0("a = ", a, "; e = ", round( x = e, digits = 4)))
+
+# logarithm of 10 in base 10
+
+# natural logarithm of e
+
+# binary logarithm of 512
+
+```
+
+```{r other-operators-hint}
+log10(a)
+log(e, base = e)
+```
+
+From the previous exercise you might have noticed that the operators `<-` and `=` behave identically in stand alone expressions. Technically speaking, their effect is to create name-value pairs for each variable, (_a_, 10) and (_e_, 2.7183), in the global environment.
+
+So, you might ask: why are there two operators to do the same in R?
+Read on for the answer.
+
+### Function arguments: positional and named 
+
+R functions may be built-in or user created, they may also have none, one, or more arguments. The arguments are given in between parenthesis, separated by commas, and they may be named or not. An example of a named parameter to a function is `base` in the `log` function: `log(x, base = exp(1))`. Examine the code below and guess the output before running it, did you expect the result?
+
+```{r named-param-1, exercise = TRUE, exercise.lines=3}
+(three <- log(1000, base = 10))
+# un-comment to check if base exists after executing the line above
+# base
+```
+
+<!-- ```{r named-param-1, exercise = TRUE, exercise.lines=9}
+three <- log(1000, base = 10)
+ 
+# Does 'base' exist in the global environment after log gets valuated?
+# let's  check it out and print a nice message accordingly
+if (exists("base")) {
+  print(paste0("base exists outside of log, base = ", base)) 
+} else {
+   print("base does not exist outside of log")
+}
+```--->
+
+In the call to the function `log`, the first argument is positional, taking exactly the position number one. The second argument is named and may receive a value via the `=` operator if the function requires it during its execution.
+
+If the function is called without a second argument, and `base` is used for computation inside the function, the assignment operator will use the value resulting from evaluating the expression `exp(1)` and associate it with `base`. This is  how a default value for a named argument can be given. 
+
+If the user prefers to pass a different value from the default then the named argument can be given as in `log(10, base = 10)` or just  `log(10, 10)`. 
+
+```{r named-param-2, exercise = TRUE}
+# use the name for the second argument
+log(1000, base = 10)
+# use only a value for the second argument, still ok!
+log(1000, 10)
+```
+
+Now compare the flexibility of using the explicit name assignment.
+
+```{r named-param-3, exercise = TRUE}
+# the first argument is now a named argument so the second gets position one instead
+log(base = 10, 1000)
+# in absence of hints x = 10 (position one) and base = 1000 (named)
+log(10, 1000)
+```
+
+### More on variable assignment
+
+We already saw how the `=` operator for a named argument does not affect the global environment where the function is created. Variable assignment is like creating a pair (variable-name, expression) that lives in a scope where it can be reached for further evaluation.
+
+We could use the `<-` operator for the named argument, the expression `log(x, base <- exp(1))` would assign the expression `exp(1)` to the local variable `base`. However, before that gets done, the name-expression pair gets created in the global environment. That implies that there will be a global variable `base` with the value of evaluating `exp(1)` outside of the function `log` after exiting `log`. Let's test that. 
+
+```{r named-param-4, exercise = TRUE}
+base = 100
+log(1000, base = 10)
+# Does 'base' exist in the global environment after log gest evaluated?
+base
+```
+
+<!-- ```{r named-param-4, exercise = TRUE}
+log(1000, base <- 10)
+# Does 'base' exist in the global environment after log gest evaluated?
+if (exists("base")) {
+  print(paste0("base exists outside of log, base = ", base)) 
+} else {
+  print("base does not exist outside of log")
+}
+``` -->
+
+
+If we use the global assignment operator `<-` in the first position it might have an unexpected result compared to using the local assignment operator `=`.  Check for yourself with the code below.
+
+```{r named-param-5, exercise = TRUE}
+log(base <- 10, 1000)
+# try now using the local assignment = for the named parameter
+log(base = 10, 1000)
+```
+
+Did you get the same result of using `log(base = 10, 1000)`? That is almost true, the difference is that now there is a variable assignment represented by the pair `(base, 10)` that outlives the call to `log`.
+
+In summary, to avoid ambiguities and unplanned side effects, when assigning values to variables use `<-` for stand-alone expressions and `=` for function named parameters. On the next section there are a few exercises to solidify these concepts.
+
+
+
+
+
+## On number representation
+
+Computers can only store and operate on numbers in the binary system, meaning only with two states that we will call  "off" and "on" or zeros and ones. Due to this limitation there are round off errors intrinsic to the arithmetic of converting from binary to decimal, a counting system we humans are more familiar with. Let's investigate the problem and find a solution in R [@CRAN.FAQ.RDoesNotThinkNumbersAreEqual].
+
+```{r round-off-error, exercise=TRUE, exercise.lines=1}
+0.1 + 0.1 + 0.1 == 0.3
+```
+
+Wait a second, no one saw that one coming! Let's explore what is happening and why. First let's try to see the decimal representation of these numeric types.
+
+```{r printing-double-at-max-resolution, exercise=TRUE, exercise.lines=2}
+print(0.1, digits = 17)
+print(0.3, digits = 17)
+```
+Let's investigate now what the machine's precision to represent a double floating point number from the R documentation on the meaning of `double.eps` from the constant `.Machine` (you can summon the documentation with `help(.Machine)`:
+
+```{r floating-point-precision, exercise=TRUE, exercise.lines=2}
+# using the R constant .Machine, find out more with help(".Machine")
+(.Machine$double.base ^ .Machine$double.ulp.digits) / 2
+```
+This means that this is the smallest number that will make this expression `FALSE`: `1 + x == 1`:
+
+```{r precision-double-test, exercise=TRUE, exercise.lines=3}
+1 + 1.00e-16 == 1
+1 + 1.11e-16 == 1
+1 + 1.12e-16 == 1
+```
+To avoid the round-off error when making these kind of comparisons it is recommended to use a built-in function that considers the machine precision of doubles: `all.equal()`.
+
+```{r how-to-avoid-round-off-error, exercise=TRUE}
+sum_calc <- 0.1 + 0.1 + 0.1 
+sum_expected <- 0.3
+all.equal(sum_calc, sum_expected)
+```
+
+## Data Representation in R
+
+Every computing language uses a model to represent information in memory and R is no exception. Everything in R is an object with a default constructor. We are interested in the objects that adopt certain shapes in the computer memory to hold values. The values have types that can be queried with the built-in function `typeof()` that we have seen before. We will cover these definitions and work with them in this section.
+
+Let's consider these cases:
+
+   * We need to store the grades of the mid-term exam of a class with 300 students to compute stats on them and make some visualizations.
+   * Then we need to store the student IDs, the course section, year of studies, and program of study the students belong to.
+   * Finally we want to find the two most relevant variables that influence grade and then visualize the clusters of students that got A or better as a function of those two variables.
+
+
+A simple spreadsheet could have been enough up to storing the data. However, automation of a repetitive task, reporting or visualization, and further data processing using algorithms, make a language like R more attractive for these tasks. 
+
+Although solving this problem is beyond the scope of this tutorial, the idea of using a programming language forces you to think of the type of data and the structures that you need to store and manipulate it in order to accomplish your goal. That is exactly the reason we need to address now the syntax of those data types and structures in the R language.
+
+
+### Data Types
+
+The fundamental values that R can represent and manipulate in the computer memory are:
+
+  - integer
+  - double (also called numeric)
+  - character
+  - logical
+  
+There are two less commonly used: _complex_ and _raw_ that we will leave for another time.
+
+### Data Structures
+
+These are the shapes of the data in the computer memory, literally. There are two types of data structures according to the type of values they can store: homogeneous and heterogeneous. 
+
+They can also be categorized according to the dimensions they can store: 1d, 2d or nd. This produces the following double entry table: 
+
+```{r data structures, echo=FALSE, results='asis'}
+library(knitr)
+Dimensions <- c("One", "Two", "Three or more")
+Homogeneous <- c("Vector", "Matrix", "Array")
+Heterogeneous <- c("List", "Data frame", "")
+
+kable( data.frame(Dimensions, Homogeneous, Heterogeneous, 
+                 stringsAsFactors = FALSE),
+       caption = 'Native data structures in R according to the data type they can store and the number of dimensions they use [@WickhamHadley2015AR, p.13].')
+```
+
+R was designed to manipulate data using these structures, they don't come from libraries or are add-ons to the language. This gives R a certain expressive power to work with data.
+
+This is important because a computer language has to allow the manipulation of values in memory using a certain recipe called an _algorithm_. These algorithms rely on the properties of the data structures and the data types themselves. They are intimately related. A computer language will allow a human to write a solution to a problem in terms of the data structures and types that  it provides. R has the fundamental data structures and types that we just discussed. Let's see how to start using them to represent information.
+
+**Note:** To reveal the data structure of R objects the built-in function `str()` may be handy although the output for complex objects may be difficult to interpret. 
+
+## Vectors
+
+From the table we just saw one could read: if you need a one-dimension data structure to store  objects of the same type, then use a vector. An important characteristic of vectors is that their contents can be stored in contiguous memory because all the elements require the same space thanks to being of the same type. 
+
+### Constructing a vector
+
+A vector of six integer values would be represented graphically as a long structure of six boxes of equal size:
+
+```{r vector, echo=FALSE, results='asis'}
+knitr::include_graphics("images/vector.png", dpi = 86)
+```
+
+And as code you would use the function `c()`:
+```{r vector-construction, exercise = TRUE, exercise.lines=1}
+c(5, -1, 3, 0, -4, 1)
+```
+
+The function `c()` takes a variable number of arguments with or without names. Once a vector has been constructed and assigned to a variable `x`, its elements can be extracted with the subsetting operator `[]`. `x[1]` subsets the vector represented by the name `x` returning another vector with the element from the first position.
+
+Try to answer the questions with your code, use the hint if necessary.
+
+```{r vector-example, exercise = TRUE, exercise.lines=10}
+x <- c(5, -1, 3, 0, -4, 1)
+
+# extract the third element of x
+
+# subtract the first element from the last and print the result
+
+# compute the length of x
+
+# compute the difference between the last and first elements using the length
+
+```
+
+```{r vector-example-hint, echo=TRUE}
+x[3]
+x[6] - x[1]
+length(x)
+x[length(x)] - x[1]
+```
+
+
+### A vector in disguise
+
+Did you notice the language used to explain subsetting? `x[1]` returns a vector with the first element of `x`. In R the subsetting function returns another vector. Let's verify these statements with R itself:
+
+```{r verify-data-structure-subsetting-a-vector, exercise=TRUE, exercise.lines=6}
+x <- c(5, -1, 3, 0, -4, 1)
+first_element <- x[1]
+typeof(x)
+is.vector(x)
+typeof(first_element)
+is.vector(first_element)
+```
+
+
+### Naming the elements of a vector
+
+A vector can also have named elements. These may help future you or another reader of the code to understand the intended meaning of the data. These names can be assigned when creating the vector or later with the _unary_ function `names`. Here are examples for you to try.
+
+
+```{r examples-named-vectors, exercise=T, exercise.lines=9}
+x <- c(5, -1, 10)
+temperature_labels = c("current_temp", "low_forecast", "high_forecast")
+# assign the names after creation of the vector
+names(x) <- temperature_labels
+# assign names while creating the vector
+y <- c(current_temp = 5, low_forecast = -1, high_forecast = 10)
+# now print out the x and y vectors, do you see any differences?
+
+```
+
+
+### Constructing vectors with patterns
+
+Creating vectors can become a tedious task so there are a number of techniques to lighten this burden. The functions `rep()` and `seq()` can be pretty helpful to achieve this. Study the output of these functions.
+
+```{r seq-rep, exercise=TRUE, exercise.lines=2}
+rep(-1, times = 10)
+seq(1, 100, by = 5)
+```
+
+`rep` and `seq` can be combined to composed colorful patterns.
+
+```{r rep-seq-mix, exercise=TRUE, exercise.lines=6}
+# repeat the sequence of digits twice
+rep(seq(1,9), times = 2)
+# repeat the sequence of digits two at a time
+rep(seq(1:9), each = 2)
+# generate 5 numbers between 0 and 5
+seq(0,5, length=5)
+```
+
+
+As you might have guessed from the previous exercise, either `FALSE`, `F`, or `0` mean the same. Similarly `TRUE`, `T`, or `1` are synonymous. They are also called the boolean data type and can only have two values, each defined as the negation of the other. You can add logical values as if they were zeros and ones. This is useful to count the number of positive or TRUE values in a vector:
+
+```{r logical-sum, exercise= TRUE, exercise.lines=3}
+is_positive <- rep(rep(c(F, F, T, F, F, F, F, T, T, F, F, F, F, T), each = 2), times = 7)
+# how many TRUE values are there in is_positive?
+
+```
+
+```{r logical-sum-hint}
+sum(is_positive)
+```
+
+
+The binary operator `:` can be used with integer values as a short version of `seq(to, from)`.
+
+```{r short-version-of-seq, exercise=TRUE, exercise.lines=1}
+1:50
+```
+
+*Note:* the execution of the previous expression creates a vector of doubles from 1 to 50. At this point in our tutorial, with the output of this vector spreading over more than one line on the console, we can interpret the meaning of the numbers in square brackets on the left of the output. They indicate the position within the vector of the first value presented in that line of the output. Therefore the second line of output begins with the 23rd element of the vector, which happens to be the number 23 in the sequence.
+
+
+### More operations on vectors
+
+How about arithmetic operations? R applies the arithmetic operators element-wise by default. Have a look below.
+
+```{r multiplication-vectors-different-length-1, exercise=T, exercise.lines=4}
+# weekly consumption of ingredients at a bakery (in undisclosed  units)
+weekly_values <- c(flour = 12, eggs = 450, yeast = 5, salt = 35)
+# estimate the annual consumption given 52.18 weeks per year
+weekly_values * 52.18
+```
+```{r setup-element-wise-vectors}
+weekly_values <- c(flour = 12, eggs = 450, yeast = 5, salt = 35)
+```
+
+Two vectors are operated element-wise as well. The bakery needs to plan raw materials for a special-event week where more cakes than bread will be needed. The kitchen produces a multiplier vector to adjust the weekly estimates.
+
+```{r element-wise-vector-multiplication, exercise=T, exercise.lines=3, exercise.setup="setup-element-wise-vectors"}
+special_cake_contract_week <- c(1.2, 1.3, 1.2, 1)
+special_week <- weekly_values * special_cake_contract_week
+weekly_values == special_week
+```
+
+### Vector recycling
+
+Continuing on from the previous examples, what would happen if the multiplier vector provided by the kitchen had had only estimates for two materials and we had multiplied it by the weekly estimates?
+
+```{r multiplication-vectors-different-length-2, exercise=T, exercise.lines=1, exercise.setup="setup-element-wise-vectors"}
+weekly_values * c(1.2, 1.3)
+```
+This was a multiplication of a vector of length 4 with another vector of length 2. What did R do? The answer lies in a _useful_ but _risky_ operation R does in these cases, called <span style="color:red">recycling</span>. When doing the element-wise multiplication R reuses the shorter vector until all elements of the longer one are multiplied. It is useful if this is your intention and you are sure of the correctness of the results.
+
+In other words the previous operation is the equivalent of having multiplied `weekly_values` by `c(1.2, 1.3, 1.2, 1.3)`. Note that if the shorter vector is not an exact multiple of the longer one the elements get clipped to fit the length of the longer vector.
+
+```{r clipping-recycled-vector-to-fit, exercise=T, exercise.lines=3, warning=F, exercise.setup="setup-element-wise-vectors"}
+new_weekly_estimates <- weekly_values * c(1.2, 1.3, 1.1)
+# test if the recycled value was as expected
+new_weekly_estimates[4] == weekly_values[4] * 1.2
+```
+
+
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
+
+```{r quiz-constructing-vectors, echo=FALSE, cache=FALSE}
+quiz(
+  question_radio(
+    "rep(1:5, times = 2) will print out
+    
+    [1] 1 1 2 2 3 3 4 4 5 5",
+    answer("yes", correct = FALSE, message = 'Perhaps you are thinking of rep(1:5, each = 2)?'),
+    answer("no", correct= TRUE),
+    correct = 'Correct, the named argument \'times\' appends the vectors',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question("What is the result of executing the following expression:
+           
+    seq(5, 20, 4)",
+    answer("[1] 4 9 14 19", correct = FALSE,  message = "Maybe review the order of the arguments to 'seq'?"),
+    answer("[1] 5 9 13 17", correct = TRUE),
+    answer("[1] 4 5 20", correct = FALSE, message = "Check the meaning of the arguments to 'seq'."),
+    answer("[1] 5 20 5 20 5 20 5 20", correct = FALSE, message = "Good try, you might be confused with 'rep'"),
+    answer("[1] 5 9 13 14 19 20", correct = FALSE, message = "That last 20 doesn't quite match the pattern!"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "It would  have been easier if the arguments had been named but you still figured it out, nicely done!"),
+  question("The function 'sample' takes a vector and returns a random sample of its elements. What would  this expression return?
+  
+    sample(c(letters, LETTERS), size = 4, replace = F)
+    
+  The named argument  'size' gives the number of elements in the sample and the 'replace' is a logical value to indicate whether the items from the vector can appear more than once in the sample.",
+    answer("[1] \"w\" \"i\" \"D\" \"F\"", correct = T),
+    answer("[1] \"a\" \"L\" \"a\" \"D\"", correct = F, message = "The sample was requested without replacement so this answer is not the one!"),
+    answer("[1] \"E\" \"A\" \"q\" \"K\" \"e\"", correct = F, message = "This sample is too big, the requested sample size was 4!"),
+    answer("[1] \"!\" \"B\" \"Q\" \"V\"", correct = F, message = "The vector we are sampling from does not contain punctuation symbols."),
+    answer("[1] \"s\" \"1\" \"M\" \"i\" ", correct = F, message = "The original vector to sample from does not contain digits."),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "Wow, that was impressive, you are really beginning to get a kick out of R!"),
+  question("What would the result of executing the following expression be?
+          
+          times_each <- c(9,2,7)
+          x <- rep(x = 0:2, times = times_each)
+          
+          length(x)
+          
+  Hint: remember that R vectorized operations act element-wise.",
+    answer("[1] 18", correct = T),
+    answer("[1] 3", correct = F, message = "Maybe you are not counting on the effect of the function rep?"),
+    answer("[1] 27", correct = F, message = "Something is amiss!"),
+    answer("[1] 2", correct = F, message = "Too short... perhaps go over the material again?"),
+    answer("[1] Error", correct = F, message = "How possible?"),
+    answer("[1] 0", correct = F, message = "I did not see this one coming!"),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "This is x:
+  
+  [1] 0 0 0 0 0 0 0 0 0 1 1 2 2 2 2 2 2 2
+  
+  That was awesome, did you use pen and paper or the R command line?",
+    incorrect = "Oops")
+)
+```
+
+
+
+
+### Subsetting vectors
+
+Subsetting can be done by position or by value, @BaseR-Cheatsheet. Subsetting is akin to filtering some elements a vector of that we want to select while leaving the rest out.
+
+The following are ways of subsetting a vector by selecting elements according to their **position**.
+
+Combining the binary operator `:` and the subsetting operator one can extract ranges of elements of a vector.
+
+```{r subsetting-a-vector, exercise=T, exercise.lines=3}
+x <- c(5, -1, 3, 0, -4, 1)
+# subset the range of elements from the third to the fifth one
+x[3:5]
+```
+
+There are many interesting ways of sub-setting a vector using ranges. For example a negative value indicates the element at that index is to be removed from the subset of the vector.
+
+```{r, "setup-vector-to-subset-examples"}
+x <- c(5, -1, 3, 0, -4, 1)
+```
+
+```{r subset-from-a-point-to-the-end, exercise=TRUE, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
+# subset all but the first element of the vector 'x'
+
+# extract the last element using the function 'length()' to give the desired position
+
+```
+
+
+```{r subset-from-a-point-to-the-end-hint}
+x[-1]
+x[length(x)]
+```
+
+You can subset the elements at specific locations using a vector of positions.
+
+```{r, subsetting-vectors-with-vectos-of-positions, exercise=T, exercise.lines=4, exercise.setup="setup-vector-to-subset-examples"}
+# create a vector of positions
+pos <- c(1, 5)
+# subset (filter)
+x[pos]
+```
+
+Subsetting selected elements can be done depending not only of position but on the values of the elements at any position in the vector. This is appropriately called  subsetting by **value**.
+
+The first example is using logical masks to extract a subset of the vector. The logical mask can be created with the target vector and the logical operators applied to satisfy a condition like elements equal to or less than a given value. R is vectorized so the syntax is straight forward:
+
+```{r, subsetting-vectors-with-logical-masks, exercise=T, exercise.lines=10, exercise.setup="setup-vector-to-subset-examples"}
+# create a vector of logical types
+mask = x > 2
+# subset (filter)
+x[mask]
+# another mask
+mask2 <- x == 0 
+# compute how many zeros were  found in 'x'
+ length(x[mask2])
+ # another way is to use the mask by itself
+ sum(mask2)
+```
+
+Another way of subsetting a vector by selecting values is using the `%in%` operator. It checks if any of the elements of the vector  is present in the sequence provided as second argument to `%in%`. An exercise will clarify its use:
+
+```{r, subsetting-by-value-with-in-operator, exercise=T, exercise.lines=7, exercise.setup="setup-vector-to-subset-examples"}
+x
+# create a logical mask
+include_these <- seq(-4,0) 
+# create a filter to retain values in the subset of the target vector 'x'
+filter <- x %in% include_these
+# filter and sort in ascending order
+sort(x[filter])
+```
+
+The names of the elements can be used as values to create subsets. The exercise below will illustrate this use.
+
+```{r, subsetting-by-value-with-element-name, exercise=T, exercise.lines=2}
+y <- c(fruit="pears, bananas, apples", vegetables="lettuce, carrots")
+y["vegetables"]
+```
+
+Remember vector recycling? What if we used a logical mask that was shorter than the vector `x` from the previous exercise? `x` has 6 elements.
+
+```{r recycling-a-logical-mask, exercise=T, exercise.lines=2, exercise.setup="setup-vector-to-subset-examples"}
+mask_short <- c(TRUE, FALSE, TRUE, FALSE)
+x[mask_short] 
+```
+
+Behind the scenes R recycled the mask to look like this c(TRUE, FALSE, TRUE, FALSE, <span style="color:blue">TRUE, FALSE</span>) so the two vector lengths were 6.
+
+**Note:** In some cases this may be a useful feature, but if not done with careful attention, it may be source of unexpected and confusing results! R will give a warning if the lengths of the vectors are not multiple of each other as a minimum.
+
+
+### Comparing vectors
+
+
+Suppose you have two vectors with values related to the same experiment repeated on  each day of the work week, one run in the morning and the other in the afternoon. Let's supposed you wanted to know if each of the results from the mornings are greater than or equal those in the afternoon throughout the week. 
+
+```{r comparing-two-vectors, exercise=TRUE, exercise.lines=3}
+morning <- c(Mon=34.2, Tue=28.7, Wed=31.0, Thu=30.7, Fri=29.1)
+afternoon <- c(Mon=28.5, Tue=35.1, Wed=27.7, Thu=29.1, Fri=29.6)
+morning >= afternoon
+```
+
+R is a vectorized language so operators work natively on vector objects.
+
+Let's find out on what days we got both morning and afternoon results below or above their weekly mean:
+
+```{r equal-on-vectors-setup}
+morning <- c(Mon=34.2, Tue=28.7, Wed=31.0, Thu=30.7, Fri=29.1)
+afternoon <- c(Mon=28.5, Tue=35.1, Wed=27.7, Thu=29.1, Fri=29.6)
+```
+
+```{r equal-on-vectors, exercise=T, exercise.lines=6, exercise.setup = "equal-on-vectors-setup"}
+week_days <- c("Mon", "Tue", "Wed", "Thu", "Fri")
+print(paste0("morning   mean = ", format(mean(morning), nsmall = 2)))
+print(paste0("afternoon mean = ", format(mean(afternoon), nsmall = 2)))    
+gt_mean_mornings <- morning > mean(morning)
+gt_mean_afternoons <- afternoon > mean(afternoon)
+week_days[gt_mean_mornings == gt_mean_afternoons]
+```
+
+If we wanted to answer the question on what days the experiments gave higher than weekly mean results on either morning or afternoon we can use the logical 'OR' operator `|`:
+
+```{r ampersand-on-vectors-setup}
+week_days <- c("Mon", "Tue", "Wed", "Thu", "Fri")
+morning <- c(Mon=34.2, Tue=28.7, Wed=31.0, Thu=30.7, Fri=29.1)
+afternoon <- c(Mon=28.5, Tue=35.1, Wed=27.7, Thu=29.1, Fri=29.6)
+gt_mean_mornings <- morning > mean(morning)
+gt_mean_afternoons <- afternoon > mean(afternoon)
+```
+
+```{r ampersand-on-vectors, exercise=T, exercise.setup="ampersand-on-vectors-setup", exercise.lines=1}
+week_days[gt_mean_mornings | gt_mean_afternoons]
+```
+
+
+<!-- The double ampersand operator `&&` always returns a single value, thus when used on two vectors it returns the result of comparing only the first element of each of the two vectors. -->
+
+
+<!-- ```{r double-ampersand-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1} -->
+<!-- gt_mean_mornings && gt_mean_afternoons -->
+<!-- ``` -->
+
+<!-- Similarly with the double pipe operator `||` or logical OR. -->
+
+
+<!-- ```{r double-pipe-on-vectors, exercise=T, exercise.setup="double-ampersand-on-vectors-setup", exercise.lines=1} -->
+<!-- gt_mean_mornings || gt_mean_afternoons -->
+<!-- ``` -->
+
+
+
+### Vectors within vectors?
+
+When a vector is created within another vector the result is a longer one.
+
+```{r concatenated-vectors, exercise=T}
+y <- 1:3
+# try nesting y within a new vector and see what happens
+c(0, y, 4)
+```
+
+In other words a vector is always a linear structure, **you cannot create branches on a vector**. The technique just shown is what is used to concatenate or join two or more vectors.
+
+```{r concatenate-vectors, exercise=TRUE, exercise.lines=3}
+vx <- c("Rob", "Dori", "Nick")
+vy <- c("Anne", "Sam", "Jen")
+c(vx, vy)
+```
+
+Vectors of type `"character"`, `"numeric"`, `"logical"`, `"complex"`, or `"raw"` are always <span style="color:red">flat structures</span>, they can't have branches. They are called atomic  vectors. Another type of vectors, called  `list` can have branches and cannot be described by any of the types of atomic vectors. More on this later.
+
+
+### Appending elements to a vector
+
+You cannot make nested structures with vectors. Incidentally this property becomes your way of appending elements to either end of a vector as we just did to the vector `y` above. However using the function `append` does a cleaner job because it keeps the original attributes of the vector like names, if there were  any. Try it below.
+
+
+```{r append-to-vector-with-names, exercise=T}
+y <- letters[1:5]
+names(y) <- c("c1","c2", "c3","c4","c5")
+y
+```
+
+```{r append-to-vector-with-names-setup}
+y <- letters[1:5]
+names(y) <- c("c1","c2", "c3","c4","c5")
+```
+
+```{r append-to-vector-with-names-extended, exercise=T, exercise.setup="append-to-vector-with-names-setup"}
+# now add the sixth letter of the ascii character set
+y_extended <- append(y, letters[6])
+# check the new vector, are the first five names preserved?
+y_extended
+```
+
+Append the 24th lower case letter of the  ascii character set to the beginning of the following vector, what do you read?
+
+
+```{r append-z-to-head, exercise=TRUE, exercise.lines=5}
+y <- letters[c(15, 24, 15)]
+# append the 24th letter to the head of 'y'
+
+# don't modify the following line
+paste0(y, collapse = "")
+```
+
+```{r append-z-to-head-hint}
+y <-  append(letters[24], y)
+```
+
+### An eye-opener to type coercion in R
+
+Let's assign integers and a string of characters to a vector and check the result.
+
+```{r vector-coersion-example, exercise=T, exercise.lines=3}
+number_vec <- c(10, 25, 46, "four")
+number_vec
+typeof(number_vec)
+```
+
+
+We can ask vectors what type of values they carry with the function `typeof`. We can also ask if they have a specific type of value. Run this code and figure out what the vector of answers mean.
+
+```{r type-numeric-vector, exercise=TRUE}
+v_dbl <- c(0, 1, 3)
+c(is.integer(v_dbl), is.numeric(v_dbl), is.double(v_dbl))
+typeof(v_dbl)
+```
+
+Why does R think `is.numeric` and `is.double` are `TRUE` while `is.integer` is `FALSE`?
+Read on to answer that question.
+
+The characters that represent integers are automatically interpreted as doubles or numeric, the more general concept. In order to ask R to be more specific, in case it is absolutely necessary for your program, use `L` as a suffix on each number. Run the following and compare the results:
+
+```{r type-int-vetor, exercise=TRUE}
+v_int <- c(0L, 1L, 3L)
+c(is.integer(v_int), is.numeric(v_int), is.double(v_int))
+typeof(v_int)
+```
+
+```{r vector-logicals, exercise=TRUE, exercise.lines=5}
+v_logicals <- c(TRUE, T, T, FALSE, F, F)
+typeof(v_logicals)
+# the presence of a 0 or 1 coerces all elements to "double"
+v_logicals2 <- c(TRUE, T, 1, FALSE, F, 0)
+typeof(v_logicals2)
+```
+
+You can force coercion with the family of built-in functions `as.integer`, `as.character`, `as.numeric`, etc.
+
+In general R will try to coerce the elements of a vector to the most general type possible, usually _double_ or _character_.
+
+
+
+### Introducing NAs
+
+
+There are cases when special logical values, called `NA` will be  introduced by R to indicate that the intended value does not exist. 
+
+In R, `NA` is a logical vector of length 1, (the fact that is a vector although it looks like a single isolated element should not be a surprise to you anymore at this point).
+
+```{r, type-of-NAs, exercise=T, exercise.length=1}
+typeof(NA)
+```
+
+Here are two important cases where `NA`s can be introduced and that you need to be aware of to use R effectively:
+
+  * When subsetting with a position that is larger than the size of the vector.
+  * When coercing non-numeric symbols to a numeric type.
+  
+
+```{r, examples-introducing-NAs-coercing-non-numeric-symbols, exercise=TRUE, exercise.lines=10}
+# supposed we read these values from a text file with results from an experiment
+read_from_text_file <- c(".", "1", "0.5")
+# we expect all the results to be numbers
+(numbers_expected <- as.numeric(read_from_text_file))
+# check the assumption
+typeof(numbers_expected)
+# if it were a large vector, too difficult to inspect by eye, use of 'is.na'
+is.na(numbers_expected)
+# can you think of a  way to test if there were more than 1 NA on a long vector?
+
+```
+
+```{r, examples-introducing-NAs-coercing-non-numeric-symbols-hint}
+# if adding the elements of the logical vector returned by 'is.na' is greater than 0
+# then there was at least one NA among the numbers
+sum(is.na(numbers_expected)) > 0
+```
+
+The other common case for `NA` to be introduced generated happens subsetting by a position that is out of the range of positions in the vector.
+
+```{r, examples-introducing-NAs-position-out-of-range, exercise=TRUE, exercise.lines=5}
+control_variables <- c("temperature", "humidity", "daylight_hours", "light_wave_length")
+# subset the manipulated variables by position
+(manipulated <- control_variables[c(1,4,6)])
+# if true then we know NAs were introduced by mistake:
+sum(is.na(manipulated)) > 0
+```
+
+A big obstacle introduced by `NA` is that further doing arithmetic on the vector can be compromised.
+
+```{r, example-effect-of-NA-on-sum, exercise=T, exercise.lines=8}
+set.seed(3679)
+v <- sample(1:100, 10)
+# add NA at random simulating some noisy data source
+v[sample(1:10, 3)] <- NA
+# now try getting the total of the values
+sum(v)
+# the argument TRUE for the parameter 'na.rm' allows the function to ignore missing values
+sum(v, na.rm = TRUE)
+```
+
+
+### Vector attributes
+
+Vectors can also be interrogated for their class and their attributes.
+
+```{r vectors-class, exercise=T, exercise.lines=10}
+# a vector of four truth values
+v <- c(T, T, F, T)
+# the same as typeof for this object
+class(v)
+# are there any attributes?
+attributes(v)
+# now give names to the elements of the vector
+names(v) <- c("p1", "p2", "p3", "p4")
+# check the attributes of the object
+attributes(v)
+```
+
+Only the attribute `names` is visible when using the function `attributes`. However, there are three default attributes of a vector: names, class, and dimension. Each can be accessed via a specific function. Dimension has the `NULL` value by default for vectors, it will be different for matrices and arrays though.
+
+```{r vector-attributes-by-accessor, exercise=TRUE, exercise.lines=4}
+v <- c(p1 = T, p2 = T, p3 = F, p4 = T)
+names(v)
+class(v)
+dim(v)
+```
+
+<!-- Names can be changed in place with the assignment operator. Run this code and compare the two vectors of names from `v` after creation and after the reassignment. -->
+
+<!-- ```{r assigning-vector-names, exercise=TRUE} -->
+<!-- v <- c(p1 = T, p2 = T, p3 = F, p4 = T) -->
+<!-- # check the original names -->
+<!-- names(v) -->
+<!-- # reassigned names -->
+<!-- names(v) <- c("val1", "val2", "val3", "val4") -->
+<!-- # new names -->
+<!-- names(v) -->
+<!-- ``` -->
+
+
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
+
+```{r quiz-more-on-vectors, echo=FALSE, cache=FALSE}
+quiz(
+  question("Given the following vector:
+    
+                  v <- c('Anne', 'Simon', 'Alice', 'Carl', 'Tom')      
+    
+How would one obtain the last two names for any length of 'v'?",
+    answer("v[c(length(v)-1,length(v))]", correct = TRUE, message = "This answer works for any length of 'v' indeed."),
+    answer("v[-1:-3]", message = "This actually works by excluding the first three names, however it is not general for any length of 'v'."),
+    answer("v[-2]", message = "In R this returns all but the second before last element."),
+    answer("v[c('Carl', 'Tom')]", message = "Use a vector of indices or booleans to subset a vector."),
+  answer("v[-c(1,2,3)]", message = "Selecting the first three names and then removing them leaves the last two, however this answer does not generalizes to any length of 'v'"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question("Construct a vector of doubles from 80 to 20 by decrements of 10",
+    answer("c(80, 70, 60, 50, 40, 30)", message = "Missing the last value."),
+    answer("seq(80, 20, by = -10)", correct = TRUE, message = "Well done!"),
+    answer("seq(20, 80, by=10)", message = "Not quite, the specification is descending order for the elements of the vector"),
+    answer("seq(20, 80, by=-10)", message = "This one would generate an error because the sign of the increment contradicts the direction of the 'to' and 'from' arguments."),
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+  ),
+  question("Select all applicable answers that construct a vector of characters",
+           answer("c(1,2,'c')", correct = T, message = "The last option you ticked is also correct. "),
+           answer("c(1, T, FALSE)", correct = F, message = "Did  you pick an answer that contains numeric and boolean types? Everything gets coerced into numeric, the most general type."),
+           answer("c(1, c(2L, 4L))", correct = F, message = "Did  you select an answer that has only numeric elements? Remember integers are a subset of numeric."),
+           answer("c(\"hi\", 'there', 'c')", correct = T, message = "Well done!"),
+           type = "multiple",
+           allow_retry = TRUE,
+           random_answer_order = TRUE),
+  question_checkbox("Consider the following result of executing an R expression: 
+  
+            [1] \"a\" \"b\" \"c\" \"d\" \"e\"
+  
+  What expression(s) produce this output? (Select all that apply)",
+    answer("letters[1:4]", correct = FALSE),
+    answer("c('a', 'b', 'c', 'd', 'e')", correct = TRUE),
+    answer("letters[1] + letters[2] + letters[3] + letters[4] + letters[5]", correct = FALSE),
+    answer("c(letters[1:4], letters[5])", correct = TRUE),
+    answer("LETTERS[1:5]", correct = FALSE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "Well done, that must have required a lot of research on your part!",
+    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  ),
+  # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Sort the following R types from more specific to more general",
+    correct = "Well, repetition does help but you are outstanding at this, that's undeniable!",
+    incorrect = "Hmm, not quite accurate, try again!",
+    allow_retry = TRUE,
+    random_answer_order = TRUE, 
+    options = sortable::sortable_options(),
+    learnr::answer(c("logical", "integer", "double", "character"), correct = TRUE)
+  ),
+  question_radio(
+    "The result of the following expression is \"character\":
+    
+      typeof(c(FALSE, 0, \"TRUE\"))",
+    answer("yes", correct = TRUE),
+    answer("no", correct= FALSE, message = 'In R type "character" is even more general than "double"'),
+    correct = 'Well done, you have a natural talent for R!',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  question_checkbox("How would you append 5 to the end of this vector?
+                    
+    x <- 1:4",
+    answer("c(x, c(5))", correct = T),
+    answer("x[5] = 5", correct = T),
+    answer("x[length(x)] <- 5", correct = T),
+    answer("x(5) <- 5", correct = F),
+    answer("append(x, 5) ", correct = T),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "I bet you had heard that R was versatile and expressive but this was a (nice) surprise for you, right?",
+    incorrect = "There are either missing 'correct' answers or wrong ones among your selection."),
+  question_checkbox("How would you append 5 to the head of this vector?
+                    
+    x <- 1:4",
+    answer("c(5, x)", correct = T),
+    answer("append(5, x)", correct = T),
+    answer("x[0] <- 5", correct = F),
+    answer("x(0) <- 5", correct = F),
+    answer("c(c(5), x) ", correct = T),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "The difference with the previous question is that you can't assignt a value at the head!",
+    incorrect = "There are either missing 'correct' answers or wrong ones among your selection."),  
+  question("How would you concatenate these two vectors in R?
+      
+      group_1 = c(\"Rob\", \"Tina\", \"Sue\")
+      group_2 = c(\"Sam\", \"Ken\") 
+           
+      ",
+    answer("c(group_1, group_2)", correct = T),
+    answer("group_1 + group_2", correct = F, message = 'The binary operator \'+\' takes numeric types as arguments.'),
+    answer("sum(group_1, group_2)", correct = F, message = '\'sum\' takes numeric types or types that can be coerced to numeric'),
+    answer("[group_1, group_2]", correct = F, message = 'The subset oeprator \'[\' does not work like this in R.'),
+    answer("c(group_1[3], group_2)", correct = F, message = 'This would give [1] \"Sue\" \"Sam\" \"Ken\".'),
+    allow_retry = T,
+    random_answer_order = T,
+    correct = "Amazing, you have a solid understanding of the vector data structure now!"),
+    question("Consider the following expressions:
+      
+            x = c(2, 5, -3)
+            y = c(1.5, 2)
+            
+            (x * y) [3] == ____
+      
+  What value on the right of the equality would yield TRUE?",
+      answer(" x[3] * y[1]", correct = T),
+      answer(" x[3] * 2", correct = F, message = "Recycling is done from the head of the shorter vector."),
+      answer(" x * y[1] ", correct = F, message = "You must have clicked the wrong button by accident!"),
+      answer(" x[c(-1,-2)] * 2", correct = F, message = "Close, however check the way recycling uses the shorter vector!"),
+      answer(" x[-2] * y", correct = F, message = "The first vector has three elements, youa re removing only one!"),
+      allow_retry = T,
+      random_answer_order = T,
+      correct = "Amazing results you are getting with element wise operations and subsetting vectors!"),
+  # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Order the elements of the vector that result from executing  this code:
+    
+        v = c('1.', '4.25', '$2.0', '.1')
+        as.numeric(v)
+        
+    ",
+    correct = "Detecting NAs is your thing! They can sneak up on you if you don't check your data well.",
+    incorrect = "Oops, check the order again.",
+    allow_retry = TRUE,
+    random_answer_order = TRUE, 
+    options = sortable::sortable_options(),
+    learnr::answer(c("1.00", "4.25","NA","0.10"), correct = TRUE)
+  )
+)
+```
+
+
+## Factors
+
+These are vectors used to model categorical variables that are better described by their discrete values. This is an example of a vector whose attribute `class` has been redefined to alter its behaviour. For example the vector of musical genres for a sample of music titles from a play list may be described by:
+
+```{r music-sample-genres, exercise=T, exercise.lines=5}
+# The genres on an eclectic play list 
+genre_sample <- c(rep("Indie", times = 5), 
+                rep("Electronic", times = 9), 
+                rep("Country", times = 27))
+class(genre_sample)
+```
+
+
+What if we wanted this vector to recognize the distinct musical genres, furthermore what if we wanted it to automatically track the number of songs of each genre on our play list. Introducing the factor class:
+
+
+First let's turn the character vector into an actual factor.
+
+```{r, setup-music-sample-genres}
+# The genres on an eclectic play list 
+genre_sample <- c(rep("Indie", times = 5),
+                rep("Electronic", times = 9), 
+                rep("Country", times = 27))
+```
+
+```{r, music-sample-genres-as-factors, exercise=T, exercise.lines=2, exercise.setup="setup-music-sample-genres"}
+music_genres <- factor(genre_sample)
+attributes(music_genres)
+```
+What if we get a recommendation to listen to a new genre but we have not actually listened to any song belonging to that category, this can be expressed with factors by adding a new character string to the vector of levels  without adding any element to the factor class.
+
+```{r, music-sample-adding_new-level, exercise=T, exercise.lines=4, exercise.setup="setup-music-sample-genres"}
+# add a new musical genre (a new level of the categorical variable)
+music_genres <- factor(genre_sample)
+levels(music_genres) <- c(levels(music_genres), "Classical")
+table(music_genres)
+```
+
+When we start listening to songs of that new genre they will get reckoned appropriately. In R adding a new element to a factor has to be done on the original vector because factors <span style="color:red">cannot be combined or concatenated</span>.
+
+```{r, music-sample-genres-levels, exercise=T, exercise.lines=4, exercise.setup="setup-music-sample-genres"}
+# add new entries
+music_genres_2 <- factor(c(genre_sample, c("Classical", "Indie", "Indie", "Indie")))
+table(music_genres_2)
+```
+
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
+
+```{r quiz-factors, echo=FALSE, cache=FALSE}
+quiz(
+    question_checkbox("Consider the following output: 
+  
+              FALSE  TRUE 
+                 38   456
+  
+  What expression(s) produce this output? (Select all that apply)",
+    answer("table(factor(c(rep(T, 456), rep(F,38))))", correct = TRUE),
+    answer("table(factor(c(\"TRUE\"=456, \"FALSE\"=38)))", correct = FALSE),
+    answer("table(c(rep(T, 456), rep(F,38)))", correct = FALSE),
+    answer("c(\"FALSE\"=38, \"TRUE\"=456)", correct = TRUE),
+    answer("table(factor(c(rep(F, 456), rep(T,38))))", correct = FALSE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "The two right answers look very alike, I will give you that!",
+    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  ),
+    question_checkbox(
+    "What code answers the question: how many grades got more than a B+ given the following code:
+    
+    grades = ordered(c(rep(c(\"C\", \"B+\", \"A\"), 5), rep(c(\"A\", \"B\"), 4), rep(\"A+\", 3), rep(\"A-\", 6), rep(\"B+\", 10), rep(\"C\", 2)))
+    grades = factor(grades, levels = c(\"F\", \"C\", \"B-\", \"B\", \"B+\", \"A-\", \"A\", \"A+\"))
+   
+  Select all that apply.",
+  answer("sum(grades>\"B+\")", correct = TRUE),
+  answer("length(grades[grades>\"B+\"])", correct = TRUE),
+  answer("sum(grades[grades>\"B+\"])", correct = FALSE, message = "Sometimes it is hard to visualize what the result of two or more nested functions will be."),
+  answer("length(grades>\"B+\")", correct = FALSE, message = "May I suggest you check the documentation for the length function at this point?"),
+  answer("length(grades>\"B\")", correct = FALSE, message = "Perhaps reading the question again could highlight what is worng with your latest selection(s)."),
+  answer("length(grades[grades %in% \"B+\"])", correct = FALSE, message = "I also like the %in% operator, however it is usually uised with a sequence of values."),
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  correct = "You are amazing! Factors offer a convenient way to deal with categorical data!"
+  )
+)
+```
+
+
+
+## Date and Time
+
+In R Date and time can be represented as vectors of `double` with special classes that meet different needs. Dr. Spector's notes bring a clear and easily accessible summary of the available classes for date and time in R [@DatesAndTimesInR]. 
+
+  1. The function `as.date` handles dates without times.
+  2. The library `chron` handles dates and times without time zones.
+  3. The base-R classes `POSIXct` and `POSIXlt` allow for date and times with control for time zones. 
+
+The package `lubridate`, published in 2011 [@JSSv040i03] brought to R a consistent and easy framework to do arithmetic on dates and time for data analysis. 
+
+We will focus on base-R `as.date` and the `POSIXct` and `POSIXlt` classes. 
+
+### Dates in base R
+
+To create a date without time one can use text and a format string using the following conventions.
+
+<center>
+<table border="1">
+<tr><td>Code</td><td>Value</td></tr>
+<tr><td><tt>%d</tt></td><td>Day of the month (decimal number)</td></tr>
+<tr><td><tt>%m</tt></td><td>Month (decimal number)</td></tr>
+<tr><td><tt>%b</tt></td><td>Month (abbreviated)</td></tr>
+<tr><td><tt>%B</tt></td><td>Month (full name)</td></tr>
+<tr><td><tt>%y</tt></td><td>Year (2 digit)</td></tr>
+<tr><td><tt>%Y</tt></td><td>Year (4 digit)</td></tr></table>
+</center>
+
+```{r, creating-simple-date-withot-time, exercise=T, exercise.lines=5}
+# let's use the default format: 4-digit year, 2-digit month, 2-digit day, separated by either - or /
+c(as.Date("2021-2-16"),  as.Date('2021/02/17'))
+# Lets add formats: %d= Day as a decimal number; % 
+as.Date("February 16, 2021", format = '%B %d, %Y')
+as.Date('02.16.21', format = '%m.%d.%y')
+```
+
+If you need to read a date written in a non-standard  convention, the named parameter `format` of the function `as.Date` is very convenient, see more examples in [@DatesAndTimesInR]. 
+
+`Date` objects are stored as the number of days since January 1, 1970. There are functions to compute on dates, for instance to return the day of the week a certain date corresponds to. There are similarly functions to compute the month, day and the  quarter corresponding to a date.
+
+```{r, examples-compute-stuff-from-date, exercise=T, exercise.lines=7}
+famous_events <- c(Storming_of_the_Bastille=as.Date('14 July 1789', format="%d %B %Y"), 
+                   First_Canadian_Constitution_Act=as.Date('29th March 1867', format="%dth %B %Y"),
+                   First_inauguration_of_Obama=as.Date('January 20, 2009', format='%B %d, %Y'))
+t(weekdays(famous_events))
+t(months((famous_events)))
+quarters(famous_events)
+famous_events["Storming_of_the_Bastille"] > famous_events['First_Canadian_Constitution_Act']
+```
+
+### More accurate time
+
+If you need a representation of time to the nearest second then the POSIX date classes store times to the nearest second. There are two:
+
+  * **POSIXct**: stores date/time values as the number of seconds since January 1, 1970.
+  * **POSIXlt**: stores date/time values as a list with elements for second, minute, hour, day, month, and year, among others.
+  
+The usual choice is to use POSIXct unless you really need the list version. The creation of instances is done with the functions `as.POSIXct` and `as.POSIXlt`. There is the assumption of a standard format for the date and the time parts of the input.
+
+
+```{r, create-dates-as-POSIX, exercise=T, exercise.lines=3}
+# for better results all dates should have date and time parts
+text_dates <- c('2021-02-16 16:00', '2021-02-16 16:45', '2021-02-16 17:00:01')
+as.POSIXct(text_dates)
+```
+
+To tell R the input is in non-standard form use the function `strptime` and the formatting symbols from the following table: 
+
+<center>
+<table border="1">
+<tbody><tr><td>Code</td><td>Meaning</td><td>Code</td><td>Meaning</td></tr>
+<tr><td><tt>%a</tt></td><td>Abbreviated weekday</td><td><tt>%A</tt></td><td>Full weekday</td></tr>
+<tr><td><tt>%b</tt></td><td>Abbreviated month</td><td><tt>%B</tt></td><td>Full month</td></tr>
+<tr><td><tt>%c</tt></td><td>Locale-specific date and time</td><td><tt>%d</tt></td><td>Decimal date</td></tr>
+<tr><td><tt>%H</tt></td><td>Decimal hours (24 hour)</td><td><tt>%I</tt></td><td>Decimal hours (12 hour)</td></tr>
+<tr><td><tt>%j</tt></td><td>Decimal day of the year</td><td><tt>%m</tt></td><td>Decimal month</td></tr>
+<tr><td><tt>%M</tt></td><td>Decimal minute</td><td><tt>%p</tt></td><td>Locale-specific AM/PM</td></tr>
+<tr><td><tt>%S</tt></td><td>Decimal second</td><td><tt>%U</tt></td><td>Decimal week of the year (starting on Sunday)</td></tr>
+<tr><td><tt>%w</tt></td><td>Decimal Weekday (0=Sunday)</td><td><tt>%W</tt></td><td>Decimal week of the year (starting on Monday)</td></tr>
+<tr><td><tt>%x</tt></td><td>Locale-specific Date</td><td><tt>%X</tt></td><td>Locale-specific Time</td></tr>
+<tr><td><tt>%y</tt></td><td>2-digit year</td><td><tt>%Y</tt></td><td>4-digit year</td></tr>
+<tr><td><tt>%z</tt></td><td>Offset from GMT</td><td><tt>%Z</tt></td><td>Time zone (character)</td></tr></tbody></table>
+</center>
+
+```{r, inputing-time-POSIX-non-standard-format, exercise=T, exercise.lines=3}
+(started_YYC = strptime('16/Feb/2021T16:01:00',format='%d/%b/%YT%H:%M:%S'))
+(started_LON = strptime('16/Feb/2021T16:01:00',format='%d/%b/%YT%H:%M:%S',tz = 'UTC'))
+started_LON - started_YYC
+```
+
+<!-- ======================== -->
+### _Time_ to practice
+<!-- ======================== -->
+
+```{r quiz-date-time, echo=FALSE, cache=FALSE}
+quiz(
+    question_radio(
+    "You need to report times as hours:minutes:seconds from 0 to 100 hours of experimental wall clock time.
+    
+    You then choose the R function `as.date` to represent your times.
+    
+    Is that a suitable selection for your data?",
+    answer("yes", correct = FALSE, message = 'I would think twice before doing that, go back to the top of this section and read again please.'),
+    answer("no", correct= TRUE),
+    correct = 'Correct, a more appropriate data representation would be ',
+    random_answer_order = TRUE,
+    allow_retry = TRUE
+  ),
+  sortable::question_rank(text = "Order the date elements produced by the following expression:
+    
+        as.Date('11-21-10', format = \"%m-%y-%d\")
+        
+    ",
+    correct = "You know dates well: year, month, and day are the standard order.",
+    incorrect = "Oops, check the order again.",
+    allow_retry = TRUE,
+    random_answer_order = TRUE, 
+    options = sortable::sortable_options(),
+    learnr::answer(c("2021", "11","10"), correct = TRUE)
+  ),
+  question_checkbox("Consider the following output: 
+  
+    [1] \"2021-08-01\" \"2021-08-08\" \"2021-08-15\" \"2021-08-22\" \"2021-08-29\" 
+    [6] \"2021-09-05\" \"2021-09-12\" \"2021-09-19\" \"2021-09-26\"
+  
+  What expression(s) produce this output? (Select all that apply)",
+    answer("seq(as.Date(\"2021-08-01\"), as.Date(\"2021-08-30\"), by=\"1 week\")", correct = FALSE),
+    answer("seq(as.Date(\"2021-08-01\"), as.Date(\"2021-09-30\"), by=\"1 day\")", correct = FALSE),
+    answer("seq(as.Date(\"2021-08-01\"), as.Date(\"2021-09-30\"), by=\"1 week\")", correct = TRUE),
+    answer("seq(as.Date(\"2021-08-01\"), as.Date(\"2021-09-30\"), by=\"7 day\")", correct = TRUE),
+    answer("seq(as.Date(\"2020-08-01\"), as.Date(\"2021-09-30\"), by=\"1 month\")", correct = FALSE),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "1 week is 7 days in the Gregorian calendar, you got both correct!",
+    incorrect = "Check again, either you are missing correct answers or made one or more wrong selections."
+  )
+)
+```
+
+
+<!-- seq(as.Date("1996-01-31"), as.Date("2006-12-31"), by="1 mon") -->
+
+
+## Matrices
+
+Matrices are the two-dimensional extensions of vectors. They must store elements of the same type, so coercion rules will apply if they do not meet this requirement. 
+
+### Constructing a matrix
+
+A matrix of six integer values would be represented graphically as:
+
+
+```{r matrix, echo=FALSE, results='asis'}
+knitr::include_graphics("images/matrix.png", dpi = 106)
+```
+
+And in code it would be constructed with:
+```{r matrix-construction, exercise=T, exercise.lines=1}
+matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+```
+
+
+The function `matrix()` takes a vector with a variable number of arguments and a number of other parameters that inform the function how to construct the matrix from the vector. R by default populates the matrix _column-wise_, thus the argument `byrow = TRUE` effectively instructs it  to fill in the elements _row-wise_.
+
+
+### Matrix manipulation
+
+Try to answer the questions with your code.
+
+```{r matrix-example, exercise = TRUE, exercise.lines=10}
+x <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+# extract the element on the first row and third column of x
+
+# subtract the first element from the first row from the first element of the second row
+
+# find the dimensions of x
+
+# display the contents of x
+
+```
+
+```{r matrix-example-hint}
+x[1,3]
+x[1,2] - x[1,1]
+dim(x)
+x
+```
+
+If the argument `T` had not been given to the named parameter `byrow` above, R would have constructed the matrix on a column first order. Verify this for yourself:
+
+```{r matrix-example-bycolumn, exercise = TRUE, exercise.lines=9}
+y <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2)
+# extract the element on the first row and third column of x
+y[1,3]
+# subtract the first element from the first row from the first element of the second row
+y[1,1] - y[1,2]
+# find the dimensions of x
+dim(y)
+# output the contents of y
+
+```
+
+As a task, find out how to name rows and columns in a matrix.
+
+### Subsetting a matrix
+
+The `[]` operator can be used on the two dimensions of the matrix. For example subset the first row and the second column:
+
+```{r subsetting-matrix-rows, exercise=T, exercise.lines=3}
+(m <- matrix(rep(c(rep(1:2,2), rep(3:4, 2)),2), byrow = T, nrow = 4))
+m[1,]
+m[,2]
+```
+```{r, setup-subsetting-matrices}
+m <- matrix(rep(c(rep(1:2,2), rep(3:4, 2)),2), byrow = T, nrow = 4)
+```
+
+Now extract a sub-matrix defined by the first two rows and the third and fourth columns of the original matrix:
+
+```{r, subsetting-matrix-from-within-matrix, exercise=T, exercise.lines=1}
+m[1:2, 3:4]
+```
+
+### Useful matrix functions
+
+There are very useful functions to deal with matrices. Let's just mention a few here. 
+
+```{r sum-rows-cols-matrix, exercise=TRUE}
+(m <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T))
+# add elements row-wise
+rowSums(m)
+# add elements column-wise
+colSums(m)
+```
+
+Append a new row or column to the matrix.
+
+```{r matrix-m}
+m <- matrix(c(5, -1, 3, 0, -4, 1), ncol = 3, nrow = 2, byrow = T)
+```
+
+```{r add-row-to-matrix, exercise=TRUE, exercise.setup="matrix-m"}
+m
+# append a  row with the number 6 to matrix 'm' from the previous exercise
+rbind(m, rep(6, 3))
+# append the new row at the top instead
+rbind(rep(6, 3), m)
+# insert a row in between first and second row
+rbind(m[1,], rep(6,3), m[2,])
+```
+
+```{r add-column-to-matrix, exercise=TRUE, exercise.setup="matrix-m"}
+# append a column with the number 6 to matrix 'm' from the previous exercise
+cbind(m, rep(6, 2))
+# append the new column at the beginning instead
+cbind(rep(6, 2), m)
+# insert a column in between first and second columns
+cbind(m[,1], rep(6,2), m[,2:3])
+```
+
+If you remember the rules of recycling and the fact that by default matrices are traversed element-wise along the columns from top to bottom, let's multiply a matrix by a vector:
+
+```{r, multiply-matrix-times-vector, exercise=TRUE, exercise.lines=8}
+# the following will make the pseudo random number generation produce the same result for reproducibility
+set.seed(673912) # this is an arbitrary number, nothing special about it
+# sample 16 integers from 1 to 99 
+values <- sample.int(n = 99, size = 16, replace = TRUE) 
+(m <- matrix(values, nrow = 4)) 
+# a mask to eliminate the 4th row of the matrix
+zero_to_4th_row <- c(1,1,1,0)
+m * zero_to_4th_row
+```
+
+<!-- ======================== -->
+### Time to practice
+<!-- ======================== -->
+
+```{r quiz-matrices, echo=FALSE, cache=FALSE}
+quiz(
+    # https://rdrr.io/github/timelyportfolio/sortableR/man/question_rank.html
+  sortable::question_rank(text = "Sort the rows of the matrix resulting from the following operation: 
+  
+               m <- matrix(rep(-1, 12), ncol = 3)
+               m * matrix(rep(c(-1,2,1,0),3), ncol = 3)
+  
+  As long as the matrices are of the same size the operation will be element-wise by column.",
+    correct = "Correct, you nailed it. Matrix multiplication is your thing!",
+    incorrect = "Perhaps if you picture the vector used in the second matrix as a column and try again?",
+    allow_retry = TRUE,
+    random_answer_order = TRUE, 
+    options = sortable::sortable_options(),
+    learnr::answer(c("1 1 1", "-2 -2 -2","-1 -1 -1","0 0 0"), correct = TRUE)
+  ),
+  question_checkbox("What is the result of the following operation?:
+
+               m <- matrix(rep(-1, 9), ncol = 3)
+               m + 1
+
+  Select all that apply.",
+    answer("The null matrix", correct = TRUE),
+    answer("     [,1] [,2] [,3]
+     [1,]    0    0    0
+     [2,]    0    0    0
+     [3,]    0    0    0", correct = TRUE),
+    answer("Error in m + matrix(c(1), nrow = 4) : non-conformable arrays", correct = FALSE, message = 'R can deal with this better than you think.'),
+    answer("Error in m + c(1) : non-conformable arrays", correct = FALSE, message = 'R would know the difference!'),
+    answer("     [,1] [,2] [,3]
+     [1,]    1    0    0
+     [2,]    0    0    0
+     [3,]    0    0    0", correct = FALSE, message = 'R can do this, keep trying!'),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "You figured out that R turns the 1 into a matrix of the required size!"
+  )
+)
+```
+
+
+## Arrays
+
+Arrays are the natural extension of vector and matrices to n-dimensions.
+
+```{r array, echo=FALSE, results='asis'}
+knitr::include_graphics("images/array.png", dpi = 86)
+```
+
+The image illustrates a three-dimensional array with rows, columns, and frames. These data structures are very useful for tensor analysis and in particular for deep learning.
+
+```{r arrray-creation, echo=T}
+array(1:18, dim = c(2, 3, 3))
+```
+
+Here we  created a tensor of 2 rows by 3 columns by 3 frames with the numbers 1 to 18. Study the output to verify this.
+
+Let's leave this data structure for deep learning practice and move on now.
+
+
+<!-- ====================== -->
+## Lists
+<!-- ====================== -->
+
+
+Lists are one-dimensional vector objects that can store information of heterogeneous type, a list can even contain other lists. R's linear model object, with constructor `lm()`, is a list. Lists are very versatile and are at the center of R's model and data handling strengths.
+
+
+### Constructing lists
+
+Here is a graphical representation of a list with three components.
+
+
+```{r list, echo=FALSE, results='asis'}
+knitr::include_graphics("images/list2.png", dpi = 96)
+```
+
+And here is your turn to create it with R code using the constructor `list()`. Try to complete the exercise before looking at the hint.
+
+```{r list-constructor, exercise=TRUE, exercise.lines=7}
+my_list <- list(some_strings = c("hello", "world"), 
+                some_numbers = 10:15, 
+                some_booleans = c(T,T,T,F))
+# check the names
+
+# extract the first element of the list
+```
+
+```{r list-constructor-hint}
+attributes(my_list)
+names(my_list)
+my_list[[1]]
+```
+
+### Accessing the elements of a list
+
+Did you notice the use of double square brackets, `[[]]` to access the vectors stored in the list of the previous section? Had you chosen to use single brackets `[]` the result would have been a  named list of one vector as its only element, try it now if you did not before:
+
+```{r, subsetting-lists-single-bracket-setup}
+my_list <- list(some_strings = c("hello", "world"), 
+          some_numbers = 10:15, 
+          some_booleans = c(T,T,T,F))
+```
+
+```{r, subsetting-lists-single-bracket, exercise=T, exercise.lines=4, exercise.setup="subsetting-lists-single-bracket-setup"}
+my_list <- list(some_strings = c("hello", "world"), 
+          some_numbers = 10:15, 
+          some_booleans = c(T,T,T,F))
+class(my_list[1])
+my_list[1]
+class(my_list[[1]])
+my_list[[1]]
+```
+The list class is kind of a super set of the vector class, thus R's coercion philosophy will be to coerce vectors into lists whenever confronted  with the dilemma. In the following case, attempting to create a vector given a list and a vector,  first coerces the vector into a list (a list is a more general concept than a vector) and then merges the two lists into a single one.
+
+```{r, coercion-of-vector-to-list, exercise=T, exercise.lines=2}
+new_object <- c(list(1,"a"), c(0,2,4))
+new_object
+```
+In general, passing two or more lists as arguments to `c()` merges them all into a single list.
+
+### Appending a new element
+
+In order to append a new element to an existing list the `c()` operator works well. The caveat is to use the `list()` constructor around the new element. This is useful to prevent the flattening of a vector into individual list elements when appended. It creates a new object leaving the original list unchanged. 
+
+```{r, new-element-appending-in-new-list, exercise=T, exercise.lines=9, exercise.setup="subsetting-lists-single-bracket-setup"}
+length(my_list)
+# this creates a new list
+new_list <- c(my_list, list(rep(-1,3)))
+# check the length of the original list
+length(my_list)
+# check the length of the new list
+length(new_list)
+# check that the last element is the vector we wanted to insert
+new_list[[length(new_list)]]
+```
+The `[[]]` operator allows insertion of new elements of any type into a list, that means no coercion will be used. This is the similar functionality of the operator `[]` for vectors.
+
+```{r, new-element-of-list-appending-in-place, exercise=T, exercise.lines=7, exercise.setup="subsetting-lists-single-bracket-setup"}
+length(my_list)
+# this modifies in place
+my_list[[length(my_list) + 1]] <- rep(-1,3)
+# check the new length of the list
+length(my_list)
+# check that the last element is the vector we wanted to insert
+my_list[[length(my_list)]]
+```
+
+
+
+### Accessing nested lists
+
+When passing lists as argument to the `list()` constructor there is no need for coercion of any kind. Try the following code to make sure you grasp the concept. This will become very important to do amazing data analysis later.
+
+Would would have thought that R would come in handy for that party you are planning for friends and family? The list of items for the party can be nested within the list of party items, how convenient! 
+
+```{r list-nesting, exercise=TRUE, exercise.lines=14}
+# get organized for that party you are throwing for friends and family
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+(to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items))
+
+# extract the party items from the 'to_do_list' and display the drinks to buy
+
+```
+
+```{r list-nesting-hint}
+to_do_list[[3]][[1]]
+# equivalent but using the dollar operator
+to_do_list[[3]]$drinks
+# using the dollar operator all the way
+to_do_list$items$drinks
+```
+
+### Referencing elements of a list by name
+
+From the exercise of the previous section we saw that either the `[[1]]` positional or the `$drinks` name syntax extract the vector stored at the list returned by `to_do_list[[3]]`.
+
+The `$` operator can be used to reference named elements of a list.
+
+
+Compare the effect of using single square brackets as opposed to the double square brackets on a list.
+
+```{r, setup-list-of-lists}
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items)
+```
+
+
+```{r, example-list-from-a-list, exercise=T, exercise.lines=8, exercise.setup="setup-list-of-lists"}
+# these two options are equivalent and return single element lists
+to_do_list[2]
+to_do_list["invited"]
+class(to_do_list[2])
+class(to_do_list["invited"])
+# compare to the class of the object returned by
+class(to_do_list[[2]])
+class(to_do_list$invited)
+```
+
+
+```{r list-dollar-setup}
+party_items = list( drinks = c("pop", "wine", "beer", "water"),
+                    furniture = c(chairs = 8, tables = 2, hammocks = 1))
+
+to_do_list <- list(guests = c("Uncle Bob", "Friendly neighbour", "Joe Best"),
+                   invited = c(F,F,T),
+                   items = party_items)
+```
+
+Thanks to the `$` and assignment operators one can simplify printing the drinks for the party. 
+
+```{r list-dollar-show, exercise=TRUE, exercise.setup="list-dollar-setup", exercise.lines=2 }
+to_buy <- to_do_list$items
+to_buy$drinks
+```
+
+### Conversion of lists to vectors
+
+A list can be coerced into a vector using the `unlist()` function. It uses the sale coercion rules that `c()` uses to create homogeneous types for each element.
+
+
+```{r, using-unlist-to-convert-list-to-vector, exercise=T, exercise.lines=5}
+set.seed(6728)
+a_list <- list(labels=LETTERS[1:5], runs=1:5, outcomes=sample(1:10, size = 5))
+str(a_list)
+vector_version <- unlist(a_list)
+str(vector_version)
+```
+
+
+### Test your knowledge
+
+```{r quiz-lists, echo=FALSE, cache=FALSE}
+quiz(
+  question_radio(
+    "The subsetting operator [ always returns a list when applied to a list.",
+    answer("True", correct = TRUE),
+    answer("False", correct = FALSE, message = "Well, mayve you were thinking of [[, that one gives you the actual elelment(s) of the list."),
+    random_answer_order = TRUE,
+    allow_retry = TRUE,
+    correct = "You are on a roll! This is an important characteristic of lists."
+  ),
+  question_checkbox("Your rent went up by 3% this month. I know, this is a crazy neighbourhood.
+                    
+          to_do <- list(errands = c(\"Doctor's appointment\",
+                                    \"pick up milk\", \"Call dad\"),
+                        tasks = c(\"laundry\", \"walk Freckles\"),
+                        payments = c(rent=500, insurance=70))
+                    
+  How could you reflect that in R? (Not the neighborhood but the rent increase, select all that apply)",
+           answer("to_do$payments['rent'] = to_do$payments['rent'] * 1.03", correct = TRUE),
+           answer("to_do$payments[1] <- to_do$payments[1] * 1.03", correct = TRUE),
+           answer("to_do$payments[1] <- to_do * 1.03", correct = FALSE, message = 'The binary operator * accepts only numeric arguments, make sure you avoid passing a list as one of the arguments, R would cough at it.'),
+           answer("to_do$payments[1] <- to_do$payments['rent'] * 0.03", correct = FALSE, message = "If I were you I would double check the arithmetic in one of the selections you have made before retrying."),
+           answer("to_do$payments <- to_do$payments['rent'] * 1.03", correct = FALSE, message = "If this was my only feedback to you, I would have to mention that you could loose a reminder to pay insurance this month if you continue with the current selection(s)."),
+           random_answer_order = TRUE,
+           allow_retry = TRUE,
+           correct = 'This is getting complex but you are doing just fine!',
+           incorrect = "One or more incorrect selections or you are missing one or more right answer(s)? Don't get discouraged, you have come a long way at this point in your R Syntax journey!"),
+  
+  question_radio("Is a  vector more general a concept than a list in R?
+    
+  Tip: Think about the kind of data types each can store and conclude which one could be a subset of the other? Subset is more specific a concept, by contrast, the superset is a more general one.",
+    answer("Yes", correct = FALSE, message = "A vector is more specific because it stores homogeneous types while a list stores hetereogeneous ones. A vector conceptually is a subset of a list because a list can be made out of a vector but not the other way around."),
+    answer("No", correct = TRUE, message = "A vector is more specific because while the list can store different data type in a seemingly linear data structure, the vector can only store objects of the same type."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE),
+  question_radio(
+    "Is it possible to construct a vector of class list in R?",
+    answer("Yes", correct = FALSE, message = "The result of applying c() to a list would be to coerced the result to a list automatically."),
+    answer("No", correct = TRUE, message = "By definition in R, a vector that contains a list already has decided to store  heterogeneous objects so it must be a list. This allows code optimizations on vectors and matrices that aren't possible on lists."),
+    allow_retry = TRUE,
+    random_answer_order = TRUE
+  ),
+  question_checkbox("What piece of code inserts a2 at the tail of answers?
+           
+           a1 <- list(\"a\", 10, F\")
+           a2 <- list(\"g\", 23, F\")
+           answers <- list(a1)
+    
+  Select all that apply.",
+    answer("answers <- c(answers, a2)", correct = TRUE),
+    answer("answers[[2]] <- a2", correct = TRUE),
+    answer("answers <- list(answers, a2)", correct = FALSE, message = "list() creates a new list with two elements, this is not what was intended."),
+    answer("answers[2] <- a2", correct = FALSE, message = "Syntax moment: assignment of new elements of a list requires the use of the [[ operator."),
+    answer("answers <- list(answers, list(a2))", correct = FALSE, message = "R will follow your command dutifully but somewhere you may be getting overzelous with the use of the list constructor and ended up nesting a list within another list unnecessarily!"),
+    allow_retry = TRUE,
+    random_answer_order = TRUE,
+    correct = "You have achieved List mastery my friend!",
+    incorrect = "Something is missing and/or you selected wrong answers.")
+    
+)
+```
+
+
+<!-- ## Data frames -->
+
+<!-- If you have followed the data structure section then this section should be relatively easy. Like a list, data frames store information of heterogeneous type, however there are some rules: -->
+
+<!--   - Two dimensional only, like a table. -->
+<!--   - Any number of rows or columns -->
+<!--   - The columns have to be of the same type and length -->
+
+
+<!-- Follow these rules and data frames are an almost ideal data structure for data analysis, as convenient but safer than spreadsheets, whether in memory or saved as a file to a disk, locally or in the cloud.  -->
+
+<!-- Data frames are similar to tables of a sophisticated relational data base, where you can store procedures (like R expressions) and even other tables in the cells. -->
+
+<!-- ### Why is a data frame different? -->
+
+<!-- Under the hood a data frame is implemented as a list of vectors of the same length. The algorithms to search and select items in data frames can be optimized because its two more prominent features: table-like geometry and vector columns of equal length. The elements of a vectors are stored in contiguous memory of constant size and this gives the data frame some advantages. They are natively implemented so the `$` and `[` syntax we have already covered can be safely reused for data frames. -->
+
+
+<!-- ### Constructing a data frame -->
+
+<!-- ```{r, data-frame, echo=FALSE, results='asis', dpi=96} -->
+<!-- knitr::include_graphics("images/dataframe.png") -->
+<!-- ``` -->
+
+<!-- Let's create this data frame using code using the constructor function `data.frame`. -->
+
+<!-- ```{r slice-n-dice-df, exercise=T, exercise.setup="slice-n-dice-df-setup", exercise.lines=9} -->
+<!-- # using the $ operator like in a named list -->
+<!-- df$country -->
+<!-- df$"country" -->
+<!-- # using the [] operator similar to a matrix and a vector -->
+<!-- df[,1] -->
+<!-- df[,"country"] -->
+<!-- # using the fact that a data frame is a list under the hood -->
+<!-- df[[1]] -->
+<!-- df[["country"]] -->
+<!-- ``` -->
+
+<!-- *Note:* In R the dot for names has no special meaning, it is like `_`. The dot syntax for formulas and in generic object dispatch has special meaning, but those are topics for more advanced material. -->
+
+<!-- If any of the vectors has a different length there will be error messages, R will not be happy about it. Try it for yourself in the previous exercise. -->
+
+<!-- In the above example the vector of country names, of type `character`, was converted to factors by a default named argument `stringsAsFactors = T` in the constructor `data.frame()`. A special note about this later in this section. -->
+
+<!-- Try the `str()` function on the data frame we just created. R has a special vocabulary for the rows and columns of a data frame. Each of the <span style="color:blue">vectors</span> in the list are mapped to a <span style="color:blue">variable</span> while each <span style="color:red">row</span> represents an <span style="color:red">observation</span>. -->
+
+
+<!-- ### Subsetting a data frame -->
+
+<!-- Similarly to subsetting vectors, we can slice and extract sections of the data frame as we please following the row, column convention and the `[]` syntax or the `$` syntax. -->
+
+<!-- ```{r slice-n-dice-df-setup} -->
+<!-- # for better documentation name the vectors -->
+<!-- country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland") -->
+<!-- population <- c(37, 331, 67, 83, 60, 39) -->
+<!-- census2019 <- c(T,T,T,T,F,T) -->
+<!-- df <- data.frame(country, population, census2019) -->
+<!-- ``` -->
+
+<!-- ```{r slice-n-dice-df, exercise=T, exercise.setup="slice-n-dice-df-setup", exercise.lines=9} -->
+<!-- # get the $ operator -->
+<!-- df$country -->
+<!-- df$"country" -->
+<!-- # using the [] operator -->
+<!-- df[,1] -->
+<!-- df[,"country"] -->
+<!-- # using the fact that a data frame is a list under the hood -->
+<!-- df[[1]] -->
+<!-- df[["country"]] -->
+<!-- ``` -->
+
+<!-- Let's  extract all the information for Canada.  -->
+
+<!-- ```{r subset-df-by-row-setup} -->
+<!-- # for better documentation name the vectors -->
+<!-- country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland") -->
+<!-- population <- c(37, 331, 67, 83, 60, 39) -->
+<!-- census2019 <- c(T,T,T,T,F,T) -->
+<!-- df <- data.frame(country, population, census2019) -->
+<!-- ``` -->
+
+<!-- ```{r subset-df-by-row, exercise=T, exercise.setup="subset-df-by-row-setup", exercise.lines=1} -->
+<!-- df[df$country == "Canada",] -->
+<!-- ``` -->
+
+<!-- We can extract the countries with population greater than 80 million. -->
+
+<!-- ```{r subset-df-by-multiple-rows, exercise=T, exercise.setup="subset-df-by-row-setup,", exercise.lines=4} -->
+<!-- # extract only the names of the counties  in the rows filtered -->
+<!-- df[df$population > 80, 'country'] -->
+<!-- # display all the columns for the rows filtered -->
+<!-- df[df$population > 80,] -->
+<!-- ``` -->
+
+<!-- This way of subsetting a data frame uses what is called a **_logical mask_**. The mask is nothing but a boolean vector generated using a logical operator. The boolean vector is then used to subsetting another vector using the `[]` operator selecting the elements of the vector at the positions where the mask is `TRUE`. Since the columns of a data frame are vectors, this is a natural way of subsetting.  -->
+
+<!-- This image helps explain it. -->
+
+<!-- ```{r data-frame-row-filter, echo=FALSE, results='asis', fig.height=1} -->
+<!-- knitr::include_graphics("images/dataframe-row-filter.png", dpi = 126) -->
+<!-- ``` -->
+
+<!-- And here is a step by step description: -->
+
+<!--   1. Build the mask using a logical operator expressing a condition over one of the columns of the data frame. -->
+
+<!-- ```{r explain-logical-mask-1, exercise=T, exercise.lines=1, exercise.setup="subset-df-by-row-setup"} -->
+<!-- (row_filter <- df$population > 80) -->
+<!-- ``` -->
+<!--   2. Subset the data frame by rows using this logical mask. A `TRUE` at a given position on the mask  will let the value at that position on each row of the data frame pass _as is_. Conversely, a `FALSE` will eliminate it so it does not appear on the result. -->
+
+<!-- ```{r explain-logical-mask-setup} -->
+<!-- country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland") -->
+<!-- population <- c(37, 331, 67, 83, 60, 39) -->
+<!-- census2019 <- c(T,T,T,T,F,T) -->
+<!-- df <- data.frame(country, population, census2019) -->
+<!-- row_filter <- df$population > 80 -->
+<!-- ``` -->
+
+
+<!-- ```{r explain-logical-mask-2, exercise=T, exercise.lines=2, exercise.setup="explain-logical-mask-setup"} -->
+<!-- # apply the same filter to every column of the data frame by -->
+<!-- (result <- df[row_filter,]) -->
+<!-- ``` -->
+<!--   3. Show the column for country from the 2019 census: -->
+
+<!-- ```{r explain-logical-mask-3-setup} -->
+<!-- country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland") -->
+<!-- population <- c(37, 331, 67, 83, 60, 39) -->
+<!-- census2019 <- c(T,T,T,T,F,T) -->
+<!-- df <- data.frame(country, population, census2019) -->
+<!-- filter <- df$population > 80 -->
+<!-- result <- df[filter,] -->
+<!-- ``` -->
+
+
+<!-- ```{r explain-logical-mask-3, exercise=T, exercise.lines=2, exercise.setup="explain-logical-mask-3-setup"} -->
+<!-- # apply the filter to all the vectors of the data frame -->
+<!-- result[c("country", "population")] -->
+<!-- ``` -->
+
+
+<!-- ### Reusing your knowledge of R Syntax -->
+
+<!-- At this point in your R Syntax journey you may start to appreciate that some patterns. Here is an image taken from @BaseR-Cheatsheet that might show some of these patterns. -->
+
+<!-- ```{r, data-frame-sheat-sheet-example, echo=FALSE, results='asis'} -->
+<!--   knitr::include_graphics("images/Dataframe_shortcuts_from_BaseR_Cheat_Sheet.png", dpi = 96) -->
+<!-- ``` -->
+
+<!-- As a very special case of a list, you would expect to be able to reuse some of your list manipulation knowledge, right? In a similar way, with the _table-like_ shape you would expect to be able to re-use some of your knowledge of `cbind` and `rbind`, correct? -->
+
+<!-- ### The subsetting function -->
+
+<!-- The built-in function `subset` takes a data frame and returns a new object with the requested data frame. This function receives a logical vector as named parameter `subset` with `TRUE` for elements that should be included and `FALSE` otherwise. Another optional parameter called `select` is a vector with the column positions or names to include by default, unless a third parameter called `drop` is set to TRUE, in which case the selected values are dropped from the resulting subset. -->
+
+<!-- As an example let's take the time series for quarterly earnings per share for Johnson and Johnson from 1960 to 1980, part of the `datasets` package included in modern default R installations. We are  asked to extract the years when the last quarter earnings were greater than 60% of the annual earning per share and show the last quarter and the total earnings. -->
+
+<!-- ```{r, example-using-subset-function, exercise=T, exercise.lines=11} -->
+<!-- # create  a data frame based on the time series using coercion from 'ts' to matrix -->
+<!-- (J_and_J <- data.frame( matrix(JohnsonJohnson,  -->
+<!--                               ncol=4,  -->
+<!--                               dimnames = list( 1960:1980, c("Qtr1", "Qtr2", "Qtr3", "Qtr4"))))) -->
+<!-- # add a new column with the annual earnings -->
+<!-- J_and_J <- cbind(J_and_J, Annual=rowSums(J_and_J)) -->
+<!-- # create a vector with the 4th quarter earnings as a percentage of the annual earnings  -->
+<!-- Qtr4_percent <- J_and_J$Qtr4 / J_and_J$Annual * 100 -->
+<!-- # subset by row using a logical vector and show  the required columns  in one step -->
+<!-- # J_and_J[Qtr4_percent > 60, c(4,5)] # using base-R syntax -->
+<!-- subset(J_and_J, subset = Qtr4_percent > 60, select = c(4,5)) # using built-in function -->
+<!-- ``` -->
+
+<!-- That was a company on a roll in the 70's! -->
+
+<!-- **Note:** this function is one of the few that exposes a behaviour called non-standard evaluation in R. That means that when setting the arguments on a call of the function the argument can be interpreted as a character string first if it exists. They are very convenient in interactive work at the command line (the REPL, [Read-evaluate-print-loop](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop), as it is known) because you have in mind what you are interacting with but on a written script it may lead to out of context interpretations. The best practice is not to use `subset` in programs. The packages derived from the seminal work of Wickham [@tidy-data] provide consistent syntax to do these and many more operations on data.    -->
+
+
+
+<!-- ### Subsetting and transforming at the same time -->
+
+<!-- A very common operation on data frames is to aggregate the values in one or more columns of observations that belong to the same category. The nature of the aggregation can be an operation like counting, adding, or by extension, applying any function that takes a value and returns it in a transformed state. -->
+
+<!-- First create a data frame with some results from an fictional experiment that was done by triplicate. -->
+
+<!-- ```{r, aggregating-examples, exercise=T, exercise.lines=7} -->
+<!-- set.seed(5529) -->
+<!-- treatment <- LETTERS[sample(x = 1:26, size = 2)] # vector to be recycled by data frame -->
+<!-- results <- round(runif(6), digits = 2) -->
+<!-- passes <- results>0.7 -->
+<!-- (df <- data.frame(treatment=treatment,  -->
+<!--                  val_1=results, -->
+<!--                  passes=passes)) -->
+<!-- ``` -->
+
+<!-- Then subset by treatment while adding `Val_1` and counting the number of observations that are greater than `0.7`. -->
+
+<!-- ```{r, aggregation-examples-setup} -->
+<!-- set.seed(5529) -->
+<!-- treatment <- LETTERS[sample(x = 1:26, size = 2)] # vector to be recycled by data frame -->
+<!-- results <- round(runif(6), digits = 2) -->
+<!-- passes <- results>0.7 -->
+<!-- df <- data.frame(treatment=treatment,  -->
+<!--                  val_1=results, -->
+<!--                  passes=passes) -->
+<!-- ``` -->
+
+<!-- ```{r, aggregation-example-adding, exercise=T, exercise.lines=12, exercise.setup="aggregation-examples-setup"} -->
+<!-- # first calculate the mean of val_1 by treatment -->
+<!-- (val_1_by_treatment <- aggregate(x = df$val_1, -->
+<!--                                  by = list(df$treatment),  -->
+<!--                                  FUN = "mean")) -->
+<!-- # the calculate the number of results that are greater than 0.7 -->
+<!-- (num_gt_point_seven_by_treatment <- aggregate(x = df$passes,  -->
+<!--                                      by = list(df$treatment),  -->
+<!--                                      FUN = "sum")) -->
+<!-- # now put them together in a single data frame -->
+<!-- aggregated_df <- cbind(val_1_by_treatment, num_gt_point_seven_by_treatment$x) -->
+<!-- names(aggregated_df) <- c("treatment", "mean_val_1", "num_gt_0_pt_7") -->
+<!-- aggregated_df -->
+<!-- ``` -->
+
+
+<!-- ### Factors or strings -->
+
+<!-- Did you notice that in the previous section we got the countries as a vector of factors with 6 levels? Remember that special case of vectors called factors specialized on manipulating categorical variables? Well here we go again.  -->
+
+<!-- When you construct a data frame from vectors the type, or class, of  each vector will be interpreted by the data frame constructor. R will try to coerce all the elements of the vector to the most general data type to be able to work with them. An ordering of types from more  general to more specific is `character` > `complex` > `double` > `integer` > `logical`.  -->
+
+<!-- You can give R hints, though, for instance you can tell it to interpret the strings in vectors as factors or not, base R will do it by default. -->
+
+<!-- ```{r example-data-frame-strings-as-factors, exercise=T, exercise.lines=7} -->
+<!-- country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland") -->
+<!-- population <- c(37, 331, 67, 83, 60, 39) -->
+<!-- # strings as factors is the default -->
+<!-- country_stats <- data.frame( country, -->
+<!--                              population, stringsAsFactors = TRUE) -->
+<!-- # the function 'str()' shows us the structure of the object -->
+<!-- str(country_stats) -->
+<!-- ``` -->
+<!-- The R constructor for data frames interpreted the strings as 6 factors. Perhaps not what you expected, compare with this case. -->
+
+<!-- ```{r example-data-frame-strings-as-is-setup} -->
+<!-- country <- c("Canada", "EEUU", "United Kingdom", "Germany", "Italy", "Poland") -->
+<!-- population <- c(37, 331, 67, 83, 60, 39) -->
+<!-- ``` -->
+
+
+<!-- ```{r example-data-frame-strings-as-is, exercise=T, exercise.lines=2, exercise.setup="example-data-frame-strings-as-is-setup"} -->
+<!-- country_stats <- data.frame( country, population, stringsAsFactors = FALSE) -->
+<!-- str(country_stats) -->
+<!-- ``` -->
+
+<!-- ### NAs in a data frame -->
+
+<!-- Because each row on a data frame is associated with an experimental observation of some sort, sometimes an observation may genuinely have missing entries for some of the variables that were simply not measured or are not available in the data set. The function `is.na()` can be used on the whole data frame to return a data frame of logical vectors with `TRUE`  if an `NA` exists at that position or `FALSE` otherwise. The function `complete.cases()` identifies the observations with missing values.  -->
+
+<!-- Some mathematical operations may create values that are not amenable to be further processed, for example dividing 0/0 or any number by 0, in the first case the result is `NaN` and in the second `Inf`.  -->
+
+<!-- An exercise will clarify the identification of all these values. -->
+
+
+<!-- ```{r, detect-NAs-in-a-data-frame, exercise=T, exercise.lines=15} -->
+<!-- set.seed(7777) -->
+<!-- (df <- data.frame(experiment=rep(LETTERS[1:3], each=3),  -->
+<!--                   run=rep(1:3,3),  -->
+<!--                   results=round(runif(n = 9, min = 0.0, max = 10.0), digits = 2))) -->
+<!-- # introduce some NA, NaN, Inf -->
+<!-- df$results[c(3,5,8)] <- c(NA, NaN, Inf)  -->
+<!-- # find if there are any missing values -->
+<!-- any(is.na(df) | is.infinite(df$results)) -->
+<!-- # Find what observations are missing values.  -->
+<!-- # First get a logical vector to be used as filter for the rows with incomplete cases -->
+<!-- missing_values <- !complete.cases(df)  -->
+<!-- # then get a filter for the cases with infinite values -->
+<!-- infinites <- is.infinite(df$results) -->
+<!-- # now filter out those observations -->
+<!-- df[(missing_values | infinites),] -->
+<!-- ``` -->
+
+
+
+<!-- ### Test your knowledge -->
+
+<!-- ```{r quiz-data-frames, echo=FALSE, cache=FALSE} -->
+<!-- quiz( -->
+<!--   question_checkbox(" -->
+<!--   What code subsets the rows with missing values from this data frame?   -->
+
+<!--       df <- data.frame(obs=LETTERS[1:5], -->
+<!--                        results=as.numeric(c(\"3.5\", \"1.9\", \"3.9\", \"5..4\", \"3.8\"))) -->
+
+<!--   Select all that apply)", -->
+<!--            answer("df[is.na(df$results),]", correct = TRUE), -->
+<!--            answer("df[!complete.cases(df),]", correct = TRUE), -->
+<!--            answer("df[,is.na(df)]", correct = FALSE, message = 'Filtering columns, that is variables, might not be a good approach here!'), -->
+<!--            answer("!df[[complete.cases(df)]]", correct = FALSE, message = "I must admit some of these options are just gibberish, be warned."), -->
+<!--            answer("df[complete.cases(df),]", correct = FALSE, message = "The answer has to answer the exact question, a second read might clarify the target."), -->
+<!--            random_answer_order = TRUE, -->
+<!--            allow_retry = TRUE, -->
+<!--            correct = 'This has been the most complicated subsetting question you have solved today, pat yourself in the back!', -->
+<!--            incorrect = "One or more correct answers may be missing and/or you have selected wrong answers, in the former case more information follows."), -->
+<!--   question( -->
+<!--     "How many variables and observations are there in this data frame? -->
+
+<!--       n <- 10 -->
+<!--       df <- data.frame(x=1:n, y = runif(n)) -->
+<!--       df <- cbind(df, pass = df$y > 0.9) -->
+
+<!-- The 'runif' functions computes n random values from a uniformly distributed variable between 0 and 1.0", -->
+<!--   answer("3 variables and 10 observations", correct = TRUE), -->
+<!--   answer("10 observations and 3 variables", correct = FALSE, message = 'I would reconsider this option.'), -->
+<!--   answer("10 variables and 2 observations", correct = FALSE, message = 'Have you tried to run the code on an exercise sandbox?'), -->
+<!--   answer("2 variables, 10 observations, 1 condition", correct = FALSE, message = 'Something is not right with this answer, I would leave the way variables are calculated out of it.'), -->
+<!--   answer("2 variables and 11 observations", correct = FALSE, message = 'May I suggest you identify how many columns this data frame will have after the two lines are executed?'), -->
+<!--   random_answer_order = TRUE, -->
+<!--   allow_retry = TRUE, -->
+<!--   correct = 'Bravo! I see you are starting to speak R quite fluently.' -->
+<!--   ), -->
+<!--   question_radio( -->
+<!--     "Data frames were designed as a list of atomic vectors.", -->
+<!--   answer("True", correct = FALSE, message = 'The correct answer is a list of any vectors, atomic or lists'), -->
+<!--   answer("False", correct = TRUE, message = 'Is this is your first choice and you feel sure about it, I must admit you are solid on data frame theory principles.'), -->
+<!--   random_answer_order = TRUE, -->
+<!--   allow_retry = TRUE), -->
+<!--   question_radio( -->
+<!--     "Can a data frame store lists in its columns?", -->
+<!--   answer("Yes", correct = TRUE, message = 'As a followup to the previous question, if data frames can store vectors of heterogeneous elements, those are precisely lists, congratulations!'), -->
+<!--   answer("No", correct = FALSE, message = 'Remember that a vector can be of  type atomic or list and a data frame can store any vector.'), -->
+<!--   random_answer_order = TRUE, -->
+<!--   allow_retry = TRUE), -->
+<!--   question_radio( -->
+<!--     "Can a data frame store other data frames in its columns?", -->
+<!--   answer("Yes", correct = TRUE, message = 'By definition lists are recursive data structures, meaning they can store instances of its own type as elements, so this is the right answer because data frames are lists of vectors of the same length.'), -->
+<!--   answer("No", correct = FALSE, message = 'Data frames are based upon a list of vectors and lists by definition can store other lists, therefore  this is the incorrect answer.'), -->
+<!--   random_answer_order = TRUE, -->
+<!--   allow_retry = TRUE), -->
+<!--   question( -->
+<!--     "Select the code that subsets the population of the countries with the smallest population that were included by the 2019 census: -->
+
+<!--       country <- c(\"Canada\", \"EEUU\", \"UK\", \"Germany\", \"Italy\", \"Poland\") -->
+<!--       population <- c(37, 331, 67, 83, 60, 39) -->
+<!--       census2019 <- c(T,T,T,T,F,T) -->
+<!--       df <- data.frame(country, population, census2019) -->
+
+<!--   ", -->
+<!--   answer("df[df$population == min(df$population) & census2019==TRUE,]$population", correct = TRUE), -->
+<!--   answer("df[df$population == min(df$population) & census2019==TRUE,]", correct = FALSE, message = 'The question is very specific, perhaps you are missing an extra bit of code.'), -->
+<!--   answer("df[min(df$population) & census2019==TRUE,]", correct = FALSE, message = 'This would not work as intended because the function min returns a vector of length 1 that gets recycled as a TRUE value to match the length of the census2019 vector, try it.'), -->
+<!--   answer("df[,df$population<min(df$population) & census2019==TRUE]]", correct = FALSE, message = 'We are subsetting by rows so the conditions should be placed on rows, the first parameter to the [ operator, just like in matrix subsetting.'), -->
+<!--   random_answer_order = TRUE, -->
+<!--   allow_retry = TRUE, -->
+<!--   correct = "You got it, the R subsetting syntax of vectors and matrices nicely extends to data frames!") -->
+<!-- ) -->
+<!-- ``` -->
+
+
+
+<!-- ## User functions -->
+
+<!-- If you start writing a lot of R code, sooner or later you will find the need to reuse the same functionality over and over. Functions help you package that functionality in a single scope and reuse it in a convenient form. -->
+
+<!-- A user function behaves like a built-in function, although their scopes (the environments where they operate) are different. -->
+
+<!-- The values that the function receives are called <span style=color:blue">parameters</span>  in the definition of the function. The values actually passed to the function  when called are called <span style=color:blue">arguments</span>. -->
+
+<!-- ### How to write a user-defined function -->
+
+<!-- In R the body of a function is written between curly braces and the last statement is the returned value. -->
+
+<!-- Now write a function that adds any two numbers and then call it. -->
+
+<!-- ```{r add-function, exercise=TRUE, exercise.lines = 3} -->
+<!-- add2numbers <- function(a, b) { -->
+
+<!-- } -->
+<!-- ``` -->
+
+<!-- ```{r add-function-hint} -->
+<!-- add2numbers <- function(a, b) { -->
+<!--   return(a + b) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- An R user-defined function is called exactly the way you would call a built-in function. -->
+
+<!-- ```{r, calling-a-user-defined-function-setup} -->
+<!-- add2numbers <- function(a, b) { -->
+<!--   return(a + b) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ```{r, calling-a-user-defined-funciton, exercise=T, exercise.lines=1, exercise.setup="calling-a-user-defined-function-setup"} -->
+<!-- (result <- add2numbers(5, 4)) -->
+<!-- ``` -->
+
+<!-- The value returned by a function is the one defined by the last expression within the function body. The `return` is not necessary. -->
+
+<!-- ```{r, calling-a-user-defined-funciton-simple, exercise=T, exercise.lines=4} -->
+<!-- add_2_numbers <- function(a, b) { -->
+<!--   a + b -->
+<!-- } -->
+<!-- (result_2 <- add_2_numbers(5, 4)) -->
+<!-- ``` -->
+
+<!-- <!-- **Note: ** A user-defined function that modifies an object creates a copy of  it  before affecting it. If the object was passed from the environment where the function was created then it will maintain all references to it unchanged but it will be a copy in memory nonetheless. Only primitive functions modify objects without making copies. That is why to make the fastest possible user-defined R function try to reuse as many primitive functions as you can to write its functionality. --> -->
+
+
+<!-- ### Named parameters -->
+
+<!-- Just like with built-ins you can name parameters. You can also use default values. -->
+
+<!-- ```{r, named-parameters-in-user-defined-functions, exercise=T, exercise.lines=9} -->
+<!-- add_2_vectors <- function(x, y) { -->
+<!--   sum(x, y) -->
+<!-- } -->
+<!-- # now use the function -->
+<!-- set.seed(1234) -->
+<!-- (a <- sample(c(1:100), size = 10, replace = T)) -->
+<!-- (b <- c(sample(c(1:100), 4, T), NA, c(sample(c(1:100), 5, T)))) -->
+<!-- add_2_vectors(x = a, -->
+<!--               y = b) -->
+<!-- ``` -->
+<!-- We might want to fix this hiccup by adding a default parameter to indicate that if `NA`s are found they can be safely ignored. -->
+
+<!-- ```{r, named-parameters-in-user-defined-functions-NAs-addressed-setup} -->
+<!-- set.seed(1234) -->
+<!-- a <- sample(c(1:100), size = 10, replace = T) -->
+<!-- b <- c(sample(c(1:100), 4, T), NA, c(sample(c(1:100), 5, T))) -->
+<!-- ``` -->
+
+<!-- ```{r, named-parameters-in-user-defined-functions-NAs-addressed, exercise=T, exercise.lines=4, exercise.setup="named-parameters-in-user-defined-functions-NAs-addressed-setup"} -->
+<!-- add_2_vectors <- function(x, y, remove.na = TRUE) { -->
+<!--   sum(x, y, na.rm = remove.na) -->
+<!-- } -->
+<!-- add_2_vectors(x = a, y = b) -->
+<!-- ``` -->
+
+<!-- Most R functions have parameters to ignore the presence of missing values when processing the input. -->
+
+<!-- ## Control of execution -->
+
+<!-- For a program or a function to do interesting calculations it is necessary to operate repetitively over data structures like vectors and lists to generate new values or a single one representing the desired target. -->
+
+<!-- The line by line flow of execution of an R program can be altered with the use of functions or statements. Both methods are available in R.  Using functions leads to a functional style of programming while using statements leads to procedural style. -->
+
+<!-- ### The procedural statements -->
+
+<!-- The procedural style syntax for looping or iterating uses the following structures: -->
+
+<!-- ```{r, if-statement,  eval=FALSE, echo=TRUE, include=TRUE} -->
+<!-- if (condition) { -->
+<!--   Do something -->
+<!-- } else { -->
+<!--   Do something different -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ```{r while-statement, eval=FALSE,  echo=TRUE, include=TRUE} -->
+<!-- while (condition) { -->
+<!--   Do something -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ```{r for-statement, eval=FALSE,  echo=TRUE, include=TRUE} -->
+<!-- for (variable in sequence) { -->
+<!--   Do something -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ### The functional style -->
+
+<!-- The functional forms of these structures can be formulated depending on the object that the user-function is applied to. For a vector the applications are straight forward. -->
+
+<!-- The functional and procedural styles of writing programs are  equivalent, however for the majority of the applications in statistics and linear algebra R is optimized to use the functional style. More recently packages like `purr` from the `tidyverse` syntax have added all the functional tools that make it extremely succinct to express standard transformations on vectorized data structures like lists, matrices, arrays, and data frames. -->
+
+<!-- Let's have a look at concrete examples. -->
+
+<!-- ### Iterating  over a vector -->
+
+
+<!--  First illustrate the  `sapply` function to square all the elements of a numeric vector. -->
+
+<!-- ```{r, sapply-example-on-vector, exercise=T, exercise.lines=4} -->
+<!-- set.seed(456) -->
+<!-- v <- runif(5, 1, 5) -->
+<!-- # now iterate over the vector applying your operation to square each element -->
+<!-- (squares2 <- sapply(v, function(a) {a*a})) -->
+<!-- ``` -->
+
+<!-- ```{r, sapply-vs-for-loop-comparison-setup} -->
+<!-- set.seed(456) -->
+<!-- v <- runif(5, 1, 5) -->
+<!-- ``` -->
+
+<!-- Now use the for-loop to achieve the same transformation. -->
+
+<!-- ```{r, for-loop-example-on-vector, exercise=T, exercise.lines=9, exercise.setup="sapply-vs-for-loop-comparison-setup"} -->
+<!-- # pre-allocate space in the vector -->
+<!-- square_vals <- rep(0, length(v)) -->
+<!-- i = 1 -->
+<!-- for (a in v) { -->
+<!--   square_vals[i] = a*a -->
+<!--   i = i + 1 -->
+<!-- } -->
+<!-- # display the answer -->
+<!-- square_vals -->
+<!-- ``` -->
+<!-- ### Conditionally removing values from a vector -->
+
+<!-- In functional style this is done via subsetting. In procedural style  a combination of a for-loop and the conditional-statements with if-else can achieve the same result. Let us have a look at the air fare to sun destinations at or below $1200. -->
+
+<!-- ```{r, conditionally-removing-with-filter, exercise=T, exercise.lines=2} -->
+<!-- air_fares <- c(Habana=1200, Cancun=1150, Los_cabos=960, Costa_Rica=1250) -->
+<!-- (results <- air_fares[air_fares <= 1200]) -->
+<!-- ``` -->
+<!-- Now let's do it in procedural style. -->
+<!-- ```{r, conditionally-removing-with-for-loop-and-if-statement-setup} -->
+<!-- air_fares <- c(Habana=1200, Cancun=1150, Los_cabos=960, Costa_Rica=1250) -->
+<!-- ``` -->
+
+
+<!-- ```{r, conditionally-removing-with-for-loop-and-if-statement, exercise=T, exercise.lines=9, exercise.setup="conditionally-removing-with-for-loop-and-if-statement-setup"} -->
+<!-- results <- c() -->
+<!-- if (length(air_fares) > 0) { -->
+<!--   n <- length(air_fares) -->
+<!--   for (i in 1:n) { -->
+<!--     if (air_fares[i] <= 1200) { -->
+<!--       results <- c(results, air_fares[i]) -->
+<!--     } -->
+<!--   } -->
+<!-- } -->
+<!-- results -->
+<!-- ``` -->
+
+## License
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+
+## Tutorials &  online-resources
+
+  General:
+  
+  1. https://cran.r-project.org/manuals.html (all of them)
+  2. https://statisticsglobe.com/r-programming-language [@StatisticsGlobe]
+  3. https://datacarpentry.org/R-ecology-lesson/01-intro-to-r.html [@TheCarpentries.org.home]
+  4. https://cran.r-project.org/doc/manuals/r-release/R-intro.html (Introduction)
+  5. https://www.burns-stat.com/pages/Tutor/R_inferno.pdf [@TheRInferno] (no sugar coating)
+  6. http://courtneybrown.com/YouTube/R_Tutorial_Videos.html (time-proven simple explanations)
+  
+  Computing: 
+  
+  1. http://adv-r.had.co.nz/ (Free access to Advanced R book by Wickham himself)
+  2. https://cran.r-project.org/doc/manuals/r-release/R-exts.pdf (writing R packages)
+  2. https://cran.r-project.org/doc/manuals/r-release/R-ints.html (low level language details)
+  3. https://www.stat.berkeley.edu/~s133/ [@UBerkeleyS133.ConceptsComputeWithData]
+  
+  Data cleaning:
+  
+  1. https://cran.r-project.org/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf
+  
+  Statistics:
+  
+  1. https://www.stat.berkeley.edu/~spector/s243/
+  2. https://www.bioconductor.org/ (for bio-statistics)
+  
+  Language Reference:
+  
+  1. https://cran.r-project.org/doc/manuals/r-release/fullrefman.pdf (latest)
+  
+## References
+
