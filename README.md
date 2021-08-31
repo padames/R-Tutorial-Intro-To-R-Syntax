@@ -1,5 +1,3 @@
-# R-Tutorial-Intro-To-R
-Material for intro to R tutorial
+# R-Tutorial Intro To R Syntax
 
-Proposed first part: 
- - Introduction to R: syntax and IO
+Material for intro to R Syntax tutorial
